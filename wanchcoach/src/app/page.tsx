@@ -1,11 +1,6 @@
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <>
-      <div>
-        <h1>안녕하세요! next.js + typescript 프로젝트 초기 셋팅입니다!</h1>
-      </div>
-    </>
-  );
+  redirect("/login");
 }
