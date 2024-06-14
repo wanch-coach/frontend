@@ -25,6 +25,8 @@
   border-radius: 5px;
   margin-top: 2vh;
   margin-bottom: 1vh;
+  text-align: center;
+  justify-items: center;
 }
 .login_button:active {
   background-color: #0b5b3f;

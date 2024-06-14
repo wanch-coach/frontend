@@ -21,7 +21,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       <div className={styles.header}>
         <div className={styles.currentdate_text}>{formatDate(currentDate)}</div>
         <div className={styles.logo_image}>
-          <Image src={"/logo.png"} alt="완치코치 로고" fill></Image>
+          <Image src={"/logo.png"} alt="완치코치 로고" fill sizes="100ox" priority />
         </div>
       </div>
       {children}

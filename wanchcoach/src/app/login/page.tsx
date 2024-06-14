@@ -18,9 +18,9 @@ export default function Login() {
             color="success"
           />
         </div>
-        <button className={styles.login_button}>
-          <Link href="/mainpage/home">로그인</Link>
-        </button>
+        <Link href="/mainpage/home">
+          <button className={styles.login_button}>로그인</button>
+        </Link>
       </div>
     </>
   );

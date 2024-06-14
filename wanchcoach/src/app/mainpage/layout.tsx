@@ -56,11 +56,11 @@ function Bottombar() {
       <Link className={styles.bottombar_box} href={"/mainpage/treatment"}>
         <MdOutlineMedicalServices
           size={"35px"}
-          color={pathname === "/mainpage/treatment" ? "#0A6847" : "#9D9D9D"}
+          color={pathname.startsWith("/mainpage/treatment") ? "#0A6847" : "#9D9D9D"}
         />
         <div
           className={styles.bottombar_text}
-          style={{ color: pathname === "/mainpage/treatment" ? "#0A6847" : "#9D9D9D" }}
+          style={{ color: pathname.startsWith("/mainpage/treatment") ? "#0A6847" : "#9D9D9D" }}
         >
           진료 관리
         </div>
