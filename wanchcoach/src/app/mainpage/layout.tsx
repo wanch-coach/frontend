@@ -15,7 +15,7 @@ import { RiRobot3Fill } from "react-icons/ri";
 
 export default function MainpageLayout({ children }: { children: ReactNode }) {
   return (
-    <div>
+    <div className={styles.container}>
       <Header />
       {children}
       <Bottombar />
@@ -53,7 +53,7 @@ function Bottombar() {
           홈
         </div>
       </Link>
-      <Link className={styles.bottombar_box} href={"/mainpage/treatment"}>
+      <Link className={styles.bottombar_box} href={"/mainpage/treatment/diagnosis"}>
         <MdOutlineMedicalServices
           size={"35px"}
           color={pathname.startsWith("/mainpage/treatment") ? "#0A6847" : "#9D9D9D"}

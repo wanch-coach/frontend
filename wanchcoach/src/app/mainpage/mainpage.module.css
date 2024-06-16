@@ -1,3 +1,7 @@
+.container {
+  overflow: hidden;
+  touch-action: none;
+}
 .header {
   display: flex;
   align-items: center;
