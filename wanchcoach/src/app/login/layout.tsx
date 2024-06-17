@@ -8,7 +8,7 @@ export default function LoginLayout({ children }: { children: ReactNode }) {
   return (
     <div className={styles.container}>
       <div className={styles.logo_image}>
-        <Image src={"/logo.png"} alt="완치코치 로고" fill></Image>
+        <Image src={"/logo.png"} alt="완치코치 로고" fill sizes="100px" priority />
       </div>
       {children}
       <div className={styles.footer}>
