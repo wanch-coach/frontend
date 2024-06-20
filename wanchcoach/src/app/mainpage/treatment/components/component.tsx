@@ -95,23 +95,21 @@ export function TreatmentBox({
             <div className={styles.treatment_detail_content}>{content}</div>
             <div className={styles.treatment_detail_box}>
               <div className={styles.treatment_detail_box_left}>
-                <Link href="/mainpage/home">
-                  <button
-                    className={styles.treatment_detail_button}
-                    style={{ backgroundColor: "#7ABA78" }}
-                  >
-                    <TbPencilMinus size={"20px"} />
-                    <div className="pl-2">진료 수정</div>
-                  </button>
+                <Link
+                  href="/mainpage/home"
+                  className={styles.treatment_detail_button}
+                  style={{ backgroundColor: "#7ABA78" }}
+                >
+                  <TbPencilMinus size={"18px"} />
+                  <div className={styles.treatment_detail_button_text}>진료 수정</div>
                 </Link>
-                <Link href="/mainpage/home" className="ml-2">
-                  <button
-                    className={styles.treatment_detail_button}
-                    style={{ backgroundColor: "#FF8282" }}
-                  >
-                    <TiDeleteOutline size={"20px"} />
-                    <div className="pl-2">진료 삭제</div>
-                  </button>
+                <Link
+                  href="/mainpage/home"
+                  className={`${styles.treatment_detail_button} ml-2`}
+                  style={{ backgroundColor: "#FF8282" }}
+                >
+                  <TiDeleteOutline size={"19px"} />
+                  <div className={styles.treatment_detail_button_text}>진료 삭제</div>
                 </Link>
               </div>
               <FormControlLabel
@@ -124,10 +122,10 @@ export function TreatmentBox({
                   />
                 }
                 label="예약 알림 여부"
-                labelPlacement="start"
+                labelPlacement="top"
                 sx={{
                   "& .MuiFormControlLabel-label": {
-                    fontSize: "15px",
+                    fontSize: "12px",
                     fontWeight: "600",
                     fontFamily: "Pretendard",
                   },
