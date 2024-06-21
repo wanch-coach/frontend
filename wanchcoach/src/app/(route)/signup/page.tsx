@@ -3,7 +3,7 @@ import "./signup.module.css";
 import { Checkbox } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { BasicInputBox, DateInputBox, TwoCheckBox } from "../components/component";
+import { BasicInputBox, DateInputBox, TwoCheckBox } from "../../_components/component";
 
 export default function Signup() {
   return (

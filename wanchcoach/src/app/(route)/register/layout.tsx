@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import styles from "./register.module.css";
-import { Header } from "../components/component";
+import { Header } from "../../_components/component";
 import { SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 

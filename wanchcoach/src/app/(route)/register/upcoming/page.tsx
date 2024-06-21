@@ -10,7 +10,7 @@ import {
   TextAreaInputbox,
   TwoCheckBox,
   FrequentButton,
-} from "@/app/components/component";
+} from "@/app/_components/component";
 export default function Upcoming() {
   const route = useRouter();
   const handleTreatmentRegister = () => {

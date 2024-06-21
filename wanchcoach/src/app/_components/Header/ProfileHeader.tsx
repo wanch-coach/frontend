@@ -1,68 +1,20 @@
-"use client";
-
-import { ReactNode, useState, ReactElement } from "react";
-import styles from "./treatment.module.css";
+import styles from "./Header.module.css";
+import { useState } from "react";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import Image from "next/image";
-import { TbStethoscope } from "react-icons/tb";
-import { FaRegHospital } from "react-icons/fa6";
-import { MdCalendarMonth } from "react-icons/md";
-import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
-import { usePathname } from "next/navigation";
 import { FaHandHoldingMedical } from "react-icons/fa";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { IoLocationOutline } from "react-icons/io5";
 import { TiPencil } from "react-icons/ti";
-import { BasicModal } from "@/app/components/component";
+import { BasicModal } from "@/app/_components/component";
+import Link from "next/link";
 
-const actions = [
-  {
-    profile: "/logo.png",
-    name: "profile1",
-  },
-  {
-    profile: "/next.svg",
-    name: "profile2",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile3",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile4",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile5",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile6",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile7",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile8",
-  },
-];
-
-export default function TreatmentLayout({ children }: { children: ReactNode }) {
-  return (
-    <div className={styles.container}>
-      <Profile />
-      <TreatmentMenu />
-      {children}
-    </div>
-  );
+interface ProfileHeaderProps {
+  register?: boolean;
 }
-
-function Profile() {
+export default function ProfileHeader({ register }: ProfileHeaderProps) {
   const [selectedProfile, setSelectedProfile] = useState("/logo.png");
   const [profileOpen, setProfileOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -107,10 +59,12 @@ function Profile() {
           />
         ))}
       </SpeedDial>
-      <div className={styles.header_plus_box} onClick={handleModalOpen}>
-        <FaPlus size={"20px"} color="#0A6847" />
-        <div className={styles.header_plus_text}>진료추가</div>
-      </div>
+      {register && (
+        <div className={styles.header_plus_box} onClick={handleModalOpen}>
+          <FaPlus size={"20px"} color="#0A6847" />
+          <div className={styles.header_plus_text}>진료추가</div>
+        </div>
+      )}
       <BasicModal open={modalOpen} handleModalClose={handleModalClose} width="45%" height="23vh">
         <>
           <div className={styles.modal_header}>
@@ -143,50 +97,25 @@ function Profile() {
   );
 }
 
-function TreatmentMenu() {
-  const pathname = usePathname();
-  return (
-    <div className={styles.header_menu_container}>
-      <Menu
-        title="진료"
-        icon={<TbStethoscope size={"40px"} />}
-        href="/mainpage/treatment/diagnosis"
-        press={pathname === "/mainpage/treatment/diagnosis" ? true : false}
-      />
-      <Menu
-        title="병원"
-        icon={<FaRegHospital size={"40px"} />}
-        href="/mainpage/treatment/hospital"
-        press={pathname === "/mainpage/treatment/hospital" ? true : false}
-      />
-      <Menu
-        title="달력"
-        icon={<MdCalendarMonth size={"40px"} />}
-        href="/mainpage/treatment/calendar"
-        press={pathname === "/mainpage/treatment/calendar" ? true : false}
-      />
-    </div>
-  );
-}
-
-interface MenuProps {
-  title: string;
-  icon: ReactElement;
-  href: string;
-  press: boolean;
-}
-function Menu({ title, icon, href, press }: MenuProps) {
-  return (
-    <Link
-      href={href}
-      className={styles.header_menu_box}
-      style={{
-        color: press ? "#BCBCBC" : "black",
-        boxShadow: press ? "inset 2px 4px 4px #dddddd" : "2px 4px 4px #dddddd",
-      }}
-    >
-      {icon}
-      <div className={styles.header_menu_text}>{title}</div>
-    </Link>
-  );
-}
+const actions = [
+  {
+    profile: "/logo.png",
+    name: "profile1",
+  },
+  {
+    profile: "/next.svg",
+    name: "profile2",
+  },
+  {
+    profile: "/vercel.svg",
+    name: "profile3",
+  },
+  {
+    profile: "/vercel.svg",
+    name: "profile4",
+  },
+  {
+    profile: "/vercel.svg",
+    name: "profile5",
+  },
+];

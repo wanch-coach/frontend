@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./signup.module.css";
-import { Header } from "@/app/components/component";
+import { Header } from "@/app/_components/component";
 
 export default function SignupLayout({ children }: { children: ReactNode }) {
   return (

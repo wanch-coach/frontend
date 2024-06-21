@@ -14,7 +14,7 @@ import {
   NumberSelectInputbox,
   NumberInputbox,
   DayCheckBox,
-} from "@/app/components/component";
+} from "@/app/_components/component";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import { IoCameraOutline } from "react-icons/io5";
 
