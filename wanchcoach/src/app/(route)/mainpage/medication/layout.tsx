@@ -26,20 +26,20 @@ function MedicationMenu() {
       <MenuHeader
         title="복약"
         icon={<MdMedicationLiquid size={"40px"} />}
-        href="/mainpage/medication/?"
-        press={pathname === "/mainpage/medication/?" ? true : false}
+        href="/mainpage/medication/taking"
+        press={pathname === "/mainpage/medication/taking" ? true : false}
       />
       <MenuHeader
         title="복약 이력"
         icon={<GiNotebook size={"40px"} />}
-        href="/mainpage/medication/?"
-        press={pathname === "/mainpage/medication/?" ? true : false}
+        href="/mainpage/medication/takingmanagement"
+        press={pathname === "/mainpage/medication/takingmanagement" ? true : false}
       />
       <MenuHeader
         title="내 약 정보"
         icon={<PiPillDuotone size={"40px"} />}
-        href="/mainpage/medication/?"
-        press={pathname === "/mainpage/medication/?" ? true : false}
+        href="/mainpage/medication/mydruginformation"
+        press={pathname === "/mainpage/medication/mydruginformation" ? true : false}
       />
     </div>
   );

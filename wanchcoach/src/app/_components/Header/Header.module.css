@@ -60,10 +60,10 @@
 .header_menu_box {
   border-radius: 10px;
   background-color: "white";
-  width: 85px;
+  width: 80px;
   height: max-content;
   text-align: -webkit-center;
-  margin: 10px 2%;
+  margin: 10px 1%;
   padding: 1vh 0;
 }
 

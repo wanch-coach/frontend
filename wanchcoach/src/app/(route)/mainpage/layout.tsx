@@ -65,14 +65,14 @@ function Bottombar() {
           진료 관리
         </div>
       </Link>
-      <Link className={styles.bottombar_box} href={"/mainpage/medication"}>
+      <Link className={styles.bottombar_box} href={"/mainpage/medication/taking"}>
         <BsCapsulePill
           size={"35px"}
-          color={pathname === "/mainpage/medication" ? "#0A6847" : "#9D9D9D"}
+          color={pathname.startsWith("/mainpage/medication") ? "#0A6847" : "#9D9D9D"}
         />
         <div
           className={styles.bottombar_text}
-          style={{ color: pathname === "/mainpage/medication" ? "#0A6847" : "#9D9D9D" }}
+          style={{ color: pathname.startsWith("/mainpage/medication") ? "#0A6847" : "#9D9D9D" }}
         >
           복약 관리
         </div>
@@ -80,11 +80,11 @@ function Bottombar() {
       <Link className={styles.bottombar_box} href={"/mainpage/medical"}>
         <FaRegHospital
           size={"35px"}
-          color={pathname === "/mainpage/medical" ? "#0A6847" : "#9D9D9D"}
+          color={pathname.startsWith("/mainpage/medical") ? "#0A6847" : "#9D9D9D"}
         />
         <div
           className={styles.bottombar_text}
-          style={{ color: pathname === "/mainpage/medical" ? "#0A6847" : "#9D9D9D" }}
+          style={{ color: pathname.startsWith("/mainpage/medical") ? "#0A6847" : "#9D9D9D" }}
         >
           병의원 찾기
         </div>
@@ -92,11 +92,11 @@ function Bottombar() {
       <Link className={styles.bottombar_box} href={"/mainpage/drug"}>
         <RiSearchEyeLine
           size={"35px"}
-          color={pathname === "/mainpage/drug" ? "#0A6847" : "#9D9D9D"}
+          color={pathname.startsWith("/mainpage/drug") ? "#0A6847" : "#9D9D9D"}
         />
         <div
           className={styles.bottombar_text}
-          style={{ color: pathname === "/mainpage/drug" ? "#0A6847" : "#9D9D9D" }}
+          style={{ color: pathname.startsWith("/mainpage/drug") ? "#0A6847" : "#9D9D9D" }}
         >
           약 검색
         </div>

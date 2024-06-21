@@ -368,9 +368,9 @@ export function DayCheckBox() {
       </div>
       <div className={styles.daycheck_box}>
         <Checkbox
-          checked={selectedChecks.includes("afternoon")}
+          checked={selectedChecks.includes("noon")}
           onChange={handleCheckboxChange}
-          name="afternoon"
+          name="noon"
           icon={<RadioButtonUncheckedIcon />}
           checkedIcon={<RadioButtonCheckedIcon />}
           size="small"
@@ -402,9 +402,9 @@ export function DayCheckBox() {
       </div>
       <div className={styles.daycheck_box}>
         <Checkbox
-          checked={selectedChecks.includes("bedtime")}
+          checked={selectedChecks.includes("beforeBed")}
           onChange={handleCheckboxChange}
-          name="bedtime"
+          name="beforeBed"
           icon={<RadioButtonUncheckedIcon />}
           checkedIcon={<RadioButtonCheckedIcon />}
           size="small"

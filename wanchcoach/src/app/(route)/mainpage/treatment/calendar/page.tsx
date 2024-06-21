@@ -50,7 +50,7 @@ export default function Calendar() {
 
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.body_container}>
         <div>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
             <DateCalendar
