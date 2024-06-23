@@ -70,3 +70,12 @@
   height: 4px;
   border-radius: 20px;
 }
+
+/* 컴포넌트 */
+.taking_container {
+  margin: 0 8%;
+}
+.taking_text {
+  font-size: 21px;
+  font-weight: 700;
+}

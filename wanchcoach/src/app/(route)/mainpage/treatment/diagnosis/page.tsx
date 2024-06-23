@@ -1,5 +1,5 @@
 import styles from "./diagnosis.module.css";
-import { TreatmentBox } from "../_components/component";
+import TreatmentBox from "../_components/TreatmentBox";
 
 export default function Diagnosis() {
   return (

@@ -1,4 +1,4 @@
-import styles from "../treatment.module.css";
+import styles from "./components.module.css";
 import Image from "next/image";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -22,7 +22,7 @@ interface TreatmentBoxProps {
   future?: boolean;
   state?: boolean;
 }
-export function TreatmentBox({
+export default function TreatmentBox({
   title,
   category,
   date,
@@ -45,7 +45,6 @@ export function TreatmentBox({
         elevation={0}
         sx={{
           borderRadius: "10px",
-
           "&:before": {
             display: "none", // 기본 테두리 선 제거
           },
