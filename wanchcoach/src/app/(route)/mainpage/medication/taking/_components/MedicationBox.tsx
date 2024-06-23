@@ -89,25 +89,25 @@ export default function MedicationBox({ title, category, count, state }: Medicat
         >
           <div className={styles.medication_detail_container}>
             <div className={styles.medication_detail_content}>
-              <div className={styles.treatment_detail_header}>
-                <div className={styles.treatment_detail_header_text}></div>
-                <div className={styles.treatment_detail_header_text}>약 명</div>
-                <div className={styles.treatment_detail_header_text}>종류</div>
+              <div className={styles.medication_detail_header}>
+                <div className={styles.medication_detail_header_text}></div>
+                <div className={styles.medication_detail_header_text}>약 명</div>
+                <div className={styles.medication_detail_header_text}>종류</div>
               </div>
               <div>
                 <DrugBox title="타이레놀정160mg" category="진통제" />
                 <DrugBox title="사디반정 160mg" category="고혈압 치료제" />
                 <DrugBox title="마게이트정" category="제산제" />
               </div>
-              <div className={styles.treatment_detail_footer}>총 3개</div>
-              <div className={styles.treatment_detail_button_container}>
-                <div className={styles.treatment_detail_button}>
+              <div className={styles.medication_detail_total}>총 3개</div>
+              <div className={styles.medication_detail_button_container}>
+                <div className={styles.medication_detail_button}>
                   <GoDotFill size={"20px"} color={"white"} />
-                  <div className={styles.treatment_detail_button_text}>먹기</div>
+                  <div className={styles.medication_detail_button_text}>먹기</div>
                 </div>
               </div>
             </div>
-            <div className={styles.treatment_detail_alarm}>
+            <div className={styles.medication_detail_alarm}>
               <FormControlLabel
                 control={
                   <Switch

@@ -1,3 +1,10 @@
+import MedicationList from "../_components/MedicationList";
+import styles from "./noon.module.css";
+
 export default function noon() {
-  return <div>점심</div>;
+  return (
+    <div className={styles.container}>
+      <MedicationList />
+    </div>
+  );
 }

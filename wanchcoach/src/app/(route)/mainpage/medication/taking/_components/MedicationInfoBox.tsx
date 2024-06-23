@@ -1,48 +1,42 @@
+"use client";
+
 import styles from "./components.module.css";
 import Image from "next/image";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import React from "react";
-import Link from "next/link";
-import { TbPencilMinus } from "react-icons/tb";
-import { TiDeleteOutline } from "react-icons/ti";
+import React, { useState, SyntheticEvent } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { BsJournalMedical } from "react-icons/bs";
+import Link from "next/link";
+import { TbPencilMinus } from "react-icons/tb";
+import { TiDeleteOutline } from "react-icons/ti";
+import { FaRegTrashAlt } from "react-icons/fa";
 
-//변수 title, category, date, time, userName, userProfile, future
+//변수 title, category, count, state
 interface MedicationInfoBoxProps {
   title: string;
   category: string;
-  date?: string;
-  time?: string;
-  userName?: string;
-  userProfile?: string;
-  content?: string;
-  future?: boolean;
   state?: boolean;
 }
-export default function MedicationInfoBox({
-  title,
-  category,
-  date,
-  time,
-  userName,
-  userProfile,
-  content,
-  future,
-  state,
-}: MedicationInfoBoxProps) {
+export default function MedicationInfoBox({ title, category, state }: MedicationInfoBoxProps) {
   // const [checked, setChecked] = React.useState(true);
 
   // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   setChecked(event.target.checked);
   // };
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpandedChange = (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
+    setExpanded(isExpanded);
+  };
   return (
     <div className={styles.medication_container}>
-      {state && <div className={styles.treatment_stack_container}></div>}
+      {state && (
+        <div className={styles.medication_stack_container} style={{ height: "90px" }}></div>
+      )}
       <Accordion
         elevation={0}
         sx={{
@@ -51,6 +45,8 @@ export default function MedicationInfoBox({
             display: "none", // 기본 테두리 선 제거
           },
         }}
+        expanded={expanded}
+        onChange={handleExpandedChange}
       >
         <AccordionSummary
           sx={{
@@ -66,7 +62,7 @@ export default function MedicationInfoBox({
             },
           }}
         >
-          <div className={styles.medication_main_container}>
+          <div className={styles.medication_main_container} style={{ height: "90px" }}>
             <div className={styles.medication_box_left}>
               <BsJournalMedical size={"40px"} color="#494949" />
             </div>
@@ -76,11 +72,16 @@ export default function MedicationInfoBox({
                 <div className={styles.medication_text_category}>{category}</div>
               </div>
               <div className={styles.medication_box_right_02}>
-                <div className={styles.medication_text_number_01}>남은 개수</div>
-                <div className={styles.medication_text_number_02}>3</div>
+                <div className={styles.medication_text_number_01}>복용 기간</div>
+                <div className={styles.medication_text_number_02}>2024.05.29</div>
+                <div className={styles.medication_text_number_02}>~ 2024.06.12</div>
               </div>
               <div className={styles.medication_box_right_03}>
-                <IoIosArrowDown size={"18px"} color="#CFCFCF" />
+                {expanded ? (
+                  <IoIosArrowUp size={"18px"} color="#CFCFCF" />
+                ) : (
+                  <IoIosArrowDown size={"18px"} color="#CFCFCF" />
+                )}
               </div>
             </div>
           </div>
@@ -91,50 +92,68 @@ export default function MedicationInfoBox({
             margin: 0,
           }}
         >
-          <div className={styles.treatment_detail_container}>
-            <div className={styles.treatment_detail_content}>{content}</div>
-            <div className={styles.treatment_detail_box}>
-              <div className={styles.treatment_detail_box_left}>
+          <div className={styles.medication_detail_container}>
+            <div className={styles.medication_detail_content}>
+              <div className={styles.medication_detail_header}>
+                <div className={styles.medication_detail_header_text} style={{ flex: "1" }}></div>
+                <div className={styles.medication_detail_header_text} style={{ flex: "1.4" }}>
+                  약 명
+                </div>
+                <div className={styles.medication_detail_header_text} style={{ flex: "1.4" }}>
+                  종류
+                </div>
+              </div>
+              <div>
+                <DrugBox title="타이레놀정160mg" category="진통제" />
+                <DrugBox title="사디반정 160mg" category="고혈압 치료제" />
+                <DrugBox title="마게이트정" category="제산제" />
+              </div>
+              <div className={styles.medication_detail_total}>총 3개</div>
+            </div>
+            <div className={styles.medication_detail_footer}>
+              <div className={styles.medication_detail_footer_left}>
                 <Link
                   href="/mainpage/home"
-                  className={styles.treatment_detail_button}
+                  className={styles.medication_detail_footer_button}
                   style={{ backgroundColor: "#7ABA78" }}
                 >
                   <TbPencilMinus size={"18px"} />
-                  <div className={styles.treatment_detail_button_text}>진료 수정</div>
+                  <div className={styles.medication_detail_footer_button_text}>진료 수정</div>
                 </Link>
                 <Link
                   href="/mainpage/home"
-                  className={`${styles.treatment_detail_button} ml-2`}
+                  className={`${styles.medication_detail_footer_button} ml-2`}
                   style={{ backgroundColor: "#FF8282" }}
                 >
                   <TiDeleteOutline size={"19px"} />
-                  <div className={styles.treatment_detail_button_text}>진료 삭제</div>
+                  <div className={styles.medication_detail_footer_button_text}>진료 삭제</div>
                 </Link>
               </div>
-              <FormControlLabel
-                control={
-                  <Switch
-                    // checked={checked}
-                    // onChange={handleChange}
-                    color="success"
-                    inputProps={{ "aria-label": "controlled" }}
-                  />
-                }
-                label="예약 알림 여부"
-                labelPlacement="top"
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "12px",
-                    fontWeight: "600",
-                    fontFamily: "Pretendard",
-                  },
-                }}
-              />
+
+              <div className={styles.medication_detail_footer_right}>
+                <FaRegTrashAlt />
+                <div className={styles.medication_detail_footer_right_text}>복약 종료</div>
+              </div>
             </div>
           </div>
         </AccordionDetails>
       </Accordion>
+    </div>
+  );
+}
+
+interface DrugBoxProps {
+  title: string;
+  category: string;
+}
+function DrugBox({ title, category }: DrugBoxProps) {
+  return (
+    <div className={styles.drug_box}>
+      <div className={styles.drug_box_image}>
+        <Image src={"/logo.png"} alt="완치코치 로고" fill style={{ objectFit: "contain" }} />
+      </div>
+      <div className={styles.drug_box_title}>{title}</div>
+      <div className={styles.drug_box_category}>{category}</div>
     </div>
   );
 }

@@ -65,7 +65,7 @@ function Bottombar() {
           진료 관리
         </div>
       </Link>
-      <Link className={styles.bottombar_box} href={"/mainpage/medication/taking"}>
+      <Link className={styles.bottombar_box} href={"/mainpage/medication/taking/morning"}>
         <BsCapsulePill
           size={"35px"}
           color={pathname.startsWith("/mainpage/medication") ? "#0A6847" : "#9D9D9D"}

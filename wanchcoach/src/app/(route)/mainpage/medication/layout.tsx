@@ -8,6 +8,7 @@ import ProfileHeader from "@/app/_components/Header/ProfileHeader";
 import { MdMedicationLiquid } from "react-icons/md";
 import { GiNotebook } from "react-icons/gi";
 import { PiPillDuotone } from "react-icons/pi";
+import { MdCalendarMonth } from "react-icons/md";
 
 export default function MedicationLayout({ children }: { children: ReactNode }) {
   return (
@@ -23,24 +24,32 @@ function MedicationMenu() {
   const pathname = usePathname();
   return (
     <div className={styles.header_menu_container}>
-      <MenuHeader
-        title="복약"
-        icon={<MdMedicationLiquid size={"40px"} />}
-        href="/mainpage/medication/taking"
-        press={pathname === "/mainpage/medication/taking" ? true : false}
-      />
-      <MenuHeader
-        title="복약 이력"
-        icon={<GiNotebook size={"40px"} />}
-        href="/mainpage/medication/takingmanagement"
-        press={pathname === "/mainpage/medication/takingmanagement" ? true : false}
-      />
-      <MenuHeader
-        title="내 약 정보"
-        icon={<PiPillDuotone size={"40px"} />}
-        href="/mainpage/medication/mydruginformation"
-        press={pathname === "/mainpage/medication/mydruginformation" ? true : false}
-      />
+      <div className={styles.header_menu_left}>
+        <MenuHeader
+          title="복약"
+          icon={<MdMedicationLiquid size={"40px"} />}
+          href="/mainpage/medication/taking/morning"
+          press={pathname.startsWith("/mainpage/medication/taking") ? true : false}
+        />
+        <MenuHeader
+          title="복약 이력"
+          icon={<GiNotebook size={"40px"} />}
+          href="/mainpage/medication/recordtaking"
+          press={pathname.startsWith("/mainpage/medication/recordtaking") ? true : false}
+        />
+        <MenuHeader
+          title="내 약 정보"
+          icon={<PiPillDuotone size={"40px"} />}
+          href="/mainpage/medication/mydruginformation"
+          press={pathname.startsWith("/mainpage/medication/mydruginformation") ? true : false}
+        />
+      </div>
+      <div className={styles.header_calendar_right}>
+        <div className={styles.header_calendar_button}>
+          <MdCalendarMonth size={"18px"} />
+          <div className={styles.header_calendar_button_text}>달력</div>
+        </div>
+      </div>
     </div>
   );
 }
