@@ -9,3 +9,48 @@
 .body_container {
   margin: 0 8%;
 }
+.day_select_container {
+  height: max-content;
+}
+.day_select_header {
+  font-size: 17px;
+  font-weight: 700;
+}
+.day_select_box {
+  border: 1px dashed #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0;
+}
+.day_select_box_part {
+  display: flex;
+  align-items: center;
+}
+.day_select_box_title {
+  font-size: 14px;
+  font-weight: 600;
+}
+.day_select_box_input {
+  border: 1px solid #c5c6cc;
+  border-radius: 20px;
+  color: #c5c6cc;
+  padding: 3px 8px;
+  font-size: 14px;
+  margin: 0 5px;
+}
+.day_select_footer {
+  width: 100%;
+  text-align: -webkit-right;
+}
+.day_select_button {
+  border-radius: 10px;
+  background-color: #0a6847;
+  width: 70px;
+  color: white;
+  text-align: center;
+  padding: 4px 0;
+}

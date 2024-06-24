@@ -1,19 +1,17 @@
 "use client";
 
 import styles from "./components.module.css";
-import Image from "next/image";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import React, { useState, SyntheticEvent } from "react";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { BsJournalMedical } from "react-icons/bs";
 import Link from "next/link";
 import { TbPencilMinus } from "react-icons/tb";
 import { TiDeleteOutline } from "react-icons/ti";
 import { FaRegTrashAlt } from "react-icons/fa";
+import DrugBox from "@/app/_components/Component/Drug/DrugBox";
 
 //변수 title, category, count, state
 interface MedicationInfoBoxProps {
@@ -54,7 +52,7 @@ export default function MedicationInfoBox({ title, category, state }: Medication
             "& .MuiAccordionSummary-content": {
               margin: 0,
             },
-            "&.Mui-expanded": {
+            "& .Mui-expanded": {
               minHeight: 0,
               "& .MuiAccordionSummary-content": {
                 margin: 0,
@@ -105,7 +103,9 @@ export default function MedicationInfoBox({ title, category, state }: Medication
               </div>
               <div>
                 <DrugBox title="타이레놀정160mg" category="진통제" />
+                <div style={{ marginTop: "4px" }} />
                 <DrugBox title="사디반정 160mg" category="고혈압 치료제" />
+                <div style={{ marginTop: "4px" }} />
                 <DrugBox title="마게이트정" category="제산제" />
               </div>
               <div className={styles.medication_detail_total}>총 3개</div>
@@ -138,22 +138,6 @@ export default function MedicationInfoBox({ title, category, state }: Medication
           </div>
         </AccordionDetails>
       </Accordion>
-    </div>
-  );
-}
-
-interface DrugBoxProps {
-  title: string;
-  category: string;
-}
-function DrugBox({ title, category }: DrugBoxProps) {
-  return (
-    <div className={styles.drug_box}>
-      <div className={styles.drug_box_image}>
-        <Image src={"/logo.png"} alt="완치코치 로고" fill style={{ objectFit: "contain" }} />
-      </div>
-      <div className={styles.drug_box_title}>{title}</div>
-      <div className={styles.drug_box_category}>{category}</div>
     </div>
   );
 }

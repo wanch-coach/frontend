@@ -11,6 +11,7 @@ import Switch from "@mui/material/Switch";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { BsJournalMedical } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
+import DrugBox from "@/app/_components/Component/Drug/DrugBox";
 
 //변수 title, category, count, state
 interface MedicationBoxProps {
@@ -96,7 +97,9 @@ export default function MedicationBox({ title, category, count, state }: Medicat
               </div>
               <div>
                 <DrugBox title="타이레놀정160mg" category="진통제" />
+                <div style={{ marginTop: "4px" }} />
                 <DrugBox title="사디반정 160mg" category="고혈압 치료제" />
+                <div style={{ marginTop: "4px" }} />
                 <DrugBox title="마게이트정" category="제산제" />
               </div>
               <div className={styles.medication_detail_total}>총 3개</div>
@@ -131,22 +134,6 @@ export default function MedicationBox({ title, category, count, state }: Medicat
           </div>
         </AccordionDetails>
       </Accordion>
-    </div>
-  );
-}
-
-interface DrugBoxProps {
-  title: string;
-  category: string;
-}
-function DrugBox({ title, category }: DrugBoxProps) {
-  return (
-    <div className={styles.drug_box}>
-      <div className={styles.drug_box_image}>
-        <Image src={"/logo.png"} alt="완치코치 로고" fill style={{ objectFit: "contain" }} />
-      </div>
-      <div className={styles.drug_box_title}>{title}</div>
-      <div className={styles.drug_box_category}>{category}</div>
     </div>
   );
 }

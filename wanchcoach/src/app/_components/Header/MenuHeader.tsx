@@ -7,8 +7,9 @@ interface MenuProps {
   icon: ReactElement;
   href: string;
   press: boolean;
+  handlePressChange: () => void;
 }
-export default function MenuHeader({ title, icon, href, press }: MenuProps) {
+export default function MenuHeader({ title, icon, href, press, handlePressChange }: MenuProps) {
   return (
     <Link
       href={href}
@@ -17,6 +18,7 @@ export default function MenuHeader({ title, icon, href, press }: MenuProps) {
         color: press ? "#BCBCBC" : "black",
         boxShadow: press ? "inset 2px 4px 4px #dddddd" : "2px 4px 4px #dddddd",
       }}
+      onClick={handlePressChange}
     >
       {icon}
       <div className={styles.header_menu_text}>{title}</div>
