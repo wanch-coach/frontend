@@ -1,0 +1,7 @@
+.container {
+  width: "100%";
+  height: calc(
+    100vh - 60px - 70px - 60px - 12vh - 2vh - 40px - (28px + 4vh)
+  ); /* - 바텀바 - 헤더 - 프로필 컨테이너 - 메뉴 컨테이너 - 패딩 - 날짜박스 - 아점저취박스*/
+  overflow: "auto";
+}
