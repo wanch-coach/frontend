@@ -3,7 +3,7 @@ import fetchWithoutAuth from "../fetchWithoutAuth";
 
 interface SignupData {
   loginId: string;
-  encryptedPwd: string;
+  pwd: string;
   name: string;
   email: string;
   birthDate: Dayjs | null;

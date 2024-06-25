@@ -28,7 +28,7 @@ export default function Signup() {
   const handleSignupSubmit = () => {
     const data = {
       loginId: loginId,
-      encryptedPwd: loginPwd,
+      pwd: loginPwd,
       name: name,
       email: "i0364842@naver.com",
       birthDate: birthDate,
