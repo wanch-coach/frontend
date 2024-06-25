@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactElement, useState } from "react";
+import { ReactElement, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./component.module.css";
 import { IoMdArrowBack } from "react-icons/io";
@@ -23,18 +23,35 @@ export function Header({ title }: HeaderProps) {
 
 // 일반적인 Input Box
 interface BasicInputBoxProps {
+  type: string;
   label?: string;
   placeholder: string;
   showButton?: boolean;
   buttonLabel?: string;
+  value?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function BasicInputBox({ label, placeholder, showButton, buttonLabel }: BasicInputBoxProps) {
+export function BasicInputBox({
+  type,
+  label,
+  placeholder,
+  showButton,
+  buttonLabel,
+  value,
+  onChange,
+}: BasicInputBoxProps) {
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
       <div className={styles.input_container}>
-        <input className={styles.input_box} type="text" placeholder={placeholder} />
+        <input
+          className={styles.input_box}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+        />
         {showButton && <button className={styles.input_button}>{buttonLabel}</button>}
       </div>
     </div>
@@ -228,13 +245,19 @@ import dayjs, { Dayjs } from "dayjs";
 import { styled } from "@mui/material";
 import "dayjs/locale/ko"; // 이거 선언 해야 한글형식 적용 됨!
 
-export function DateInputBox({ label }: { label: string }) {
-  const currentDate = dayjs();
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+interface DateInputBoxProps {
+  label: string;
+  selectedDate?: Dayjs | null;
+  handleDateChange?: Dispatch<SetStateAction<Dayjs | null>>;
+}
 
-  const handleDateChange = (date: Dayjs | null) => {
-    setSelectedDate(date);
-  };
+export function DateInputBox({ label, selectedDate, handleDateChange }: DateInputBoxProps) {
+  const currentDate = dayjs();
+  // const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+
+  // const handleDateChange = (date: Dayjs | null) => {
+  //   setSelectedDate(date);
+  // };
   const StyledDatePicker = styled(DatePicker)({
     "& .MuiInputBase-root": {
       backgroundColor: "white",
@@ -288,13 +311,21 @@ interface TwoCheckBoxProps {
   type1Text: string;
   type2: string;
   type2Text: string;
+  selectedCheck: string;
+  onChange: Dispatch<SetStateAction<string>>;
 }
 
-export function TwoCheckBox({ label, type1, type1Text, type2, type2Text }: TwoCheckBoxProps) {
-  const [selectedCheck, setSelectedCheck] = useState(type1);
-
+export function TwoCheckBox({
+  label,
+  type1,
+  type1Text,
+  type2,
+  type2Text,
+  selectedCheck,
+  onChange,
+}: TwoCheckBoxProps) {
   const handleCheckboxChange = () => {
-    setSelectedCheck((prevGender) => (prevGender === type1 ? type2 : type1));
+    onChange((prevGender) => (prevGender === type1 ? type2 : type1));
   };
   return (
     <div className={styles.twocheck_container}>

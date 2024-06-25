@@ -74,7 +74,7 @@ export function PrescriptionContainer() {
           <hr className={styles.drug_header_line} />
           {drugs.map((drug, index) => (
             <div key={drug.id}>
-              <BasicInputBox label="의약품명" placeholder="의약품 명" />
+              <BasicInputBox label="의약품명" placeholder="의약품 명" type="text" />
               <div className={styles.drug_number_box}>
                 <NumberSelectInputbox label="1회 투약량" />
                 <NumberSelectInputbox label="1일 투여횟수" />

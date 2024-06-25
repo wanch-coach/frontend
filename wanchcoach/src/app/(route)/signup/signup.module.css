@@ -7,28 +7,16 @@
   height: calc(100vh - 45px);
   overflow: auto;
 }
+.samepassword_text {
+  font-size: 11px;
+  font-weight: 600;
+  text-align: end;
+  padding: 1px;
+}
 .step_container {
   margin: 10px 10%;
 }
 
-.step_text_container {
-  margin: 0 6%;
-  padding-top: 15px;
-}
-.step_text_01 {
-  font-size: 23px;
-  font-weight: 500;
-  font-family: "Ttwimteul";
-}
-.step_text_02 {
-  margin-left: 8px;
-  font-size: 21px;
-  font-weight: 700;
-}
-
-.agree_box {
-  text-align: end;
-}
 .signup_button_container {
   margin: 25px 10%;
 }
