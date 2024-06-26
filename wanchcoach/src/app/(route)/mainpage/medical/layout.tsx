@@ -1,5 +1,6 @@
+import styles from "./medical.module.css";
 import { ReactNode } from "react";
 
 export default function MedicalLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  return <div className={styles.container}>{children}</div>;
 }

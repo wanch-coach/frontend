@@ -1,9 +1,8 @@
-import { cookies } from "next/headers";
-const BASE_URL = "http://localhost:8081/api";
+import Cookies from "js-cookie";
+const BASE_URL = "https://ce08-218-38-44-202.ngrok-free.app/api";
 
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
-  const cookieStore = cookies();
-  const token = cookieStore.get("refreshToken");
+  const token = Cookies.get("accessToken");
   const headers = {
     "Content-Type": "application/json;charset=utf-8",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),

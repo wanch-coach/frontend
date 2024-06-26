@@ -1,5 +1,6 @@
 import { Dayjs } from "dayjs";
 import fetchWithoutAuth from "../fetchWithoutAuth";
+import Cookies from "js-cookie";
 
 interface SignupData {
   loginId: string;
@@ -18,10 +19,10 @@ export async function SignupController(formData: SignupData) {
       method: "POST",
       body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
     });
-    // 응답 데이터 확인
-    const data = await response.json();
-    console.log("Signup successful:", data);
-    return data; // 예시로 데이터 반환
+    Cookies.set("refreshToken", response.data.refreshToken);
+    Cookies.set("accessToken", response.data.accessToken);
+    console.log("Signup successful:", response);
+    return response; // 예시로 데이터 반환
   } catch (error) {
     console.error("Error signing up:", error);
     throw error; // 오류 처리
@@ -39,11 +40,9 @@ export async function LoginController(formData: LoginData) {
       method: "POST",
       body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
     });
-    // 응답 데이터 확인
-    const data = await response.json();
 
-    console.log("Signin successful:", data);
-    return data; // 예시로 데이터 반환
+    console.log("Signin successful:", response);
+    return response; // 예시로 데이터 반환
   } catch (error) {
     console.error("Error sign in:", error);
     throw error; // 오류 처리
