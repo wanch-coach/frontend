@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import styles from "./hospital.module.css";
-import { IoMdSearch } from "react-icons/io";
+import HospitalSearchBox from "@/app/_components/Component/Medical/HospitalSearchBox";
 
 export default function Hospital() {
   const hospitals = ["서울성모병원", "서울아산병원", "부산성모병원", "부산아산병원"];
   const [searchValue, setSearchValue] = useState("");
   const [filteredHospitals, setFilteredHospitals] = useState(hospitals);
 
-  const handleSearchChange = (event: any) => {
-    setSearchValue(event.target.value);
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
   };
 
   useEffect(() => {
@@ -22,18 +22,11 @@ export default function Hospital() {
 
   return (
     <div className={styles.body_container}>
-      <div className={styles.hospital_search_box}>
-        <input
-          className={styles.hospital_search_input}
-          type="text"
-          placeholder="병원 명으로 검색"
-          value={searchValue}
-          onChange={handleSearchChange}
-        />
-        <button className={styles.hospital_search_button}>
-          <IoMdSearch size={"25px"} color="#0A6847" />
-        </button>
-      </div>
+      <HospitalSearchBox
+        placeholder="병원 명으로 검색"
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+      />
       <div className={styles.hospital_list_container}>
         <div className={styles.hospital_list_menu_text}>
           최다 방문 순

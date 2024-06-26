@@ -15,8 +15,10 @@
     "@mui/joy": "^5.0.0-beta.36",
     "@mui/material": "^5.15.19",
     "@mui/x-date-pickers": "^7.6.2",
+    "@types/navermaps": "^3.7.5",
     "dayjs": "^1.11.11",
     "framer-motion": "^11.2.10",
+    "js-cookie": "^3.0.5",
     "next": "14.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.3",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

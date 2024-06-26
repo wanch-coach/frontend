@@ -10,22 +10,6 @@
   margin: 0 8%;
 }
 
-.hospital_search_box {
-  width: 100%;
-  display: flex;
-  border: 1px solid #8e8e93;
-  background-color: white;
-  box-shadow: 1px 4px 4px #dddddd;
-}
-.hospital_search_input {
-  font-size: 18px;
-  width: 100%;
-  padding: 0 15px;
-  outline: 0;
-}
-.hospital_search_button {
-  padding: 10px;
-}
 .hospital_list_container {
   height: calc(100vh - 60px - 70px - 60px - 12vh - 45px);
   /* - 바텀바 - 헤더 - 프로필 컨테이너 - 메뉴 컨테이너 - 검색바*/

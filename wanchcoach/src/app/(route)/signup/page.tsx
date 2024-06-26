@@ -20,6 +20,7 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSamePassword, setIsSamePassword] = useState("null");
   const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
+  const [email, setEmail] = useState("");
   const [gender, setGender] = useState("male");
   const [agree1, setAgree1] = useState(false);
   const [agree2, setAgree2] = useState(false);
@@ -30,7 +31,7 @@ export default function Signup() {
       loginId: loginId,
       pwd: loginPwd,
       name: name,
-      email: "i0364842@naver.com",
+      email: email,
       birthDate: birthDate,
       gender: gender,
       phoneNumber: phoneNumber,
@@ -132,6 +133,13 @@ export default function Signup() {
             : ""}
         </div>
         <DateInputBox label="생년월일" selectedDate={birthDate} handleDateChange={setBirthDate} />
+        <BasicInputBox
+          type="text"
+          label="이메일"
+          placeholder="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <TwoCheckBox
           label="성별"
           type1="male"

@@ -48,3 +48,35 @@
 .text_signup {
   color: blue;
 }
+.naver_login_button {
+  background-color: #5dc563;
+  height: 55px;
+  text-align: center;
+  align-content: center;
+  color: white;
+  display: flex;
+  padding: 0 30px;
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+.naver_login_button_text {
+  font-size: 17px;
+  font-weight: 500;
+}
+.kakao_login_button {
+  background-color: #f7e600;
+  height: 55px;
+  text-align: center;
+  align-content: center;
+  color: #3a1d1d;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+}
+.kakao_login_button_text {
+  font-size: 17px;
+  font-weight: 500;
+}

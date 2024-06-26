@@ -4,13 +4,23 @@ import { TextField } from "@mui/material";
 import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { LoginController } from "@/app/util/controller/userController";
 
 export default function Login() {
   const router = useRouter();
   const [loginId, setLoginId] = useState("");
   const [loginPwd, setLoginPwd] = useState("");
+
   const handleLoginSubmit = () => {
-    router.push("/mainpage");
+    LoginController({ id: loginId, pwd: loginPwd })
+      .then(() => {
+        router.push("/mainpage");
+        return;
+      })
+      .catch((e) => {
+        console.log(e);
+        return alert("유효하지 않습니다.");
+      });
   };
   return (
     <div className={styles.login_container}>
