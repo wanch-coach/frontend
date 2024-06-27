@@ -32,11 +32,13 @@ export default function Visited() {
       <TextAreaInputbox label="증상" />
       <hr className={styles.middle_line} />
       <PrescriptionContainer />
-      <FrequentButton
-        title="진료 등록"
-        backgroundColor="#0a6847"
-        onClick={handleTreatmentRegister}
-      />
+      <div style={{ padding: "2vh 0" }}>
+        <FrequentButton
+          title="진료 등록"
+          backgroundColor="#0a6847"
+          onClick={handleTreatmentRegister}
+        />
+      </div>
     </div>
   );
 }

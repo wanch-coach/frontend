@@ -19,8 +19,6 @@ export async function SignupController(formData: SignupData) {
       method: "POST",
       body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
     });
-    Cookies.set("refreshToken", response.data.refreshToken);
-    Cookies.set("accessToken", response.data.accessToken);
     console.log("Signup successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {
@@ -40,7 +38,8 @@ export async function LoginController(formData: LoginData) {
       method: "POST",
       body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
     });
-
+    Cookies.set("refreshToken", response.data.refreshToken);
+    Cookies.set("accessToken", response.data.accessToken);
     console.log("Signin successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {

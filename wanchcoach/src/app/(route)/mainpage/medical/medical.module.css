@@ -51,47 +51,163 @@
   cursor: pointer;
 }
 
-.map_agree_modal_container {
-  padding: 10px 15px;
+/*   */
+
+.bottomsheet_detail_container {
+  margin: 0 8%;
 }
-.map_agree_modal_text_01 {
-  font-size: 18px;
-  font-weight: 700;
+.bottomsheet_detail_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
 }
-.map_agree_modal_box {
-  padding: 0 8px;
-  padding-top: 5px;
+.bottomsheet_detail_title_text {
+  display: flex;
+  align-items: end;
 }
-.map_agree_modal_text_02 {
-  font-size: 14px;
-  font-weight: 400;
-  color: #858585;
-  padding-top: 7px;
-  line-height: 1.3;
+.bottomsheet_detail_title_text_01 {
+  font-size: 23px;
+  font-weight: 800;
 }
-.map_agree_modal_text_03 {
-  font-size: 11px;
-  font-weight: 400;
-  color: #858585;
+.bottomsheet_detail_title_text_02 {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 7px;
+}
+.bottomsheet_detail_title_distance {
+  font-size: 19px;
+  font-weight: 600;
+}
+.bottomsheet_detail_address_01 {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+.bottomsheet_detail_address_01_text {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 4px;
+}
+.bottomsheet_detail_address_02 {
+  padding-left: 10px;
+  color: #002759;
+  font-size: 15px;
+  font-weight: 500;
+}
+.bottomsheet_detail_day {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+.bottomsheet_detail_day_text_01 {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 5px;
+}
+.bottomsheet_detail_day_text_02 {
+  font-size: 12px;
+  font-weight: 300;
+  color: #656363;
+  padding-left: 7px;
+}
+.bottomsheet_detail_phone {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+.bottomsheet_detail_phone_text_01 {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 7px;
+}
+.bottomsheet_detail_phone_text_02 {
+  font-size: 12px;
+  font-weight: 300;
+  color: #898989;
+  padding-left: 7px;
+  text-decoration: underline;
+}
+
+/* */
+.drugbottomsheet_list_container {
   padding: 0 10px;
-  padding-top: 7px;
+  height: 65%;
+  overflow: auto;
+}
+.drugbottomsheet_list_header {
   display: flex;
   align-items: center;
 }
-.map_agree_modal_button {
-  width: 100%;
-  text-align: center;
-  height: 5vh;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  align-content: center;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+.drugbottomsheet_list_header_text {
+  padding-left: 5px;
+  font-size: 18px;
+  font-weight: 600;
 }
-.map_agree_modal_button:hover {
-  background-color: #f8f8f8;
+.drugbottomsheet_list_body {
+  margin: 0 8%;
 }
-.map_agree_modal_button:checked {
-  background-color: #f8f8f8;
+.drugbottomsheet_list_tail_text {
+  font-size: 13px;
+  text-align: end;
+}
+.drugbottomsheet_list_tail_line {
+  height: 1px;
+  background: black;
+  border: none;
+}
+.drugbottomsheet_list_box {
+  padding: 15px 10px;
+}
+.drugbottomsheet_list_title_01 {
+  display: flex;
+  align-items: end;
+}
+.drugbottomsheet_list_text_01 {
+  font-size: 19px;
+  font-weight: 600;
+}
+.drugbottomsheet_list_text_02 {
+  font-size: 14px;
+  font-weight: 500;
+  padding-left: 7px;
+}
+.drugbottomsheet_list_title_02 {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+}
+.drugbottomsheet_list_text_03 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.drugbottomsheet_list_text_04 {
+  font-size: 13px;
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+/* */
+.drugbottomsheet_search_container {
+  margin: 0 5%;
+}
+.drugbottomsheet_search_header_text {
+  display: flex;
+  align-items: end;
+}
+.drugbottomsheet_search_header_text_01 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #848484;
+}
+.drugbottomsheet_search_header_text_02 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #717171;
+  padding-left: 4px;
+}
+.drugbottomsheet_search_header_line {
+  height: 1px;
+  background: black;
+  border: none;
+  margin-top: 2px;
 }

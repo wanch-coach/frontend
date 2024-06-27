@@ -9,7 +9,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import Badge from "@mui/material/Badge";
 import "dayjs/locale/ko"; // 이거 선언 해야 한글형식 적용 됨!
-import { useSpring, animated } from "react-spring";
+import BottomSheet from "./BottomSheet";
 
 function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -34,9 +34,6 @@ export default function PaperCalendar() {
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
 
-  const animation = useSpring({
-    transform: open ? "translateY(0)" : "translateY(100%)",
-  });
   const handleDateChange: DateCalendarProps<Dayjs>["onChange"] = (newDate) => {
     if (!newDate) return;
 
@@ -88,18 +85,15 @@ export default function PaperCalendar() {
           />
         </LocalizationProvider>
       </div>
-      {open && <div className={styles.overlay} onClick={handleBottomSheetChange} />}
-      <animated.div className={styles.bottomsheet_container} style={animation}>
-        <div className={styles.bottomsheet_header}>
-          <hr className={styles.bottomsheet_header_line} />
-        </div>
+
+      <BottomSheet open={open} handleBottomSheetChange={handleBottomSheetChange}>
         <div className={styles.bottomsheet_content}>
           <div className={styles.bottomsheet_content_text}>
             {selectedDate && <>{selectedDate.format("YYYY년 M월 D일 (ddd)")}</>}
             <hr className={styles.bottomsheet_content_line} />
           </div>
         </div>
-      </animated.div>
+      </BottomSheet>
     </>
   );
 }

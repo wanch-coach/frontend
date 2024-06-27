@@ -26,7 +26,8 @@
   width: 100%;
   position: absolute;
   bottom: 0;
-  z-index: 3;
+  background-color: white;
+  z-index: 1000;
 }
 .bottombar_box {
   text-align: -webkit-center;
