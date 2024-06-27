@@ -1,4 +1,4 @@
-const BASE_URL = "https://ce08-218-38-44-202.ngrok-free.app/api";
+const BASE_URL = "http://localhost:8081/api";
 
 const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {
   const headers = {
