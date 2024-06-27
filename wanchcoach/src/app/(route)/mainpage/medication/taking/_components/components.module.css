@@ -1,0 +1,151 @@
+/* MedicationList() 컴포넌트 */
+.taking_container {
+  margin: 0 8%;
+}
+.taking_text {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+/* MedicationBox() 컴포넌트 */
+.medication_container {
+  position: relative;
+  padding: 1vh 0;
+}
+.medication_main_container {
+  width: 100%;
+  position: relative;
+  border-radius: 10px;
+  display: flex;
+  box-shadow: 2px 4px 4px #dddddd, -0.3px -0.3px 1px #dddddd;
+}
+.medication_stack_container {
+  position: absolute;
+  top: 1vh;
+  border-radius: 10px;
+  z-index: 1;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  height: 77.5px;
+}
+.medication_box_left {
+  flex: 2.5;
+  background-color: #ffae81;
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  align-content: center;
+  text-align: -webkit-center;
+}
+.medication_box_right {
+  flex: 9.5;
+  background-color: white;
+  height: 100%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 17px 15px;
+  align-items: center;
+}
+.medication_box_right_01 {
+  text-align: left;
+}
+.medication_box_right_02 {
+  text-align: center;
+}
+.medication_box_right_03 {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+}
+.medication_text_title {
+  font-size: 16px;
+  font-weight: 700;
+}
+.medication_text_category {
+  font-size: 13px;
+  font-weight: 500;
+}
+.medication_text_number_01 {
+  font-size: 13px;
+  font-weight: 600;
+  padding-bottom: 3px;
+}
+.medication_text_number_02 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.medication_detail_container {
+  margin: 0 2%;
+}
+.medication_detail_content {
+  margin: 1vh 0;
+}
+.medication_detail_header {
+  display: flex;
+  padding: 0 15px;
+}
+.medication_detail_header_text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #757575;
+  text-align: center;
+}
+.medication_detail_total {
+  font-size: 13px;
+  font-weight: 600;
+  color: #757575;
+  text-align: end;
+}
+.medication_detail_button_container {
+  text-align: -webkit-center;
+}
+.medication_detail_button {
+  display: flex;
+  background-color: #0a6847;
+  height: max-content;
+  width: max-content;
+  align-items: center;
+  padding: 7px 40px;
+  border-radius: 20px;
+}
+.medication_detail_button_text {
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+}
+.medication_detail_alarm {
+  text-align: end;
+}
+/* + info */
+.medication_detail_footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1vh 0;
+}
+.medication_detail_footer_left {
+  display: flex;
+}
+.medication_detail_footer_button {
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 5px 8px;
+  color: white;
+}
+.medication_detail_footer_button_text {
+  font-size: 11px;
+  font-weight: 500;
+  padding-left: 4px;
+  height: max-content;
+}
+.medication_detail_footer_right {
+  display: flex;
+  align-items: center;
+}
+.medication_detail_footer_right_text {
+  font-size: 14px;
+  font-weight: 700;
+  padding-left: 4px;
+}

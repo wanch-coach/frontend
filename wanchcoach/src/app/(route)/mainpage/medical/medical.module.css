@@ -1,0 +1,213 @@
+.container {
+  background-color: #f9f9f9;
+  height: calc(100vh - 60px - 70px);
+  width: 100%;
+}
+
+.map_container {
+  width: 100%;
+  height: calc(100vh - 60px - 70px);
+  position: relative;
+}
+.map_search_box_container {
+  position: fixed;
+  top: calc(60px + 15px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+}
+.map_category_container {
+  position: fixed;
+  top: calc(60px + 15px + 45px + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  display: flex;
+}
+.map_category_button {
+  background-color: white;
+  border-radius: 100px;
+  padding: 6px 12px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 2px 4px 4px #dddddd;
+}
+.map_category_text {
+  font-size: 17px;
+  font-weight: 500;
+  padding-left: 5px;
+}
+.map_current_position_button {
+  position: fixed;
+  bottom: 110px;
+  left: 10px;
+  height: max-content;
+  width: max-content;
+  padding: 10px;
+  background-color: white;
+  border-radius: 100px;
+  box-shadow: 2px 4px 4px #dddddd;
+  cursor: pointer;
+}
+
+/*   */
+
+.bottomsheet_detail_container {
+  margin: 0 8%;
+}
+.bottomsheet_detail_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+.bottomsheet_detail_title_text {
+  display: flex;
+  align-items: end;
+}
+.bottomsheet_detail_title_text_01 {
+  font-size: 23px;
+  font-weight: 800;
+}
+.bottomsheet_detail_title_text_02 {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 7px;
+}
+.bottomsheet_detail_title_distance {
+  font-size: 19px;
+  font-weight: 600;
+}
+.bottomsheet_detail_address_01 {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+.bottomsheet_detail_address_01_text {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 4px;
+}
+.bottomsheet_detail_address_02 {
+  padding-left: 10px;
+  color: #002759;
+  font-size: 15px;
+  font-weight: 500;
+}
+.bottomsheet_detail_day {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+.bottomsheet_detail_day_text_01 {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 5px;
+}
+.bottomsheet_detail_day_text_02 {
+  font-size: 12px;
+  font-weight: 300;
+  color: #656363;
+  padding-left: 7px;
+}
+.bottomsheet_detail_phone {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+.bottomsheet_detail_phone_text_01 {
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 7px;
+}
+.bottomsheet_detail_phone_text_02 {
+  font-size: 12px;
+  font-weight: 300;
+  color: #898989;
+  padding-left: 7px;
+  text-decoration: underline;
+}
+
+/* */
+.drugbottomsheet_list_container {
+  padding: 0 10px;
+  height: 65%;
+  overflow: auto;
+}
+.drugbottomsheet_list_header {
+  display: flex;
+  align-items: center;
+}
+.drugbottomsheet_list_header_text {
+  padding-left: 5px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.drugbottomsheet_list_body {
+  margin: 0 8%;
+}
+.drugbottomsheet_list_tail_text {
+  font-size: 13px;
+  text-align: end;
+}
+.drugbottomsheet_list_tail_line {
+  height: 1px;
+  background: black;
+  border: none;
+}
+.drugbottomsheet_list_box {
+  padding: 15px 10px;
+}
+.drugbottomsheet_list_title_01 {
+  display: flex;
+  align-items: end;
+}
+.drugbottomsheet_list_text_01 {
+  font-size: 19px;
+  font-weight: 600;
+}
+.drugbottomsheet_list_text_02 {
+  font-size: 14px;
+  font-weight: 500;
+  padding-left: 7px;
+}
+.drugbottomsheet_list_title_02 {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+}
+.drugbottomsheet_list_text_03 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.drugbottomsheet_list_text_04 {
+  font-size: 13px;
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+/* */
+.drugbottomsheet_search_container {
+  margin: 0 5%;
+}
+.drugbottomsheet_search_header_text {
+  display: flex;
+  align-items: end;
+}
+.drugbottomsheet_search_header_text_01 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #848484;
+}
+.drugbottomsheet_search_header_text_02 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #717171;
+  padding-left: 4px;
+}
+.drugbottomsheet_search_header_line {
+  height: 1px;
+  background: black;
+  border: none;
+  margin-top: 2px;
+}
