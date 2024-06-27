@@ -11,8 +11,10 @@ import {
   TwoCheckBox,
   FrequentButton,
 } from "@/app/_components/component";
+import { useState } from "react";
 export default function Upcoming() {
   const route = useRouter();
+  const [selectedCheck, setSelectedCheck] = useState("ON");
   const handleTreatmentRegister = () => {
     route.push("/");
   };
@@ -23,16 +25,25 @@ export default function Upcoming() {
       <DateInputBox label="날짜" />
       <TimeInputBox label="시간" />
       <TextAreaInputbox label="증상" />
-      <TwoCheckBox label="알람 등록 여부" type1="ON" type1Text="ON" type2="OFF" type2Text="OFF" />
+      <TwoCheckBox
+        label="알람 등록 여부"
+        type1="ON"
+        type1Text="ON"
+        type2="OFF"
+        type2Text="OFF"
+        selectedCheck={selectedCheck}
+        onChange={setSelectedCheck}
+      />
       <div className={styles.alarm_text}>
         ※ 알람 등록 ON 설정 시 3일전, 1일전, 당일에 알림이 울립니다.
       </div>
-      <div className="pt-3" />
-      <FrequentButton
-        title="진료 등록"
-        backgroundColor="#0a6847"
-        onClick={handleTreatmentRegister}
-      />
+      <div style={{ padding: "2vh 0" }}>
+        <FrequentButton
+          title="진료 등록"
+          backgroundColor="#0a6847"
+          onClick={handleTreatmentRegister}
+        />
+      </div>
     </div>
   );
 }

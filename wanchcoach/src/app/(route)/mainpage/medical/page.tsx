@@ -1,13 +1,19 @@
 "use client";
 
-import { BasicModal } from "@/app/_components/component";
+import { BasicModal, FrequentButton } from "@/app/_components/component";
 import styles from "./medical.module.css";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { TbCurrentLocation } from "react-icons/tb";
-import { FaInfoCircle } from "react-icons/fa";
 import HospitalSearchBox from "@/app/_components/Component/Medical/HospitalSearchBox";
 import { CiPill } from "react-icons/ci";
 import { MdLocalHospital } from "react-icons/md";
+import LocationAgree from "@/app/_components/Component/Medical/LocationAgree";
+import BottomSheet from "@/app/_components/Component/BottomSheet";
+import { MdOutlineLocationOn } from "react-icons/md";
+import { IoMdTime } from "react-icons/io";
+import { FaPhoneAlt } from "react-icons/fa";
+import DrugBottomSheet from "@/app/_components/Component/DrugBottomSheet";
+import { TfiMenuAlt } from "react-icons/tfi";
 
 export default function Medical() {
   return (
@@ -53,12 +59,32 @@ function NaverMapContainer({
   const [showHospitals, setShowHospitals] = useState(true);
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [drugsheetOpen, setDrugSheetOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [searching, setSearching] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
+  const handleSearchSubmit = () => {
+    /* 검색 API 호출 and */
+    setSearching(true);
+    setDrugSheetOpen(true);
+  };
+  const handleSearchClose = () => {
+    setSearchValue("");
+    setSearching(false);
+    setDrugSheetOpen(false);
+  };
+  const handleBottomSheetChange = () => {
+    setSheetOpen(!sheetOpen);
+  };
+  const handleDrugBottomSheetChange = () => {
+    setDrugSheetOpen(!drugsheetOpen);
+  };
+  const handleGoToRegistered = () => {};
 
   // initializeMap()
   const initializeMap = () => {
@@ -141,7 +167,8 @@ function NaverMapContainer({
           });
           naver.maps.Event.addListener(marker, "click", () => {
             map.setCenter(marker.getPosition());
-            alert(`Pharmacy: ${pharmacy.name}`);
+            setSheetOpen(true);
+            // alert(`Pharmacy: ${pharmacy.name}`);
           });
           markers.current.push(marker);
         }
@@ -162,7 +189,8 @@ function NaverMapContainer({
           });
           naver.maps.Event.addListener(marker, "click", () => {
             map.setCenter(marker.getPosition());
-            alert(`Hospital: ${hospital.name}`);
+            setSheetOpen(true);
+            // alert(`Hospital: ${hospital.name}`);
           });
           markers.current.push(marker); // 배열에 추가
         }
@@ -228,6 +256,9 @@ function NaverMapContainer({
           placeholder="이름으로 검색"
           searchValue={searchValue}
           handleSearchChange={handleSearchChange}
+          handleSearchSubmit={handleSearchSubmit}
+          handleSearchClose={handleSearchClose}
+          readOnly={searching ? true : false}
         />
       </div>
       <div className={styles.map_category_container}>
@@ -253,37 +284,110 @@ function NaverMapContainer({
           <CiPill size="20px" color="#F2CB00" />
           <div className={styles.map_category_text}>약국</div>
         </div>
+        <div
+          onClick={() => {
+            console.log(drugsheetOpen);
+            setDrugSheetOpen(true);
+          }}
+        >
+          버튼
+        </div>
       </div>
       <div className={styles.map_current_position_button} onClick={handleModalOpen}>
         <TbCurrentLocation size="30px" color="#9D9D9D" />
       </div>
       <BasicModal open={modalOpen} handleModalClose={handleModalClose} width="60%" height="35vh">
-        <div className={styles.map_agree_modal_container}>
-          <div className={styles.map_agree_modal_text_01}>위치 정보 수집 동의</div>
-          <div className={styles.map_agree_modal_box}>
-            <li className={styles.map_agree_modal_text_02}>
-              ‘완치코치’의 위치기반서비스를 이용하기 위해 현재 위치정보 사용에 동의합니다.
-            </li>
-            <li className={styles.map_agree_modal_text_02}>
-              위치기반서비스 이용을 위해 서비스 이용약관에 동의합니다
-            </li>
-            <div className={styles.map_agree_modal_text_03}>
-              위치기반서비스 이용약관
-              <FaInfoCircle size="13px" />
+        <LocationAgree
+          handleModalClose={handleModalClose}
+          moveToCurrentLocation={moveToCurrentLocation}
+        />
+      </BasicModal>
+      <BottomSheet open={sheetOpen} handleBottomSheetChange={handleBottomSheetChange}>
+        <div className={styles.bottomsheet_detail_container}>
+          <div className={styles.bottomsheet_detail_title}>
+            <div className={styles.bottomsheet_detail_title_text}>
+              <div className={styles.bottomsheet_detail_title_text_01}>서울성모병원</div>
+              <div className={styles.bottomsheet_detail_title_text_02}>종합병원</div>
+            </div>
+            <div className={styles.bottomsheet_detail_title_distance}>500m</div>
+          </div>
+          <div className={styles.bottomsheet_detail_address_01}>
+            <MdOutlineLocationOn size="20px" color="#CBCBCB" />
+            <div className={styles.bottomsheet_detail_address_01_text}>서울 서초구 반포동</div>
+          </div>
+          <div className={styles.bottomsheet_detail_address_02}>신림역에서 445m 거리</div>
+          <div>
+            <div className={styles.bottomsheet_detail_day}>
+              <IoMdTime size="18px" color="#CBCBCB" />
+              <div className={styles.bottomsheet_detail_day_text_01}>월 : 10:00 ~ 18:00</div>
+              <div className={styles.bottomsheet_detail_day_text_02}>점심시간 12:00 ~ 13:00</div>
             </div>
           </div>
-          <div
-            className={styles.map_agree_modal_button}
-            style={{ bottom: "5vh" }}
-            onClick={moveToCurrentLocation}
-          >
-            동의
+          <div className={styles.bottomsheet_detail_phone}>
+            <FaPhoneAlt size="14px" color="#CBCBCB" />
+            <div className={styles.bottomsheet_detail_phone_text_01}>02-1588-1511</div>
+            <div className={styles.bottomsheet_detail_phone_text_02}>전화하기</div>
           </div>
-          <div className={styles.map_agree_modal_button} onClick={handleModalClose}>
-            동의하지 않음
-          </div>
+          <FrequentButton
+            title="진료 등록하러 하기"
+            backgroundColor="#0A6847"
+            onClick={handleGoToRegistered}
+          />
         </div>
-      </BasicModal>
+      </BottomSheet>
+      <DrugBottomSheet open={drugsheetOpen} handleBottomSheetChange={handleDrugBottomSheetChange}>
+        {searching ? <LocationSearchList title={searchValue} /> : <LocationList />}
+      </DrugBottomSheet>
+    </>
+  );
+}
+
+interface LocationSearchListProps {
+  title: string;
+}
+function LocationSearchList({ title }: LocationSearchListProps) {
+  return (
+    <div className={styles.drugbottomsheet_search_container}>
+      <div className={styles.drugbottomsheet_search_header_text}>
+        <div className={styles.drugbottomsheet_search_header_text_01}>{title}</div>
+        <div className={styles.drugbottomsheet_search_header_text_02}>으로 검색한 결과 (1)</div>
+      </div>
+      <hr className={styles.drugbottomsheet_search_header_line} />
+      <LocationListProp />
+    </div>
+  );
+}
+
+function LocationList() {
+  return (
+    <div className={styles.drugbottomsheet_list_container}>
+      <div className={styles.drugbottomsheet_list_header}>
+        <TfiMenuAlt size="20px" />
+        <div className={styles.drugbottomsheet_list_header_text}>목록 (4)</div>
+      </div>
+      <div className={styles.drugbottomsheet_list_body}>
+        <div className={styles.drugbottomsheet_list_tail_text}>거리 순</div>
+        <hr className={styles.drugbottomsheet_list_tail_line} />
+        <LocationListProp />
+      </div>
+    </div>
+  );
+}
+
+function LocationListProp() {
+  return (
+    <>
+      <div className={styles.drugbottomsheet_list_box}>
+        <div className={styles.drugbottomsheet_list_title_01}>
+          <div className={styles.drugbottomsheet_list_text_01}>서울성모병원</div>
+          <div className={styles.drugbottomsheet_list_text_02}>종합병원</div>
+        </div>
+        <div className={styles.drugbottomsheet_list_title_02}>
+          <div className={styles.drugbottomsheet_list_text_03}>500m</div>
+          <div className={styles.drugbottomsheet_list_text_04}>서울 서초구 반포동</div>
+        </div>
+      </div>
+      <hr className={styles.drugbottomsheet_list_bottom_line} />
     </>
   );
 }
