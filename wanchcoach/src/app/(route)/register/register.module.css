@@ -1,0 +1,39 @@
+.container {
+  width: 100%;
+}
+
+.body_container {
+  background-color: #f6f4ea;
+  height: calc(100vh - 45px);
+}
+
+.tab_container {
+  margin: 0 8%;
+}
+.tab_box {
+  display: flex;
+}
+.tab_box_title {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.tab_box_title.active {
+  font-weight: bold;
+}
+.tab_box_line_01 {
+  height: 2px;
+  background-color: #d9d9d9;
+}
+
+.tab_box_line_02 {
+  position: absolute;
+  top: 89px;
+  left: 8%;
+  width: 42%;
+  height: 2px;
+  background-color: #0a6847;
+  transition: transform 0.3s;
+}

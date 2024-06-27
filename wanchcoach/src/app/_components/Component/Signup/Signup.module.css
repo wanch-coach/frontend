@@ -1,0 +1,20 @@
+/* SignupStepText() 컴포넌트 */
+.step_text_container {
+  margin: 0 6%;
+  padding-top: 15px;
+}
+.step_text_01 {
+  font-size: 23px;
+  font-weight: 500;
+  font-family: "Ttwimteul";
+}
+.step_text_02 {
+  margin-left: 8px;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+/* SignupAgree() 컴포넌트 */
+.agree_box {
+  text-align: end;
+}
