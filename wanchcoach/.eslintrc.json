@@ -1,3 +1,17 @@
 {
-  "extends": ["eslint:recommended", "next", "prettier"]
+  "eslintConfig": {
+    "extends": [
+      "@react-native-community",
+      "prettier",
+      "plugin:react/jsx-runtime",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["warn"]
+    }
+  },
+  "globals": {
+    "RequestInit": true
+  }
 }

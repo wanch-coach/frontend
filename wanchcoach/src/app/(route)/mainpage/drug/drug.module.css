@@ -12,7 +12,9 @@
   border: 1px solid #8e8e93;
   background-color: white;
   box-shadow: 1px 4px 4px #dddddd;
-  margin-top: 5px;
+}
+.drug_list_header {
+  padding: 5px 0;
 }
 .drug_search_input {
   font-size: 18px;
@@ -26,4 +28,20 @@
 
 .drug_list_container {
   height: calc(100vh - 60px - 70px - 50px);
+}
+.drug_list_box {
+  margin: 10px 0;
+}
+.drug_list_like_container {
+  padding: 20px;
+}
+.drug_list_like_header {
+  display: flex;
+  align-items: center;
+  padding-top: 1vh;
+}
+.drug_list_like_text {
+  font-size: 17px;
+  font-weight: 500;
+  padding-left: 5px;
 }

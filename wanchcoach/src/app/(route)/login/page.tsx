@@ -14,7 +14,7 @@ export default function Login() {
   const handleLoginSubmit = () => {
     LoginController({ id: loginId, pwd: loginPwd })
       .then(() => {
-        router.push("/mainpage");
+        router.push("/mainpage/home");
         return;
       })
       .catch((e) => {

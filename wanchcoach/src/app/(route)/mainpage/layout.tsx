@@ -30,7 +30,9 @@ function Header() {
         <div className={styles.header_box}>
           <RiRobot3Fill className={styles.header_icon} size={"32px"} color="#B6D7B5" />
           <GoBell className={styles.header_icon} size={"32px"} color="#DDDDDD" />
-          <IoMdSettings className={styles.header_icon} size={"32px"} color="#DDDDDD" />
+          <Link href="/mysetting">
+            <IoMdSettings className={styles.header_icon} size={"32px"} color="#DDDDDD" />
+          </Link>
         </div>
       </div>
     </div>
