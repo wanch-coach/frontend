@@ -7,7 +7,7 @@ interface MenuProps {
   icon: ReactElement;
   href: string;
   press: boolean;
-  handlePressChange: () => void;
+  handlePressChange?: () => void;
 }
 export default function MenuHeader({ title, icon, href, press, handlePressChange }: MenuProps) {
   return (

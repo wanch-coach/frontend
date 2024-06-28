@@ -3,14 +3,14 @@ import { Checkbox } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-interface SignupAgree {
+interface SignupAgreeProps {
   agree1: boolean;
   agree2: boolean;
   agreeAll: boolean;
   handleAgreeChange: (type: string, checked: boolean) => void;
 }
 
-export default function SignupAgree({ agree1, agree2, agreeAll, handleAgreeChange }: SignupAgree) {
+export default function SignupAgree({ agree1, agree2, agreeAll, handleAgreeChange }: SignupAgreeProps) {
   return (
     <>
       <div>

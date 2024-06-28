@@ -17,6 +17,7 @@
     "@mui/x-date-pickers": "^7.6.2",
     "@types/navermaps": "^3.7.5",
     "dayjs": "^1.11.11",
+    "eslint-config-prettier": "^9.1.0",
     "framer-motion": "^11.2.10",
     "js-cookie": "^3.0.5",
     "next": "14.2.3",

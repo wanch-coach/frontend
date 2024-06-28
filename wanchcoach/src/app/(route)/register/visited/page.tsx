@@ -43,7 +43,7 @@ export default function Visited() {
   );
 }
 
-export function PrescriptionContainer() {
+function PrescriptionContainer() {
   const [drugs, setDrugs] = useState([{ id: 1 }]); // 들어 있는 약들 (api 연결 시 변수 추가 예정)
   const handleAddDrug = () => {
     setDrugs((preDrugs) => [...preDrugs, { id: preDrugs.length + 1 }]);
