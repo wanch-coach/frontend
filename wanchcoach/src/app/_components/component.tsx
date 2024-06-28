@@ -46,6 +46,7 @@ interface BasicInputBoxProps {
   buttonLabel?: string;
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClick? : () => void;
 }
 
 export function BasicInputBox({
@@ -56,6 +57,7 @@ export function BasicInputBox({
   buttonLabel,
   value,
   onChange,
+  onClick,
 }: BasicInputBoxProps) {
   return (
     <div className="mt-3">
@@ -66,9 +68,8 @@ export function BasicInputBox({
           type={type}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
-        />
-        {showButton && <button className={styles.input_button}>{buttonLabel}</button>}
+          onChange={onChange}/>
+        {showButton && <button className={styles.input_button} onClick={onClick} >{buttonLabel}</button>}
       </div>
     </div>
   );

@@ -50,6 +50,7 @@ export async function LoginController(formData: LoginData) {
   }
 }
 
+
 export async function LogoutController(formData: LoginData) {
   try {
     const url = `/member/logout`;
@@ -64,4 +65,40 @@ export async function LogoutController(formData: LoginData) {
     console.error("Error logout:", error);
     throw error; // 오류 처리
   }
+}
+interface SendSMS {
+  phoneNumber: string;
+}
+export async function SendSMSController(phoneNumber:string) {
+  try{
+    const url = `/member/sendsms?phoneNumber=${phoneNumber}`;
+    const response = await fetchWithoutAuth(url, {
+      method: "GET"
+    });
+    console.log("sendSMS successful", response);
+    return response;
+  } catch(error) {
+    alert("sms 전송에 실패하였습니다.");
+    throw error; 
+  }
+}
+interface IdCheck{
+  loginId: String;
+}
+export async function IdCheckController(loginId:string) {
+  try{
+    const url = `/member/idcheck/${loginId}`
+    const response = await fetchWithoutAuth(url, {
+      method: "GET"
+    });
+    console.log("idcheck successful", response);
+    
+    if(response.data) alert("가입 가능한 아이디입니다.");
+    else alert("이미 존재하는 아이디입니다.");
+    return response;
+  } catch(error) {
+    alert("idcheck failed");
+    throw error;
+  }
+  
 }

@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
+
 const BASE_URL = "https://888b-222-112-228-17.ngrok-free.app/api";
+
 
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const token = Cookies.get("accessToken");
