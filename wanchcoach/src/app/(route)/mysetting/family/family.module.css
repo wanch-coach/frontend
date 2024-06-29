@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+}
+.body_container {
+  height: calc(100vh - 45px);
+  background-color: white;
+  overflow: auto;
+}
+.family_menu_container {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid #dddddd;
+}
+.family_menu_line {
+  border: none;
+  height: 1px;
+  background: #dddddd;
+}
+.family_menu_text {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.family_menu_color {
+  width: 15px;
+  height: 15px;
+  border-radius: 100px;
+  background-color: black;
+}
+.family_menu_plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  cursor: pointer;
+}
+.family_menu_plus_text {
+  font-size: 15px;
+  font-weight: 600;
+  padding-left: 7px;
+}

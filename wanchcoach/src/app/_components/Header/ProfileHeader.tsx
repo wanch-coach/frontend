@@ -65,7 +65,7 @@ export default function ProfileHeader({ register }: ProfileHeaderProps) {
           <div className={styles.header_plus_text}>진료추가</div>
         </div>
       )}
-      <BasicModal open={modalOpen} handleModalClose={handleModalClose} width="45%" height="23vh">
+      <BasicModal open={modalOpen} handleModalClose={handleModalClose} width="65%" height="23vh">
         <>
           <div className={styles.modal_header}>
             <FaHandHoldingMedical color="#0A6847" size={"25px"} />

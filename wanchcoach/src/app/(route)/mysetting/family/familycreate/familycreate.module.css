@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+}
+.body_container {
+  height: calc(100vh - 45px);
+  background-color: #f6f4ea;
+  overflow: auto;
+}
+.padding {
+  padding: 2vh 0;
+}
+.create_container {
+  margin: 0 8%;
+}
+.create_profile_box {
+  text-align: -webkit-center;
+}
+.create_color_box {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-wrap: wrap;
+}
+.create_color_text {
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+}
+.create_color_prop {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  margin-left: 6%;
+  margin-top: 1vh;
+}

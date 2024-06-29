@@ -30,6 +30,7 @@
 }
 .day_controller_icon {
   padding: 2%;
+  cursor: pointer;
 }
 .day_controller_text {
   font-size: 22px;
