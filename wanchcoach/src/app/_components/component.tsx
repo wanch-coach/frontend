@@ -75,9 +75,26 @@ export function ModalInputBox({
 // handleValueChange,
 ModalInputBoxProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [keyword, setKeyword] =useState<string>("");
+  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]); 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    const data = {
+      keyword: keyword,
+      lng: "127.0851566",
+      lat: "37.48813256"
+    };
+    MedicalKeywordSearchController(data)
+    .then((response) => {
+      setKeywordSearchResponse(response.data.hospitals);
+      return alert("키워드 검색 성공하였습니다.");
+    })
+    .catch((e) => {
+      console.log(e);
+      return;
+    })
+  };
   return (
     <>
       <div className="mt-3">
@@ -104,8 +121,11 @@ ModalInputBoxProps) {
               className={styles.modal_input_box}
               type="text"
               placeholder={placeholder}
-              // value={value}
-              // onChange={handleValueChange}
+              value={keyword}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+              }
+            } //handleValueChange
             />
             <button className={styles.modal_input_button} onClick={handleSearch}>
               <IoMdSearch size={"25px"} color="#0A6847" />
@@ -114,19 +134,23 @@ ModalInputBoxProps) {
           <div className="pt-4">* {label}으로 검색하세요.</div>
           <div className="pt-2">
             <hr className={styles.search_modal_headline} />
-            <div className={styles.search_modal_box}>
-              <div>
-                <span className={styles.search_modal_text_01}>서울성모병원</span>
-                <span className={styles.search_modal_text_02}>종합병원</span>
+            {searchResult.map((result, index) => (
+              <div key={index} className={styles.search_modal_box} onClick={() => chooseMedicalItem(result)}>
+                <div>
+                  <span className={styles.search_modal_text_01}>{result.name}</span>
+                  <span className={styles.search_modal_text_02}>{result.type}</span>
+                </div>
+                <div className={styles.search_modal_text_03}>{result.address}</div>
               </div>
-              <div className={styles.search_modal_text_03}>서울 서초구 반포동</div>
-            </div>
+            ))}
+          
           </div>
         </div>
       </BasicModal>
     </>
   );
-}
+};
+
 
 // 가족 Select box
 export function SelectInputbox({ label }: { label: string }) {
@@ -519,6 +543,7 @@ export function FrequentButton({ title, backgroundColor, onClick }: FrequentButt
 
 // 기본적인 Modal
 import { Modal } from "@mui/material";
+import { MedicalKeywordResultData, MedicalKeywordSearchController } from "../util/controller/medicalContoller";
 
 interface BasicModalProps {
   open: boolean;
