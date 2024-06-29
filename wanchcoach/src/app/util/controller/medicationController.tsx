@@ -43,3 +43,23 @@ export async function MedicationDayController(data: DayData) {
     throw error; // 오류 처리
   }
 }
+
+export interface DrugRecordData {
+  drugId: number;
+  itemName: string;
+  itemImage: Uint8Array;
+  productType: string;
+}
+
+export interface PrescriptionRecordData {
+  hospitalId: number;
+  hospitalName: string;
+  department: string;
+  start: string;
+  drugs: DrugRecordData[];
+}
+
+export interface DrugRecordData {
+  taking: PrescriptionRecordData[];
+  end: PrescriptionRecordData[];
+}
