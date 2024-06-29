@@ -1,6 +1,7 @@
 import { Dayjs } from "dayjs";
 import fetchWithoutAuth from "../fetchWithoutAuth";
 import Cookies from "js-cookie";
+import fetchWithAuth from "../fetchWithAuth";
 
 interface SignupData {
   loginId: string;
@@ -48,39 +49,53 @@ export async function LoginController(formData: LoginData) {
   }
 }
 
+export async function LogoutController(formData: LoginData) {
+  try {
+    const url = `/member/logout`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+    Cookies.remove("refreshToken");
+    Cookies.remove("accessToken");
+    console.log("Logout successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
 interface SendSMS {
   phoneNumber: string;
 }
-export async function SendSMSController(phoneNumber:string) {
-  try{
+export async function SendSMSController(phoneNumber: string) {
+  try {
     const url = `/member/sendsms?phoneNumber=${phoneNumber}`;
     const response = await fetchWithoutAuth(url, {
-      method: "GET"
+      method: "GET",
     });
     console.log("sendSMS successful", response);
     return response;
-  } catch(error) {
+  } catch (error) {
     alert("sms 전송에 실패하였습니다.");
-    throw error; 
+    throw error;
   }
 }
-interface IdCheck{
+interface IdCheck {
   loginId: String;
 }
-export async function IdCheckController(loginId:string) {
-  try{
-    const url = `/member/idcheck/${loginId}`
+export async function IdCheckController(loginId: string) {
+  try {
+    const url = `/member/idcheck/${loginId}`;
     const response = await fetchWithoutAuth(url, {
-      method: "GET"
+      method: "GET",
     });
     console.log("idcheck successful", response);
-    
-    if(response.data) alert("가입 가능한 아이디입니다.");
+
+    if (response.data) alert("가입 가능한 아이디입니다.");
     else alert("이미 존재하는 아이디입니다.");
     return response;
-  } catch(error) {
+  } catch (error) {
     alert("idcheck failed");
     throw error;
   }
-  
 }

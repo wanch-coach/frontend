@@ -4,19 +4,35 @@ import { ReactElement, useState, ChangeEvent, Dispatch, SetStateAction } from "r
 import { useRouter } from "next/navigation";
 import styles from "./component.module.css";
 import { IoMdArrowBack } from "react-icons/io";
+import { CiStar } from "react-icons/ci";
+import { FaStar } from "react-icons/fa";
 
 // 새창에 있는 헤더
 interface HeaderProps {
   title: string;
+  right?: boolean;
+  like?: boolean;
+  handleLikeChange?: () => void;
 }
-export function Header({ title }: HeaderProps) {
+export function Header({ title, right, like, handleLikeChange }: HeaderProps) {
   const router = useRouter();
   return (
     <div className={styles.header}>
       <span className={styles.header_backicon} onClick={() => router.back()}>
-        <IoMdArrowBack size={"30px"} />
+        <IoMdArrowBack size="30px" />
       </span>
       <span className={styles.header_text}>{title}</span>
+      <span className={styles.header_staricon} onClick={handleLikeChange}>
+        {right ? (
+          like ? (
+            <FaStar size="23px" color="#FFE500" />
+          ) : (
+            <CiStar size="23px" color="#DDDDDD" />
+          )
+        ) : (
+          ""
+        )}
+      </span>
     </div>
   );
 }

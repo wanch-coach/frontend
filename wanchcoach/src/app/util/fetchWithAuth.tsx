@@ -1,11 +1,12 @@
 import Cookies from "js-cookie";
-const BASE_URL = "http://localhost:8081/api";
+const BASE_URL = "https://wanch-coach.site/api";
 
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const token = Cookies.get("accessToken");
   const headers = {
-    "Content-Type": "application/json;charset=utf-8",
+    "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    "ngrok-skip-browser-warning": "69420",
   };
 
   const response = await fetch(`${BASE_URL}${url}`, {
@@ -21,7 +22,8 @@ const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
     const error = await response.json();
     throw new Error(error.message || "Something went wrong");
   }
-
+  console.log(`${BASE_URL}${url}`);
+  console.log(response);
   return response.json();
 };
 

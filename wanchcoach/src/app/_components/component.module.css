@@ -11,6 +11,13 @@
   margin-left: 10px;
   cursor: pointer;
 }
+.header_staricon {
+  position: absolute;
+  right: 0;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
 .header_text {
   font-size: 18px;
 }

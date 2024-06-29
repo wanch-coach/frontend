@@ -23,6 +23,23 @@
   transform: translateX(-50%);
   width: 92%;
   display: flex;
+  justify-content: space-between;
+}
+.map_category_box {
+  display: flex;
+}
+.map_category_list_button {
+  background-color: white;
+  align-content: center;
+  padding: 0 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+.map_category_list_button_text {
+  font-size: 15px;
+  font-weight: 400;
+  padding-left: 4px;
 }
 .map_category_button {
   background-color: white;
@@ -31,7 +48,6 @@
   margin-right: 10px;
   display: flex;
   align-items: center;
-  box-shadow: 2px 4px 4px #dddddd;
 }
 .map_category_text {
   font-size: 17px;

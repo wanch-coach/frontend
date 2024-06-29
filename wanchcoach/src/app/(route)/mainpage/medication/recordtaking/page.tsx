@@ -1,4 +1,4 @@
-import MedicationInfoBox from "../taking/_components/MedicationInfoBox";
+import MedicationInfoBox from "../taking/[id]/_components/MedicationInfoBox";
 import styles from "./recordtaking.module.css";
 
 export default function RecordTaking() {

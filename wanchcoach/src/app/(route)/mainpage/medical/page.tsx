@@ -85,6 +85,11 @@ function NaverMapContainer({
     setDrugSheetOpen(!drugsheetOpen);
   };
   const handleGoToRegistered = () => {};
+  const handleListSubmit = () => {
+    /* 바텀시트에 정보 넣고 */
+    setDrugSheetOpen(false);
+    setSheetOpen(true); // 이 때 이쪽 지도 마커로 포커싱 해야함!
+  };
 
   // initializeMap()
   const initializeMap = () => {
@@ -129,11 +134,9 @@ function NaverMapContainer({
     // 네이버 지도 스크립트가 로드된 후 초기화 함수 호출
     if (window.naver && window.naver.maps) {
       initializeMap();
-      console.log("initialized: {}", process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
     } else {
       const script = document.createElement("script");
       script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder`;
-      console.log("not initialized: {}", process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
       script.async = true;
       script.onload = initializeMap;
       document.head.appendChild(script);
@@ -264,35 +267,43 @@ function NaverMapContainer({
         />
       </div>
       <div className={styles.map_category_container}>
-        <div
-          className={styles.map_category_button}
-          onClick={() => setShowHospitals((prevState) => !prevState)}
-          style={{
-            backgroundColor: showHospitals ? "#ECECEC" : "white",
-            boxShadow: showHospitals ? "inset 2px 4px 4px #dddddd" : "2px 4px 4px #dddddd",
-          }}
-        >
-          <MdLocalHospital size="20px" color="#599468" />
-          <div className={styles.map_category_text}>병원</div>
+        <div className={styles.map_category_box}>
+          <div
+            className={styles.map_category_button}
+            onClick={() => setShowHospitals((prevState) => !prevState)}
+            style={{
+              backgroundColor: showHospitals ? "#ECECEC" : "white",
+              boxShadow: showHospitals ? "inset 2px 4px 4px #dddddd" : "2px 4px 4px #dddddd",
+            }}
+          >
+            <MdLocalHospital size="20px" color="#599468" />
+            <div className={styles.map_category_text}>병원</div>
+          </div>
+          <div
+            className={styles.map_category_button}
+            onClick={() => setShowPharmacies((prevState) => !prevState)}
+            style={{
+              backgroundColor: showPharmacies ? "#ECECEC" : "white",
+              boxShadow: showPharmacies ? "inset 2px 4px 4px #dddddd" : "2px 4px 4px #dddddd",
+            }}
+          >
+            <CiPill size="20px" color="#F2CB00" />
+            <div className={styles.map_category_text}>약국</div>
+          </div>
         </div>
         <div
-          className={styles.map_category_button}
-          onClick={() => setShowPharmacies((prevState) => !prevState)}
-          style={{
-            backgroundColor: showPharmacies ? "#ECECEC" : "white",
-            boxShadow: showPharmacies ? "inset 2px 4px 4px #dddddd" : "2px 4px 4px #dddddd",
-          }}
-        >
-          <CiPill size="20px" color="#F2CB00" />
-          <div className={styles.map_category_text}>약국</div>
-        </div>
-        <div
+          className={styles.map_category_list_button}
           onClick={() => {
             console.log(drugsheetOpen);
             setDrugSheetOpen(true);
           }}
+          style={{
+            backgroundColor: drugsheetOpen ? "#ECECEC" : "white",
+            boxShadow: drugsheetOpen ? "inset 2px 4px 4px #dddddd" : "2px 4px 4px #dddddd",
+          }}
         >
-          버튼
+          <TfiMenuAlt />
+          <div className={styles.map_category_list_button_text}>목록</div>
         </div>
       </div>
       <div className={styles.map_current_position_button} onClick={handleModalOpen}>
@@ -338,7 +349,11 @@ function NaverMapContainer({
         </div>
       </BottomSheet>
       <DrugBottomSheet open={drugsheetOpen} handleBottomSheetChange={handleDrugBottomSheetChange}>
-        {searching ? <LocationSearchList title={searchValue} /> : <LocationList />}
+        {searching ? (
+          <LocationSearchList title={searchValue} onClick={handleListSubmit} />
+        ) : (
+          <LocationList onClick={handleListSubmit} />
+        )}
       </DrugBottomSheet>
     </>
   );
@@ -346,8 +361,9 @@ function NaverMapContainer({
 
 interface LocationSearchListProps {
   title: string;
+  onClick: () => void;
 }
-function LocationSearchList({ title }: LocationSearchListProps) {
+function LocationSearchList({ title, onClick }: LocationSearchListProps) {
   return (
     <div className={styles.drugbottomsheet_search_container}>
       <div className={styles.drugbottomsheet_search_header_text}>
@@ -355,12 +371,15 @@ function LocationSearchList({ title }: LocationSearchListProps) {
         <div className={styles.drugbottomsheet_search_header_text_02}>으로 검색한 결과 (1)</div>
       </div>
       <hr className={styles.drugbottomsheet_search_header_line} />
-      <LocationListProp />
+      <LocationListProp onClick={onClick} />
     </div>
   );
 }
 
-function LocationList() {
+interface LocationListProps {
+  onClick: () => void;
+}
+function LocationList({ onClick }: LocationListProps) {
   return (
     <div className={styles.drugbottomsheet_list_container}>
       <div className={styles.drugbottomsheet_list_header}>
@@ -370,16 +389,19 @@ function LocationList() {
       <div className={styles.drugbottomsheet_list_body}>
         <div className={styles.drugbottomsheet_list_tail_text}>거리 순</div>
         <hr className={styles.drugbottomsheet_list_tail_line} />
-        <LocationListProp />
+        <LocationListProp onClick={onClick} />
       </div>
     </div>
   );
 }
 
-function LocationListProp() {
+interface LocationListPropProps {
+  onClick: () => void;
+}
+function LocationListProp({ onClick }: LocationListPropProps) {
   return (
     <>
-      <div className={styles.drugbottomsheet_list_box}>
+      <div className={styles.drugbottomsheet_list_box} onClick={onClick}>
         <div className={styles.drugbottomsheet_list_title_01}>
           <div className={styles.drugbottomsheet_list_text_01}>서울성모병원</div>
           <div className={styles.drugbottomsheet_list_text_02}>종합병원</div>

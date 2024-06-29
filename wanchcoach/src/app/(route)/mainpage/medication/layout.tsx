@@ -2,7 +2,7 @@
 
 import styles from "./medication.module.css";
 import { ReactNode, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import MenuHeader from "@/app/_components/Header/MenuHeader";
 import ProfileHeader from "@/app/_components/Header/ProfileHeader";
 import { MdMedicationLiquid } from "react-icons/md";
@@ -11,18 +11,28 @@ import { PiPillDuotone } from "react-icons/pi";
 import { MdCalendarMonth } from "react-icons/md";
 import { FaList } from "react-icons/fa6";
 import Link from "next/link";
+import { FamilySummaryListData } from "@/app/util/controller/familyController";
 
 export default function MedicationLayout({ children }: { children: ReactNode }) {
+  const route = useRouter();
+  const [selectedFamily, setSelectedFamily] = useState<FamilySummaryListData>();
+  const handleSelectedFamilyChange = (family: FamilySummaryListData) => {
+    setSelectedFamily(family);
+    route.replace(`/mainpage/medication/taking/${family.familyId}`);
+  };
   return (
     <div className={styles.container}>
-      <ProfileHeader />
-      <MedicationMenu />
+      <ProfileHeader
+        selectedFamily={selectedFamily}
+        handleSelectedFamilyChange={handleSelectedFamilyChange}
+      />
+      <MedicationMenu selectedFamily={selectedFamily} />
       {children}
     </div>
   );
 }
 
-function MedicationMenu() {
+function MedicationMenu({ selectedFamily }: { selectedFamily: FamilySummaryListData | undefined }) {
   const pathname = usePathname();
   const [calendar, setCalendar] = useState("NOT");
   return (
@@ -31,7 +41,7 @@ function MedicationMenu() {
         <MenuHeader
           title="복약"
           icon={<MdMedicationLiquid size={"40px"} />}
-          href="/mainpage/medication/taking/morning"
+          href={`/mainpage/medication/taking/${selectedFamily?.familyId}`}
           press={pathname.startsWith("/mainpage/medication/taking") ? true : false}
           handlePressChange={() => {
             setCalendar("NOT");

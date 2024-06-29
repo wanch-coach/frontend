@@ -1,0 +1,47 @@
+.container {
+  background-color: #f9f9f9;
+  height: calc(100vh - 60px - 70px);
+  width: 100%;
+}
+.body_container {
+  margin: 0 5%;
+}
+.drug_search_box {
+  width: 100%;
+  display: flex;
+  border: 1px solid #8e8e93;
+  background-color: white;
+  box-shadow: 1px 4px 4px #dddddd;
+}
+.drug_list_header {
+  padding: 5px 0;
+}
+.drug_search_input {
+  font-size: 18px;
+  width: 100%;
+  padding: 0 15px;
+  outline: 0;
+}
+.drug_search_button {
+  padding: 10px;
+}
+
+.drug_list_container {
+  height: calc(100vh - 60px - 70px - 50px);
+}
+.drug_list_box {
+  margin: 10px 0;
+}
+.drug_list_like_container {
+  padding: 20px;
+}
+.drug_list_like_header {
+  display: flex;
+  align-items: center;
+  padding-top: 1vh;
+}
+.drug_list_like_text {
+  font-size: 17px;
+  font-weight: 500;
+  padding-left: 5px;
+}

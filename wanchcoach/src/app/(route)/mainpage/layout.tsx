@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import { IoMdSettings } from "react-icons/io";
 import { GoBell } from "react-icons/go";
 import { RiRobot3Fill } from "react-icons/ri";
+import Cookies from "js-cookie";
 
 export default function MainpageLayout({ children }: { children: ReactNode }) {
   return (
@@ -30,7 +31,9 @@ function Header() {
         <div className={styles.header_box}>
           <RiRobot3Fill className={styles.header_icon} size={"32px"} color="#B6D7B5" />
           <GoBell className={styles.header_icon} size={"32px"} color="#DDDDDD" />
-          <IoMdSettings className={styles.header_icon} size={"32px"} color="#DDDDDD" />
+          <Link href="/mysetting">
+            <IoMdSettings className={styles.header_icon} size={"32px"} color="#DDDDDD" />
+          </Link>
         </div>
       </div>
     </div>
@@ -39,6 +42,7 @@ function Header() {
 
 function Bottombar() {
   const pathname = usePathname();
+  const myFamilyId = Cookies.get("myFamilyId");
   return (
     <div className={styles.bottombar_container}>
       <Link className={styles.bottombar_box} href={"/mainpage/home"}>
@@ -65,7 +69,7 @@ function Bottombar() {
           진료 관리
         </div>
       </Link>
-      <Link className={styles.bottombar_box} href={"/mainpage/medication/taking/morning"}>
+      <Link className={styles.bottombar_box} href={`/mainpage/medication/taking/${myFamilyId}`}>
         <BsCapsulePill
           size={"35px"}
           color={pathname.startsWith("/mainpage/medication") ? "#0A6847" : "#9D9D9D"}
