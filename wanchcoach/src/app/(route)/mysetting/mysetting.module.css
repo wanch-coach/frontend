@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+}
+.body_container {
+  height: calc(100vh - 45px);
+  overflow: auto;
+}
+.setting_menu_line {
+  border: none;
+  height: 1px;
+  background: #dddddd;
+}
+.setting_menu_container {
+  height: 60px;
+  align-content: center;
+  border-bottom: 1px solid #dddddd;
+}
+.setting_menu_text {
+  font-size: 18px;
+  font-weight: 500;
+  padding-left: 12px;
+}
