@@ -129,10 +129,11 @@ function NaverMapContainer({
     // 네이버 지도 스크립트가 로드된 후 초기화 함수 호출
     if (window.naver && window.naver.maps) {
       initializeMap();
+      console.log("initialized: {}", ${process.env.NEXT_PUBLIC_NCP_CLIENT_ID});
     } else {
       const script = document.createElement("script");
       script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder`;
-      console.log(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
+      console.log("not initialized: {}", ${process.env.NEXT_PUBLIC_NCP_CLIENT_ID});
       script.async = true;
       script.onload = initializeMap;
       document.head.appendChild(script);
