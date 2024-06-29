@@ -1,5 +1,5 @@
 import styles from "./Header.module.css";
-import { useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import Image from "next/image";
@@ -10,23 +10,49 @@ import { IoLocationOutline } from "react-icons/io5";
 import { TiPencil } from "react-icons/ti";
 import { BasicModal } from "@/app/_components/component";
 import Link from "next/link";
+import {
+  FamilySummaryListController,
+  FamilySummaryListData,
+} from "@/app/util/controller/familyController";
 
 interface ProfileHeaderProps {
+  selectedFamily: FamilySummaryListData | undefined;
+  handleSelectedFamilyChange: (family: FamilySummaryListData) => void;
   register?: boolean;
 }
-export default function ProfileHeader({ register }: ProfileHeaderProps) {
-  const [selectedProfile, setSelectedProfile] = useState("/logo.png");
+export default function ProfileHeader({
+  register,
+  selectedFamily,
+  handleSelectedFamilyChange,
+}: ProfileHeaderProps) {
+  const [familyProfiles, setFamilyProfiles] = useState<FamilySummaryListData[]>([]);
+  // const [selectedFamily, setSelectedFamily] = useState<FamilySummaryListData | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
-  const handleActionClick = (profile: string) => {
-    setSelectedProfile(profile);
+  const handleActionClick = (family: FamilySummaryListData) => {
+    handleSelectedFamilyChange(family);
     setProfileOpen(false);
   };
   const handleOpenClose = () => {
     profileOpen === true ? setProfileOpen(false) : setProfileOpen(true);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await FamilySummaryListController();
+        setFamilyProfiles(response.data);
+        if (response.data.length > 0) {
+          handleSelectedFamilyChange(response.data[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching family list:", error);
+      }
+    };
+    fetchData(); // fetchData 함수 호출
+  }, []);
 
   return (
     <div className={styles.header_profile_container}>
@@ -37,25 +63,36 @@ export default function ProfileHeader({ register }: ProfileHeaderProps) {
           top: "65px",
           "& .MuiFab-primary": {
             backgroundColor: "white",
-            width: "45px",
-            height: "45px",
+            width: "48px",
+            height: "48px",
 
             "&:hover": {
               backgroundColor: "white",
             },
           },
         }}
-        icon={<Image src={selectedProfile} alt="프로필" fill sizes="30px" />}
+        icon={
+          <div
+            className={styles.header_profile_box}
+            style={{ backgroundColor: selectedFamily?.color }}
+          >
+            {selectedFamily?.name}
+          </div>
+        }
         direction="right"
         open={profileOpen}
         onClick={handleOpenClose}
       >
-        {actions.map((action) => (
+        {familyProfiles.map((family) => (
           <SpeedDialAction
-            key={action.name}
-            icon={<Image src={action.profile} alt="프로필" fill sizes="30px" />}
-            tooltipTitle={action.name}
-            onClick={() => handleActionClick(action.profile)}
+            key={family.name}
+            icon={
+              <div className={styles.header_profile_box} style={{ backgroundColor: family.color }}>
+                {family.name}
+              </div>
+            }
+            tooltipTitle={family.name}
+            onClick={() => handleActionClick(family)}
           />
         ))}
       </SpeedDial>
@@ -65,7 +102,7 @@ export default function ProfileHeader({ register }: ProfileHeaderProps) {
           <div className={styles.header_plus_text}>진료추가</div>
         </div>
       )}
-      <BasicModal open={modalOpen} handleModalClose={handleModalClose} width="45%" height="23vh">
+      <BasicModal open={modalOpen} handleModalClose={handleModalClose} width="65%" height="23vh">
         <>
           <div className={styles.modal_header}>
             <FaHandHoldingMedical color="#0A6847" size={"25px"} />
@@ -96,26 +133,3 @@ export default function ProfileHeader({ register }: ProfileHeaderProps) {
     </div>
   );
 }
-
-const actions = [
-  {
-    profile: "/logo.png",
-    name: "profile1",
-  },
-  {
-    profile: "/next.svg",
-    name: "profile2",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile3",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile4",
-  },
-  {
-    profile: "/vercel.svg",
-    name: "profile5",
-  },
-];
