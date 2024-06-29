@@ -1,13 +1,12 @@
 import Cookies from "js-cookie";
-
-const BASE_URL = "https://888b-222-112-228-17.ngrok-free.app/api";
-
+const BASE_URL = "https://a645-14-36-55-70.ngrok-free.app/api";
 
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const token = Cookies.get("accessToken");
   const headers = {
+    "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    // credentials: "include",
+    "ngrok-skip-browser-warning": "69420",
   };
 
   const response = await fetch(`${BASE_URL}${url}`, {

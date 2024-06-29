@@ -40,7 +40,7 @@ export async function LoginController(formData: LoginData) {
       body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
     });
     Cookies.set("refreshToken", response.data.refreshToken);
-    console.log(response.data.refreshToken);
+    console.log(response.data.accessToken);
     Cookies.set("accessToken", response.data.accessToken);
     console.log("Signin successful:", response);
     return response; // 예시로 데이터 반환
