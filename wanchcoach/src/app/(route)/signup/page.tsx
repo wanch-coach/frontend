@@ -8,7 +8,7 @@ import { Dayjs } from "dayjs";
 import SignupStepText from "@/app/_components/Component/Signup/SignupStepText";
 import SignupAgree from "@/app/_components/Component/Signup/SignupAgree";
 import { useRouter } from "next/navigation";
-import { SignupController } from "@/app/util/controller/userController";
+import { IdCheckController, SendSMSController, SignupController } from "@/app/util/controller/userController";
 
 export default function Signup() {
   const router = useRouter();
@@ -46,6 +46,31 @@ export default function Signup() {
         return alert("유효하지 않습니다.");
       });
   };
+
+  const handleSendSMSSubmit = () => {
+    const data = {
+      phoneNumber: phoneNumber
+    };
+    SendSMSController(data.phoneNumber)
+    .then(() => {
+      return alert("문자전송을 완료하였습니다.");
+    })
+    .catch((e) => {
+      console.log(e);
+      return;
+    })
+  }
+  const handleIdCheckSubmit = () => {
+    const data = {
+      loginId: loginId
+    };
+    IdCheckController(data.loginId)
+    .then()
+    .catch((e) => {
+      console.log(e);
+      return;
+    })
+  }
 
   const handleAgreeChange = (type: string, checked: boolean) => {
     if (type === "agree1") {
@@ -96,6 +121,7 @@ export default function Signup() {
           buttonLabel="인증번호 전송"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
+          onClick={handleSendSMSSubmit}
         />
         <BasicInputBox type="number" placeholder="인증번호 입력" showButton buttonLabel="인증" />
       </div>
@@ -105,8 +131,11 @@ export default function Signup() {
           type="text"
           label="아이디"
           placeholder="아이디"
+          showButton
+          buttonLabel="중복확인"
           value={loginId}
           onChange={(e) => setLoginId(e.target.value)}
+          onClick={handleIdCheckSubmit}
         />
         <BasicInputBox
           type="password"

@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 const BASE_URL = "https://a645-14-36-55-70.ngrok-free.app/api";
+=======
+
+const BASE_URL = "https://888b-222-112-228-17.ngrok-free.app/api";
+>>>>>>> fe7ab82b845c26cfdd0c68acad8ffa2a8156f3c4
+
 
 const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {
   const headers = {
