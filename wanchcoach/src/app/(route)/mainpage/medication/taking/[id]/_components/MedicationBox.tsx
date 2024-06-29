@@ -12,15 +12,23 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { BsJournalMedical } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
 import DrugBox from "@/app/_components/Component/Drug/DrugBox";
+import { DrugData } from "@/app/util/controller/medicationController";
 
 //변수 title, category, count, state
 interface MedicationBoxProps {
   title: string;
   category: string;
   count: number;
+  drugs: DrugData[];
   state?: boolean;
 }
-export default function MedicationBox({ title, category, count, state }: MedicationBoxProps) {
+export default function MedicationBox({
+  title,
+  category,
+  count,
+  drugs,
+  state,
+}: MedicationBoxProps) {
   // const [checked, setChecked] = React.useState(true);
 
   // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,13 +104,14 @@ export default function MedicationBox({ title, category, count, state }: Medicat
                 <div className={styles.medication_detail_header_text}>종류</div>
               </div>
               <div>
-                <DrugBox title="타이레놀정160mg" category="진통제" />
-                <div style={{ marginTop: "4px" }} />
-                <DrugBox title="사디반정 160mg" category="고혈압 치료제" />
-                <div style={{ marginTop: "4px" }} />
-                <DrugBox title="마게이트정" category="제산제" />
+                {drugs.map((drug) => (
+                  <React.Fragment key={drug.drugId}>
+                    <DrugBox title={drug.itemName} category={drug.productType} />
+                    <div style={{ marginTop: "4px" }} />
+                  </React.Fragment>
+                ))}
               </div>
-              <div className={styles.medication_detail_total}>총 3개</div>
+              <div className={styles.medication_detail_total}>총 {drugs.length}개</div>
               <div className={styles.medication_detail_button_container}>
                 <div className={styles.medication_detail_button}>
                   <GoDotFill size={"20px"} color={"white"} />

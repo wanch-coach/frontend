@@ -14,9 +14,9 @@ export default function Family() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await FamilyListController();
-        console.log(data);
-        // setFamilyList(data);
+        const response = await FamilyListController();
+
+        setFamilyList(response.data);
       } catch (error) {
         console.error("Error fetching family list:", error);
       }
