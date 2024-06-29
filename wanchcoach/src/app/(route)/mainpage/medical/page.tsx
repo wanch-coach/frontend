@@ -132,6 +132,7 @@ function NaverMapContainer({
     } else {
       const script = document.createElement("script");
       script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder`;
+      console.log(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
       script.async = true;
       script.onload = initializeMap;
       document.head.appendChild(script);
