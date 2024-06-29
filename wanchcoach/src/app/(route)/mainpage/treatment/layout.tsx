@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 export default function TreatmentLayout({ children }: { children: ReactNode }) {
   return (
     <div className={styles.container}>
-      <ProfileHeader register />
+      {/* <ProfileHeader register /> */}
       <TreatmentMenu />
       {children}
     </div>

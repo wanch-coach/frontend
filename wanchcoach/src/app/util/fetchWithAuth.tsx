@@ -2,12 +2,12 @@ import Cookies from "js-cookie";
 
 const BASE_URL = "http://localhost:8081/api";
 
-
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const token = Cookies.get("accessToken");
   const headers = {
+    "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    // credentials: "include",
+    "ngrok-skip-browser-warning": "69420",
   };
 
   const response = await fetch(`${BASE_URL}${url}`, {

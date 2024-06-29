@@ -5,6 +5,7 @@ import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LoginController } from "@/app/util/controller/userController";
+import { FindMyFamilyIdController } from "@/app/util/controller/familyController";
 
 export default function Login() {
   const router = useRouter();
@@ -14,7 +15,14 @@ export default function Login() {
   const handleLoginSubmit = () => {
     LoginController({ id: loginId, pwd: loginPwd })
       .then(() => {
-        router.push("/mainpage/home");
+        // 여기에 api 호출해서 내 가족 아이디 쿠키에 저장해놓을꺼임!!
+        FindMyFamilyIdController()
+          .then(() => {
+            router.push("/mainpage/home");
+          })
+          .catch((e) => {
+            return alert("error");
+          });
         return;
       })
       .catch((e) => {
