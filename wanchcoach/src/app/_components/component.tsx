@@ -81,13 +81,15 @@ import { IoMdSearch } from "react-icons/io";
 interface ModalInputBoxProps {
   label: string;
   placeholder: string;
-  // value: string;
-  // handleValueChange: () => void;
+  value: MedicalKeywordResultData;
+  handleHospitalChange: (result:any) => void;
 }
 export function ModalInputBox({
   label,
   placeholder,
-}: // value,
+  value,
+  handleHospitalChange
+}: 
 // handleValueChange,
 ModalInputBoxProps) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -111,6 +113,12 @@ ModalInputBoxProps) {
       return;
     })
   };
+
+  const selectHospital = (result : MedicalKeywordResultData) => {
+    handleHospitalChange(result)
+    handleModalClose();
+  }
+
   return (
     <>
       <div className="mt-3">
@@ -121,8 +129,8 @@ ModalInputBoxProps) {
             type="text"
             readOnly
             placeholder={placeholder}
-            // value={value}
-            // onChange={handleValueChange}
+            value={value?.name}
+            onChange={handleHospitalChange}
           />
           <button className={styles.modal_input_button} onClick={handleModalOpen}>
             <IoMdSearch size={"25px"} color="#0A6847" />
@@ -151,7 +159,7 @@ ModalInputBoxProps) {
           <div className="pt-2">
             <hr className={styles.search_modal_headline} />
             {searchResult.map((result, index) => (
-              <div key={index} className={styles.search_modal_box} onClick={() => chooseMedicalItem(result)}>
+              <div key={index} className={styles.search_modal_box} onClick={() => selectHospital(result)}>
                 <div>
                   <span className={styles.search_modal_text_01}>{result.name}</span>
                   <span className={styles.search_modal_text_02}>{result.type}</span>
@@ -176,6 +184,11 @@ export function SelectInputbox({ label }: { label: string }) {
     setSelectedValue(event.target.value);
     console.log("Selected Value:", event.target.value); // 선택된 값 출력
   };
+  const selectFamiliies = () => {
+    const data = {
+      
+    }
+  }
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>

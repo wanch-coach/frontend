@@ -12,15 +12,49 @@ import {
   FrequentButton,
 } from "@/app/_components/component";
 import { useState } from "react";
+import { AddTreatmentController } from "@/app/util/controller/treatementController";
+import { MedicalKeywordResultData } from "@/app/util/controller/medicalContoller";
+
+
 export default function Upcoming() {
   const route = useRouter();
   const [selectedCheck, setSelectedCheck] = useState("ON");
+  const [chooseHospital, setChooseHospital] = useState<MedicalKeywordResultData>({hospitalId:0, name:'', type:'', address:''});
+  const [chooseVisitor, setVisitor] = useState<MedicalKeywordResultData>({hospitalId:0, name:'', type:'', address:''});
+  const [department, setDepartment] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [symptoms, setSymptoms] = useState();
+  const [prescription, setPrescription] = useState('');
+
   const handleTreatmentRegister = () => {
-    route.push("/");
+    const data = {
+      hospitalId: 7,
+      familyId: 13,
+      department: "",
+      date: date + time,
+      taken: false,
+      alarm: selectedCheck === 'ON',
+      symptom: "힘들어요",
+      prescription: ""
+    };
+    alert("눌렀어요");
+    AddTreatmentController(data)
+    .then(() => {
+      console.log("success add treatment");
+      route.push("/");
+    })
+    .catch((e) => {
+      console.log(e);
+      return;
+    })
   };
+  const handleHospitalChange = (result:MedicalKeywordResultData) => {
+    setChooseHospital(result);
+  }
   return (
     <div className={styles.container}>
-      <ModalInputBox label="병원명" placeholder="병원 명" />
+      <ModalInputBox label="병원명" placeholder="병원 명" value={chooseHospital} handleHospitalChange={handleHospitalChange}/>
       <SelectInputbox label="방문자" />
       <DateInputBox label="날짜" />
       <TimeInputBox label="시간" />

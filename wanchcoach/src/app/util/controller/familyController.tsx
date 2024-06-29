@@ -15,7 +15,6 @@ export async function FamilyCreateController(formData: FamilyCreateData) {
       method: "POST",
       body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
     });
-
     console.log("Family Create successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {

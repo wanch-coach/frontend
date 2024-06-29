@@ -10,14 +10,14 @@ import Cookies from "js-cookie";
 // 	"symptom": "손이 시려움",
 // 	"prescription": null
 interface AddTreatmentData{
-  "hospitalId" : string,
-  "familyId" : string,
-  "department" : string,
-  "date": string,
-  "taken": boolean,
-  "alarm": boolean,
-  "symptom": string,
-  "prescription": String;
+  hospitalId : number,
+  familyId : number,
+  department : string,
+  date: string,
+  taken: boolean,
+  alarm: boolean,
+  symptom: string,
+  prescription: String;
 }
 export async function AddTreatmentController(formData: AddTreatmentData) {
   try{
