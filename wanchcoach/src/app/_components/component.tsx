@@ -81,19 +81,45 @@ import { IoMdSearch } from "react-icons/io";
 interface ModalInputBoxProps {
   label: string;
   placeholder: string;
-  // value: string;
-  // handleValueChange: () => void;
+  value: MedicalKeywordResultData;
+  handleHospitalChange: (result:any) => void;
 }
 export function ModalInputBox({
   label,
   placeholder,
-}: // value,
+  value,
+  handleHospitalChange
+}: 
 // handleValueChange,
 ModalInputBoxProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [keyword, setKeyword] =useState<string>("");
+  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]); 
+
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    const data = {
+      keyword: keyword,
+      lng: "127.0851566",
+      lat: "37.48813256"
+    };
+    MedicalKeywordSearchController(data)
+    .then((response) => {
+      setKeywordSearchResponse(response.data.hospitals);
+      return;
+    })
+    .catch((e) => {
+      console.log(e);
+      return;
+    })
+  };
+
+  const selectHospital = (result : MedicalKeywordResultData) => {
+    handleHospitalChange(result)
+    handleModalClose();
+  }
+
   return (
     <>
       <div className="mt-3">
@@ -104,8 +130,8 @@ ModalInputBoxProps) {
             type="text"
             readOnly
             placeholder={placeholder}
-            // value={value}
-            // onChange={handleValueChange}
+            value={value?.name}
+            onChange={handleHospitalChange}
           />
           <button className={styles.modal_input_button} onClick={handleModalOpen}>
             <IoMdSearch size={"25px"} color="#0A6847" />
@@ -120,8 +146,11 @@ ModalInputBoxProps) {
               className={styles.modal_input_box}
               type="text"
               placeholder={placeholder}
-              // value={value}
-              // onChange={handleValueChange}
+              value={keyword}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+              }
+            } //handleValueChange
             />
             <button className={styles.modal_input_button} onClick={handleSearch}>
               <IoMdSearch size={"25px"} color="#0A6847" />
@@ -130,28 +159,157 @@ ModalInputBoxProps) {
           <div className="pt-4">* {label}으로 검색하세요.</div>
           <div className="pt-2">
             <hr className={styles.search_modal_headline} />
-            <div className={styles.search_modal_box}>
-              <div>
-                <span className={styles.search_modal_text_01}>서울성모병원</span>
-                <span className={styles.search_modal_text_02}>종합병원</span>
+            {searchResult.map((result, index) => (
+              <div key={index} className={styles.search_modal_box} onClick={() => selectHospital(result)}>
+                <div>
+                  <span className={styles.search_modal_text_01}>{result.name}</span>
+                  <span className={styles.search_modal_text_02}>{result.type}</span>
+                </div>
+                <div className={styles.search_modal_text_03}>{result.address}</div>
               </div>
-              <div className={styles.search_modal_text_03}>서울 서초구 반포동</div>
-            </div>
+            ))}
+          
           </div>
         </div>
       </BasicModal>
     </>
   );
+};
+//--------------------------------------------약국 모달
+interface ModalInputBox2Props {
+  label: string;
+  placeholder: string;
+  value: PharmacyResultData;
+  handlePharmacyChange: (result:any) => void;
 }
+export function ModalInputBox2({
+  label,
+  placeholder,
+  value,
+  handlePharmacyChange
+}: 
+ModalInputBox2Props) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [keyword, setKeyword] =useState<string>("");
+  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]); 
 
-// 가족 Select box
-export function SelectInputbox({ label }: { label: string }) {
-  const [selectedValue, setSelectedValue] = useState<string>("none");
-
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(event.target.value);
-    console.log("Selected Value:", event.target.value); // 선택된 값 출력
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+  const handleSearch = () => {
+    const data = {
+      keyword: keyword,
+      lng: "127.0851566",
+      lat: "37.48813256"
+    };
+    MedicalKeywordSearchController(data)
+    .then((response) => {
+      setKeywordSearchResponse(response.data.pharmacies);
+      return;
+    })
+    .catch((e) => {
+      console.log(e);
+      return;
+    })
   };
+
+  const selectHospital = (result : MedicalKeywordResultData) => {
+    handlePharmacyChange(result)
+    handleModalClose();
+  }
+
+  return (
+    <>
+      <div className="mt-3">
+        <div className={styles.input_text}>{label}</div>
+        <div className={styles.modal_input_container}>
+          <input
+            className={styles.modal_input_box}
+            type="text"
+            readOnly
+            placeholder={placeholder}
+            value={value?.name}
+            onChange={handlePharmacyChange}
+          />
+          <button className={styles.modal_input_button} onClick={handleModalOpen}>
+            <IoMdSearch size={"25px"} color="#0A6847" />
+          </button>
+        </div>
+      </div>
+      <BasicModal open={modalOpen} handleModalClose={handleModalClose} width="80%" height="70vh">
+        <div className={styles.search_modal_container}>
+          <div className="pt-4" />
+          <div className={styles.modal_input_container}>
+            <input
+              className={styles.modal_input_box}
+              type="text"
+              placeholder={placeholder}
+              value={keyword}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+              }
+            } //handleValueChange
+            />
+            <button className={styles.modal_input_button} onClick={handleSearch}>
+              <IoMdSearch size={"25px"} color="#0A6847" />
+            </button>
+          </div>
+          <div className="pt-4">* {label}으로 검색하세요.</div>
+          <div className="pt-2">
+            <hr className={styles.search_modal_headline} />
+            {searchResult.map((result, index) => (
+              <div key={index} className={styles.search_modal_box} onClick={() => selectHospital(result)}>
+                <div>
+                  <span className={styles.search_modal_text_01}>{result.name}</span>
+                  <span className={styles.search_modal_text_02}>{result.type}</span>
+                </div>
+                <div className={styles.search_modal_text_03}>{result.address}</div>
+              </div>
+            ))}
+          
+          </div>
+        </div>
+      </BasicModal>
+    </>
+  );
+};
+
+interface SelectInputbox {
+  label:string;
+  handleVisitorChange: (eselectedFamily: FamilySummaryListData) => void;
+  value:FamilySummaryListData;
+}
+// 가족 Select box
+export function SelectInputbox({ label, handleVisitorChange, value}: SelectInputbox) {
+  const [selectedValue, setSelectedValue] = useState<string>("none");
+  const [searchResult, setSearchResult] = useState<FamilySummaryListData[]>([]);
+  // const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedValue(event.target.value);
+  // };
+  const handleSearch = () => {
+    FamilySummaryListController()
+    .then((response) => {
+      setSearchResult(response.data);
+      return console.log("가족 리스트 검색 완료");
+    })
+    .catch((e) => {
+      console.log(e);
+      return;
+    })
+  }
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value;
+    setSelectedValue(selectedValue);
+
+    const selectedFamily = searchResult.find(family => family.name === selectedValue);
+    if(selectedFamily){
+      handleVisitorChange(selectedFamily);
+    }
+  };
+  // const selectVisitor = (family : FamilySummaryListData) => {
+  //   console.log("===================================")
+  //   alert(family);
+  // }
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
@@ -161,30 +319,30 @@ export function SelectInputbox({ label }: { label: string }) {
         className={`${styles.input_box} ${styles.select_box}`}
         value={selectedValue}
         onChange={handleSelectChange}
+        onClick={handleSearch}
         style={{ color: selectedValue === "none" ? "#8F9098" : "black" }}
       >
         <option value="none" hidden>
           가족
         </option>
-        <option value="나종현" className={styles.default_text}>
-          나종현
-        </option>
-        <option value="나호재" className={styles.default_text}>
-          나호재
-        </option>
-        <option value="나규람" className={styles.default_text}>
-          나규람
-        </option>
-        <option value="나은규" className={styles.default_text}>
-          나은규
-        </option>
+        {searchResult.map((family) => (
+          <option key={family.familyId} value={family.name} className={styles.default_text} >
+            {family.name}
+          </option>
+        ))}
       </select>
     </div>
   );
 }
 
+interface TextAreaInputboxProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
+
 // TextArea Input box
-export function TextAreaInputbox({ label }: { label: string }) {
+export function TextAreaInputbox({ label, value, onChange }: TextAreaInputboxProps) {
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
@@ -265,7 +423,7 @@ import "dayjs/locale/ko"; // 이거 선언 해야 한글형식 적용 됨!
 interface DateInputBoxProps {
   label: string;
   selectedDate?: Dayjs | null;
-  handleDateChange?: Dispatch<SetStateAction<Dayjs | null>>;
+  handleDateChange?: (date: Dayjs | null) => void;
 }
 
 export function DateInputBox({ label, selectedDate, handleDateChange }: DateInputBoxProps) {
@@ -300,7 +458,11 @@ export function DateInputBox({ label, selectedDate, handleDateChange }: DateInpu
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
         <StyledDatePicker
           value={selectedDate}
-          onChange={handleDateChange}
+          onChange={(date: Dayjs | null) => {
+            if (handleDateChange) {
+              handleDateChange(date); // handleDateChange가 정의된 경우 호출
+            }
+          }}
           format="YYYY-MM-DD"
           showDaysOutsideCurrentMonth
           views={["year", "month", "day"]}
@@ -472,31 +634,32 @@ export function DayCheckBox() {
 // 시간 Input Box
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
-export function TimeInputBox({ label }: { label: string }) {
-  const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
-  const handleTimeChange = (time: Dayjs | null) => {
-    setSelectedTime(time);
-    console.log(time);
-  };
-  const StyledTimePicker = styled(TimePicker)({
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",
+interface TimeInputBoxProps {
+  label: string;
+  selectedTime?: Dayjs | null;
+  handleTimeChange?: (time: Dayjs | null) => void;
+}
+const StyledTimePicker = styled(TimePicker)({
+  "& .MuiInputBase-root": {
+    backgroundColor: "white",
+    borderRadius: "10px",
+    height: "50px",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#C5C6CC", // 테두리 색상
       borderRadius: "10px",
-      height: "50px",
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#C5C6CC", // 테두리 색상
-        borderRadius: "10px",
-      },
-    },
-    "& .MuiInputBase-input": {
-      padding: "15px",
-      paddingTop: 0,
-      paddingBottom: 0,
-    },
-  });
+  },
+  "& .MuiInputBase-input": {
+    padding: "15px",
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+});
 
+
+export function TimeInputBox({ label, selectedTime, handleTimeChange }: TimeInputBoxProps) {
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
@@ -508,7 +671,11 @@ export function TimeInputBox({ label }: { label: string }) {
             width: "100%",
           }}
           value={selectedTime}
-          onChange={handleTimeChange}
+          onChange={(time: Dayjs | null) => {
+            if (handleTimeChange) {
+              handleTimeChange(time);
+            }
+          }}
         />
       </LocalizationProvider>
     </div>
@@ -535,6 +702,8 @@ export function FrequentButton({ title, backgroundColor, onClick }: FrequentButt
 
 // 기본적인 Modal
 import { Modal } from "@mui/material";
+import { MedicalKeywordResultData, MedicalKeywordSearchController, PharmacyResultData } from "../util/controller/medicalContoller";
+import { FamilySummaryListController, FamilySummaryListData } from "../util/controller/familyController";
 
 interface BasicModalProps {
   open: boolean;

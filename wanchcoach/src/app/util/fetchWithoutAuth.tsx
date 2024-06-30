@@ -1,3 +1,4 @@
+
 const BASE_URL = "https://wanch-coach.site/api";
 
 const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {

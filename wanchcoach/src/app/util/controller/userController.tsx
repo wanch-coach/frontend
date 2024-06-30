@@ -13,7 +13,6 @@ interface SignupData {
   gender: string;
   phoneNumber: string;
 }
-
 export async function SignupController(formData: SignupData) {
   try {
     const url = `/member/signup`;
