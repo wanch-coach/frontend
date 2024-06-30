@@ -115,7 +115,7 @@ export async function IdCheckController(loginId: string) {
     alert("idcheck failed");
     throw error;
   }
-
+}
 
 export async function updateAlarmPermission() {
   try {
@@ -130,7 +130,7 @@ export async function updateAlarmPermission() {
   }
 }
 
-export async function updateAlarm(deviceToken:string) {
+export async function updateAlarm(deviceToken: string) {
   try {
     const url = `/member/update-device`;
     const response = await fetchWithAuth(url, {

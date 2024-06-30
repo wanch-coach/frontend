@@ -1,4 +1,20 @@
+import fetchFormData from "../fetchFormData";
 import fetchWithAuth from "../fetchWithAuth";
+
+export async function AddTreatmentController(formData: FormData) {
+  try {
+    const url = `/treatment`;
+    const response = await fetchFormData(url, {
+      method: "POST",
+      body: formData,
+    });
+    console.log("addTreatment successful", response);
+    return response;
+  } catch (error) {
+    console.error("Error add Treatment:", error);
+    throw error;
+  }
+}
 
 export interface TreatmentTotalItems {
   upcoming: TreatmentItems[];

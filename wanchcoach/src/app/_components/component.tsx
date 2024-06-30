@@ -87,19 +87,18 @@ interface ModalInputBoxProps {
   label: string;
   placeholder: string;
   value: MedicalKeywordResultData;
-  handleHospitalChange: (result:any) => void;
+  handleHospitalChange: (result: any) => void;
 }
 export function ModalInputBox({
   label,
   placeholder,
   value,
-  handleHospitalChange
-}: 
-// handleValueChange,
+  handleHospitalChange,
+}: // handleValueChange,
 ModalInputBoxProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [keyword, setKeyword] =useState<string>("");
-  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]); 
+  const [keyword, setKeyword] = useState<string>("");
+  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]);
 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
@@ -107,23 +106,23 @@ ModalInputBoxProps) {
     const data = {
       keyword: keyword,
       lng: "127.0851566",
-      lat: "37.48813256"
+      lat: "37.48813256",
     };
     MedicalKeywordSearchController(data)
-    .then((response) => {
-      setKeywordSearchResponse(response.data.hospitals);
-      return;
-    })
-    .catch((e) => {
-      console.log(e);
-      return;
-    })
+      .then((response) => {
+        setKeywordSearchResponse(response.data.hospitals);
+        return;
+      })
+      .catch((e) => {
+        console.log(e);
+        return;
+      });
   };
 
-  const selectHospital = (result : MedicalKeywordResultData) => {
-    handleHospitalChange(result)
+  const selectHospital = (result: MedicalKeywordResultData) => {
+    handleHospitalChange(result);
     handleModalClose();
-  }
+  };
 
   return (
     <>
@@ -154,8 +153,7 @@ ModalInputBoxProps) {
               value={keyword}
               onChange={(e) => {
                 setKeyword(e.target.value);
-              }
-            } //handleValueChange
+              }} //handleValueChange
             />
             <button className={styles.modal_input_button} onClick={handleSearch}>
               <IoMdSearch size={"25px"} color="#0A6847" />
@@ -165,7 +163,11 @@ ModalInputBoxProps) {
           <div className="pt-2">
             <hr className={styles.search_modal_headline} />
             {searchResult.map((result, index) => (
-              <div key={index} className={styles.search_modal_box} onClick={() => selectHospital(result)}>
+              <div
+                key={index}
+                className={styles.search_modal_box}
+                onClick={() => selectHospital(result)}
+              >
                 <div>
                   <span className={styles.search_modal_text_01}>{result.name}</span>
                   <span className={styles.search_modal_text_02}>{result.type}</span>
@@ -173,30 +175,28 @@ ModalInputBoxProps) {
                 <div className={styles.search_modal_text_03}>{result.address}</div>
               </div>
             ))}
-          
           </div>
         </div>
       </BasicModal>
     </>
   );
-};
+}
 //--------------------------------------------약국 모달
 interface ModalInputBox2Props {
   label: string;
   placeholder: string;
   value: PharmacyResultData;
-  handlePharmacyChange: (result:any) => void;
+  handlePharmacyChange: (result: any) => void;
 }
 export function ModalInputBox2({
   label,
   placeholder,
   value,
-  handlePharmacyChange
-}: 
-ModalInputBox2Props) {
+  handlePharmacyChange,
+}: ModalInputBox2Props) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [keyword, setKeyword] =useState<string>("");
-  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]); 
+  const [keyword, setKeyword] = useState<string>("");
+  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]);
 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
@@ -204,23 +204,23 @@ ModalInputBox2Props) {
     const data = {
       keyword: keyword,
       lng: "127.0851566",
-      lat: "37.48813256"
+      lat: "37.48813256",
     };
     MedicalKeywordSearchController(data)
-    .then((response) => {
-      setKeywordSearchResponse(response.data.pharmacies);
-      return;
-    })
-    .catch((e) => {
-      console.log(e);
-      return;
-    })
+      .then((response) => {
+        setKeywordSearchResponse(response.data.pharmacies);
+        return;
+      })
+      .catch((e) => {
+        console.log(e);
+        return;
+      });
   };
 
-  const selectHospital = (result : MedicalKeywordResultData) => {
-    handlePharmacyChange(result)
+  const selectHospital = (result: MedicalKeywordResultData) => {
+    handlePharmacyChange(result);
     handleModalClose();
-  }
+  };
 
   return (
     <>
@@ -251,8 +251,7 @@ ModalInputBox2Props) {
               value={keyword}
               onChange={(e) => {
                 setKeyword(e.target.value);
-              }
-            } //handleValueChange
+              }} //handleValueChange
             />
             <button className={styles.modal_input_button} onClick={handleSearch}>
               <IoMdSearch size={"25px"} color="#0A6847" />
@@ -262,7 +261,11 @@ ModalInputBox2Props) {
           <div className="pt-2">
             <hr className={styles.search_modal_headline} />
             {searchResult.map((result, index) => (
-              <div key={index} className={styles.search_modal_box} onClick={() => selectHospital(result)}>
+              <div
+                key={index}
+                className={styles.search_modal_box}
+                onClick={() => selectHospital(result)}
+              >
                 <div>
                   <span className={styles.search_modal_text_01}>{result.name}</span>
                   <span className={styles.search_modal_text_02}>{result.type}</span>
@@ -270,21 +273,20 @@ ModalInputBox2Props) {
                 <div className={styles.search_modal_text_03}>{result.address}</div>
               </div>
             ))}
-          
           </div>
         </div>
       </BasicModal>
     </>
   );
-};
+}
 
 interface SelectInputbox {
-  label:string;
+  label: string;
   handleVisitorChange: (eselectedFamily: FamilySummaryListData) => void;
-  value:FamilySummaryListData;
+  value: FamilySummaryListData;
 }
 // 가족 Select box
-export function SelectInputbox({ label, handleVisitorChange, value}: SelectInputbox) {
+export function SelectInputbox({ label, handleVisitorChange, value }: SelectInputbox) {
   const [selectedValue, setSelectedValue] = useState<string>("none");
   const [searchResult, setSearchResult] = useState<FamilySummaryListData[]>([]);
   // const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -292,22 +294,22 @@ export function SelectInputbox({ label, handleVisitorChange, value}: SelectInput
   // };
   const handleSearch = () => {
     FamilySummaryListController()
-    .then((response) => {
-      setSearchResult(response.data);
-      return console.log("가족 리스트 검색 완료");
-    })
-    .catch((e) => {
-      console.log(e);
-      return;
-    })
-  }
+      .then((response) => {
+        setSearchResult(response.data);
+        return console.log("가족 리스트 검색 완료");
+      })
+      .catch((e) => {
+        console.log(e);
+        return;
+      });
+  };
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     setSelectedValue(selectedValue);
 
-    const selectedFamily = searchResult.find(family => family.name === selectedValue);
-    if(selectedFamily){
+    const selectedFamily = searchResult.find((family) => family.name === selectedValue);
+    if (selectedFamily) {
       handleVisitorChange(selectedFamily);
     }
   };
@@ -331,7 +333,7 @@ export function SelectInputbox({ label, handleVisitorChange, value}: SelectInput
           가족
         </option>
         {searchResult.map((family) => (
-          <option key={family.familyId} value={family.name} className={styles.default_text} >
+          <option key={family.familyId} value={family.name} className={styles.default_text}>
             {family.name}
           </option>
         ))}
@@ -430,7 +432,6 @@ interface DateInputBoxProps {
   selectedDate?: Dayjs | null;
   handleDateChange?: Dispatch<SetStateAction<Dayjs | null>>;
   small?: boolean;
-
 }
 
 export function DateInputBox({ label, selectedDate, handleDateChange, small }: DateInputBoxProps) {
@@ -645,7 +646,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 interface TimeInputBoxProps {
   label: string;
   selectedTime?: Dayjs | null;
-  handleTimeChange?: (time: Dayjs | null) => void;
+  handleTimeChange?: Dispatch<SetStateAction<Dayjs | null>>;
 }
 const StyledTimePicker = styled(TimePicker)({
   "& .MuiInputBase-root": {
@@ -665,7 +666,6 @@ const StyledTimePicker = styled(TimePicker)({
     paddingBottom: 0,
   },
 });
-
 
 export function TimeInputBox({ label, selectedTime, handleTimeChange }: TimeInputBoxProps) {
   return (
@@ -712,8 +712,15 @@ export function FrequentButton({ title, backgroundColor, onClick, small }: Frequ
 
 // 기본적인 Modal
 import { Modal } from "@mui/material";
-import { MedicalKeywordResultData, MedicalKeywordSearchController, PharmacyResultData } from "../util/controller/medicalContoller";
-import { FamilySummaryListController, FamilySummaryListData } from "../util/controller/familyController";
+import {
+  MedicalKeywordResultData,
+  MedicalKeywordSearchController,
+  PharmacyResultData,
+} from "../util/controller/medicalContoller";
+import {
+  FamilySummaryListController,
+  FamilySummaryListData,
+} from "../util/controller/familyController";
 
 interface BasicModalProps {
   open: boolean;

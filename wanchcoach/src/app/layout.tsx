@@ -8,9 +8,22 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "완치코치",
   description: "진료와 처방전 관리를 한번에",
-  icons: {
-    icon: "/logo.png",
-  },
+  generator: "Next.js",
+  manifest: "/manifest.json",
+  keywords: ["nextjs", "nextjs13", "next13", "pwa", "next-pwa"],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
+  authors: [
+    {
+      name: "wanch-coach",
+      url: "https://wanch-coach.site",
+    },
+  ],
+  viewport:
+    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
+  icons: [
+    { rel: "apple-touch-icon", url: "logo2.png" },
+    { rel: "icon", url: "/logo2.png" },
+  ],
 };
 
 const myFont = localFont({
