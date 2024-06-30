@@ -1,3 +1,5 @@
+import withPWA from "next-pwa";
+
 // Configuration options for Next.js
 const nextConfig = {
   reactStrictMode: true, // Enable React strict mode for improved error handling
@@ -8,13 +10,9 @@ const nextConfig = {
 };
 
 // Configuration object tells the next-pwa plugin
-const withPWA = require("next-pwa")({
-  dest: "public", // Destination directory for the PWA files
-  disable: process.env.NODE_ENV === "development", // Disable PWA in development mode
-  register: true, // Register the PWA service worker
-  skipWaiting: true, // Skip waiting for service worker activation
-});
-
-// Export the combined configuration for Next.js with PWA support
-module.exports = withPWA(nextConfig);
-// export default nextConfig;
+export default withPWA({
+  dest: "public", // PWA 파일의 대상 디렉터리
+  disable: process.env.NODE_ENV === "development", // 개발 모드에서 PWA 비활성화
+  register: true, // PWA 서비스 워커 등록
+  skipWaiting: true, // 서비스 워커 활성화 대기 건너뛰기
+})(nextConfig);
