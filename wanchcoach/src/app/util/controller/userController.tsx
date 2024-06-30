@@ -57,7 +57,7 @@ export async function LogoutController() {
     });
     Cookies.remove("refreshToken");
     Cookies.remove("accessToken");
-    Cookies.remove("familyId");
+    Cookies.remove("myFamilyId");
     console.log("Logout successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {
