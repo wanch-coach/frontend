@@ -16,6 +16,7 @@ import DrugBottomSheet from "@/app/_components/Component/DrugBottomSheet";
 import { TfiMenuAlt } from "react-icons/tfi";
 import {
   NearbyMedicalController,
+  OpeningHourData,
   getDayOfWeekKorean,
 } from "@/app/util/controller/medicalController";
 import dayjs from "dayjs";
