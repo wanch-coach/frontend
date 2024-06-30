@@ -50,7 +50,7 @@ export default function DrugInfo({ params }: { params: { id: number } }) {
       }
       );
     })
-    return str.replace("0. &nbsp;","");
+    return str.replaceAll("0. &nbsp;","").replaceAll("<tbody>","").replaceAll("</td>","").replaceAll("</tr>","").replaceAll("&#x","").replaceAll("</p>","").replaceAll("<p>","").replaceAll("<td>","").replaceAll("</tbody>","").replaceAll("&lt","");
   };
 
 
@@ -69,7 +69,7 @@ export default function DrugInfo({ params }: { params: { id: number } }) {
           <div className={styles.druginfo_image_container}>
             <Image src={drug.drugImage ? `data:image/png;base64,${drug.drugImage}`: "/drug_icon.png"} width={300} height={200} alt="Picture of the author" />
           </div>
-          <DrugInfoDetailBox number="1" title="약품 명" content={drug.itemName+' // '+drug.itemEngName} />
+          <DrugInfoDetailBox number="1" title="약품 명" content={drug.itemName+"\n"+drug.itemEngName} />
           <DrugInfoDetailBox number="2" title="분류" content={ drug.prductType} />
           <DrugInfoDetailBox number="3" title="제조원" content={ drug.entpName} />
           <DrugInfoDetailBox number="4" title="보관 및 유통기한" content={ drug.storageMethod} />
