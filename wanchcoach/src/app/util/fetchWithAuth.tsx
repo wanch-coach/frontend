@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
-// const BASE_URL = "https://wanch-coach.site/api";
 const BASE_URL = "http://localhost:8081/api";
+
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const token = Cookies.get("accessToken");
   const headers = {
