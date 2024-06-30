@@ -716,7 +716,7 @@ import {
   MedicalKeywordResultData,
   MedicalKeywordSearchController,
   PharmacyResultData,
-} from "../util/controller/medicalContoller";
+} from "../util/controller/medicalController";
 import {
   FamilySummaryListController,
   FamilySummaryListData,

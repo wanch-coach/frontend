@@ -24,17 +24,30 @@ try {
 }
 }
 
-export async function SearchDrugDetail(drugId:number) {
+interface Drug{
+    itemName: string,
+    drugImage: string,
+    drugId: number,
+    prductType: string,
+    entpName: string,
+    storageMethod: string,
+    eeDocData: string,
+    nbDocData: string,
+    udDocData: string,
+    itemEngName:string
+  }
+
+export async function SearchDrugDetail(drugId:number): Promise<Drug> {
     try {
         const url = `/drug/${drugId}`;
         const response = await fetchWithoutAuth(url, {
         method: "Get",
         });
         console.log("Drug Detail Search successful:", response);
-        return response; // 예시로 데이터 반환
+        return response.data as Drug;
     } catch (error) {
         console.error("Error :", error);
-        throw error; // 오류 처리
+        throw error;
     }
 }
 export async function SearchFavorites() {
