@@ -1,0 +1,21 @@
+.container {
+  width: 100%;
+}
+.body_container {
+  height: calc(100vh - 45px);
+  background-color: #f6f4ea;
+  overflow: auto;
+}
+.alarm_text {
+  font-size: 25px;
+  font-weight: 800px;
+}
+.alarm_change_container {
+  margin: 2vh 10%;
+}
+.alarm_change_box {
+  margin: 2vh 20px;
+}
+.alarm_height {
+  margin: 3vh 0;
+}

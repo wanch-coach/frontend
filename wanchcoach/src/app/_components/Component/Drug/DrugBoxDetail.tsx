@@ -6,8 +6,12 @@ import { useState, SyntheticEvent } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import { MyDrugInfoData } from "@/app/util/controller/medicationController";
 
-export default function DrugBoxDetail() {
+interface DrugBoxDetailProps {
+  drugInfodata: MyDrugInfoData;
+}
+export default function DrugBoxDetail({ drugInfodata }: DrugBoxDetailProps) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandedChange = (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
@@ -44,7 +48,10 @@ export default function DrugBoxDetail() {
         }}
       >
         <div className={styles.drug_summary_container}>
-          <DrugBox title="타이레놀정160mg" category="진통제" />
+          <DrugBox
+            title={drugInfodata.drugInfo.itemName}
+            category={drugInfodata.drugInfo.prdtType}
+          />
         </div>
       </AccordionSummary>
       <AccordionDetails
@@ -56,9 +63,13 @@ export default function DrugBoxDetail() {
         <div className={styles.drug_detail_container}>
           <div className={styles.drug_detail_header}>
             <div className={styles.drug_detail_text}>복용기록</div>
-            <div className={styles.drug_detail_text}>총 4회</div>
+            <div className={styles.drug_detail_text}>총 {drugInfodata.records.length}회</div>
           </div>
-          <div className={styles.drug_detail_record_text}>2024-03-20 14:02:00</div>
+          {drugInfodata.records.map((record) => (
+            <div className={styles.drug_detail_record_text}>
+              {record.takenTime.format("YYYY-MM-DD HH:mm:ss")}
+            </div>
+          ))}
         </div>
       </AccordionDetails>
     </Accordion>

@@ -37,41 +37,6 @@
   font-weight: 600;
 }
 
-.day_tab_container {
-  width: 100%;
-  margin: 2vh 0;
-}
-.day_tab_box {
-  display: flex;
-}
-.day_tab_box_title {
-  flex: 1;
-  padding: 0 5px;
-  text-align: center;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-.day_tab_box_title.active {
-  font-weight: bold;
-}
-.day_tab_line_container {
-  width: 100%;
-  height: 4px;
-}
-.day_tab_box_line {
-  position: absolute;
-  width: 21%;
-  left: 8%;
-  height: 4px;
-  transition: transform 0.3s;
-  padding: 0 18px;
-}
-.day_tab_box_greenline {
-  background-color: #0a6847;
-  height: 4px;
-  border-radius: 20px;
-}
-
 .day_body_container {
   width: "100%";
   height: calc(

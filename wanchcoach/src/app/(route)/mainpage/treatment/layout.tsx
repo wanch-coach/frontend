@@ -1,45 +1,59 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import styles from "./treatment.module.css";
 import ProfileHeader from "@/app/_components/Header/ProfileHeader";
 import MenuHeader from "@/app/_components/Header/MenuHeader";
 import { TbStethoscope } from "react-icons/tb";
 import { FaRegHospital } from "react-icons/fa6";
 import { MdCalendarMonth } from "react-icons/md";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { FamilySummaryListData } from "@/app/util/controller/familyController";
 
 export default function TreatmentLayout({ children }: { children: ReactNode }) {
+  const route = useRouter();
+  const [selectedFamily, setSelectedFamily] = useState<FamilySummaryListData>();
+  const handleSelectedFamilyChange = (family: FamilySummaryListData) => {
+    setSelectedFamily(family);
+    route.replace(`/mainpage/treatment/diagnosis/${family.familyId}`);
+  };
   return (
     <div className={styles.container}>
-      {/* <ProfileHeader register /> */}
-      <TreatmentMenu />
+      <ProfileHeader
+        register
+        selectedFamily={selectedFamily}
+        handleSelectedFamilyChange={handleSelectedFamilyChange}
+      />
+      <TreatmentMenu selectedFamily={selectedFamily} />
       {children}
     </div>
   );
 }
 
-function TreatmentMenu() {
+interface TreatmentMenuProps {
+  selectedFamily: FamilySummaryListData | undefined;
+}
+function TreatmentMenu({ selectedFamily }: TreatmentMenuProps) {
   const pathname = usePathname();
   return (
     <div className={styles.header_menu_container}>
       <MenuHeader
         title="진료"
         icon={<TbStethoscope size={"40px"} />}
-        href="/mainpage/treatment/diagnosis"
-        press={pathname === "/mainpage/treatment/diagnosis" ? true : false}
+        href={`/mainpage/treatment/diagnosis/${selectedFamily?.familyId}`}
+        press={pathname.startsWith("/mainpage/treatment/diagnosis") ? true : false}
       />
       <MenuHeader
         title="병원"
         icon={<FaRegHospital size={"40px"} />}
-        href="/mainpage/treatment/hospital"
-        press={pathname === "/mainpage/treatment/hospital" ? true : false}
+        href={`/mainpage/treatment/hospital/${selectedFamily?.familyId}`}
+        press={pathname.startsWith("/mainpage/treatment/hospital") ? true : false}
       />
       <MenuHeader
         title="달력"
         icon={<MdCalendarMonth size={"40px"} />}
-        href="/mainpage/treatment/calendar"
-        press={pathname === "/mainpage/treatment/calendar" ? true : false}
+        href={`/mainpage/treatment/calendar/${selectedFamily?.familyId}`}
+        press={pathname.startsWith("/mainpage/treatment/calendar") ? true : false}
       />
     </div>
   );
