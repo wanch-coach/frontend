@@ -2,6 +2,7 @@ import { Dayjs } from "dayjs";
 import fetchWithoutAuth from "../fetchWithoutAuth";
 import Cookies from "js-cookie";
 import fetchWithAuth from "../fetchWithAuth";
+import { stringify } from "querystring";
 
 interface SignupData {
   loginId: string;
@@ -12,7 +13,6 @@ interface SignupData {
   gender: string;
   phoneNumber: string;
 }
-
 export async function SignupController(formData: SignupData) {
   try {
     const url = `/member/signup`;
@@ -97,5 +97,32 @@ export async function IdCheckController(loginId: string) {
   } catch (error) {
     alert("idcheck failed");
     throw error;
+  }
+}
+
+export async function updateAlarmPermission() {
+  try {
+    const url = `/member/alarm-permission`;
+    const response = await fetchWithAuth(url, {
+      method: "POST",
+    });
+    console.log("update alarm-permission successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
+export async function updateAlarm(deviceToken:string) {
+  try {
+    const url = `/member/update-device`;
+    const response = await fetchWithAuth(url, {
+      method: "PATCH",
+      body: JSON.stringify(deviceToken),
+    });
+    console.log("update device Token successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
   }
 }
