@@ -25,7 +25,7 @@ export interface PharmacyDetailData {
   openingHour: OpeningHourData[];
 }
 
-interface OpeningHourData {
+export interface OpeningHourData {
   dayOfWeek: number;
   startTime: Dayjs;
   endTime: Dayjs;
