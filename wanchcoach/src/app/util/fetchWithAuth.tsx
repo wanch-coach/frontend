@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
-// const BASE_URL = "https://wanch-coach.site/api";
-const BASE_URL = "https://eb13-14-36-55-70.ngrok-free.app/api";
+const BASE_URL = "https://wanch-coach.site/api";
 
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const token = Cookies.get("accessToken");
