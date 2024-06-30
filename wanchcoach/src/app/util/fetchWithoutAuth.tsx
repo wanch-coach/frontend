@@ -1,5 +1,5 @@
-const BASE_URL = "https://wanch-coach.site/api";
-
+// const BASE_URL = "https://wanch-coach.site/api";
+const BASE_URL = "http://localhost:8081/api";
 const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {
   const headers = {
     "Content-Type": "application/json;charset=utf-8",

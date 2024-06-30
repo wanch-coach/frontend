@@ -13,7 +13,7 @@ interface SearchData{
 export async function SearchDrugByKeyword(data:SearchData) {
 try {
     const url = `/drug?type=${data.type}&keyword=${data.keyword}`;
-    const response = await fetchWithoutAuth(url, {
+    const response = await fetchWithAuth(url, {
     method: "Get",
     });
     console.log("Drug Search successful:", response);
