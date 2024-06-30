@@ -6,6 +6,7 @@ import { useState, ChangeEvent } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { FaStar } from "react-icons/fa";
+import { SearchDrugByKeyword } from "@/app/util/controller/drugController";
 
 export default function Drug() {
   const route = useRouter();
@@ -14,8 +15,21 @@ export default function Drug() {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
+
+
   const handleSearchSubmit = () => {
+    const data = {
+      type:"itemName",
+      keyword: searchValue
+    }
     /* 약 검색하는 API 호출 해야함! */
+    SearchDrugByKeyword(data)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e)=> {
+        console.log(e)
+    })
   };
   const handleDrugDetail = () => {
     route.push(`/druginfo/${3}`);
