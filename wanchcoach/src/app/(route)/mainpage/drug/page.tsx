@@ -2,24 +2,58 @@
 
 import DrugBox from "@/app/_components/Component/Drug/DrugBox";
 import styles from "./drug.module.css";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { FaStar } from "react-icons/fa";
+import { SearchDrugByKeyword, SearchFavorites } from "@/app/util/controller/drugController";
 
 export default function Drug() {
   const route = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const [searching, setSearching] = useState(false);
+  const [searchData, setSearchData] = useState([]);
+  const [favorite, setFavorite] = useState([]);
+
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
+
+
   const handleSearchSubmit = () => {
+    const data = {
+      type:"itemName",
+      keyword: searchValue
+    }
     /* 약 검색하는 API 호출 해야함! */
+    SearchDrugByKeyword(data)
+      .then((response) => {
+        setSearchData(response.data);
+        setSearching(true);
+        console.log(response.data);
+      })
+      .catch((e)=> {
+        console.log(e)
+    })
   };
-  const handleDrugDetail = () => {
-    route.push(`/druginfo/${3}`);
+  const handleDrugDetail = (drugId:number) => {
+    route.push(`/druginfo/${drugId}`);
   };
+
+  useEffect(() => {
+    
+    SearchFavorites()
+      .then((response) => {
+        setFavorite(response.data);
+        setSearching(false);
+        console.log(response.data);
+    })
+
+
+  }, []);
+
+
+
   return (
     <div className={styles.body_container}>
       <div className={styles.drug_list_header}>
@@ -32,22 +66,29 @@ export default function Drug() {
       </div>
       <div className={styles.drug_list_container}>
         {searching ? (
-          <>
-            <div className={styles.drug_list_box}>
-              <DrugBox title="타이레놀" category="진통제" onClick={handleDrugDetail} />
+          searchData.map((data, index) => (
+            <>
+            <div key={index} className={styles.drug_list_box}>
+                <DrugBox favorite={ data["favorite"]} drugImage={data["drugImage"]} itemName={data["itemName"]} prductType={data["prductType"]} drugId={data["drugImage"]} onClick={()=>handleDrugDetail(data["drugId"])} />
             </div>
           </>
+          ))
+
         ) : (
           <div className={styles.drug_list_like_container}>
             <div className={styles.drug_list_like_header}>
               <FaStar size="23px" color="#FFE500" />
-              <div className={styles.drug_list_like_text}> 약상자 (1) </div>
+                <div className={styles.drug_list_like_text}> 약상자 { favorite.length} </div>
             </div>
-            <>
-              <div className={styles.drug_list_box}>
-                <DrugBox title="타이레놀" category="진통제" onClick={handleDrugDetail} />
-              </div>
-            </>
+              { 
+                favorite.map((data, index) => (
+                  <>
+                  <div key={index} className={styles.drug_list_box}>
+                      <DrugBox favorite={ data["favorite"]} drugImage={data["drugImage"]} itemName={data["itemName"]} prductType={data["prductType"]} drugId={data["drugImage"]} onClick={()=>handleDrugDetail(data["drugId"])} />
+                  </div>
+                </>
+                ))
+              }
           </div>
         )}
       </div>

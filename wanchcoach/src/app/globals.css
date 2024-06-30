@@ -4,7 +4,6 @@
 * {
   letter-spacing: 0.5px;
 }
-div {
+div{
   white-space: pre-wrap;
-  white-space: pre-line;
 }
