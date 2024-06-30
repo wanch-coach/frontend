@@ -137,7 +137,7 @@ interface PrescriptionContainerProps {
   handlePharmacyChange: (result: PharmacyResultData) => void;
 }
 
-export function PrescriptionContainer({
+function PrescriptionContainer({
   choosePharmacy,
   handlePharmacyChange,
 }: PrescriptionContainerProps) {
