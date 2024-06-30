@@ -8,11 +8,17 @@ interface MedicalKeywordSearchData{
   lat: string;
 }
 export interface MedicalKeywordResultData {
-  hospitalId: number,
-  name: string,
-  type: string,
+  hospitalId: number;
+  name: string;
+  type: string;
   address: string;
 }
+export interface PharmacyResultData{
+  pharmacyId: number;
+  name: string;
+  address: string;
+}
+
 export async function MedicalKeywordSearchController(data:MedicalKeywordSearchData){
   try{
     const url = `/medical/detail?keyword=${data.keyword}&lng=${data.lng}&lat=${data.lat}`
