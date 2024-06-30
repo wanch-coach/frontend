@@ -37,7 +37,7 @@ export async function SearchDrugDetail(drugId:number) {
         throw error; // 오류 처리
     }
 }
-export async function SearchFavorites(drugId:number) {
+export async function SearchFavorites() {
     try {
         const url = "/favorites";
         const response = await fetchWithoutAuth(url, {
