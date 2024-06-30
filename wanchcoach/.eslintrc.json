@@ -1,16 +1,4 @@
 {
-<<<<<<< HEAD
-  "extends": ["eslint:recommended", "next", "prettier", "next/core-web-vitals"],
-  "rules": {
-    "no-unused-vars": "off",
-    "no-undef": "off",
-    "react-hooks/exhaustive-deps": "off",
-    "react/no-unescaped-entities": "off",
-    "@next/next/no-page-custom-font": "off"
-  }
-}
-=======
-  "eslintConfig": {
     "extends": [
       "@react-native-community",
       "prettier",
@@ -20,10 +8,10 @@
     "rules": {
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": ["warn"]
+    },
+    "globals": {
+      "RequestInit": true
     }
-  },
-  "globals": {
-    "RequestInit": true
-  }
 }
->>>>>>> 63fdd47afc7ac3a25e7fc36a314787fe275e2bb5
+
+
