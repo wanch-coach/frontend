@@ -1,0 +1,8 @@
+.container {
+  width: 100%;
+}
+.body_container {
+  height: calc(100vh - 45px);
+  background-color: #f6f4ea;
+  overflow: auto;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Component.module.css";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar, DateCalendarProps } from "@mui/x-date-pickers/DateCalendar";
@@ -10,6 +10,10 @@ import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import Badge from "@mui/material/Badge";
 import "dayjs/locale/ko"; // 이거 선언 해야 한글형식 적용 됨!
 import BottomSheet from "./BottomSheet";
+import { DrugDayCalendarData } from "@/app/util/controller/medicationController";
+import DayMenu from "./Medication/DayMenu";
+import MedicationInfoBox from "@/app/(route)/mainpage/medication/taking/[id]/_components/MedicationInfoBox";
+import { TreatmentCalendarItems } from "@/app/util/controller/treatmentController";
 
 function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -29,11 +33,27 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] 
   );
 }
 
-export default function PaperCalendar() {
+interface PaperCalendarProps {
+  selectedDate: Dayjs | null;
+  handleSelectedDateChange: (newDate: Dayjs) => void;
+  highlightedDays: string[];
+  handleMonthChange: (newDate: Dayjs) => void;
+  calendarData: DrugDayCalendarData[] | undefined;
+}
+
+export default function PaperCalendar({
+  selectedDate,
+  handleSelectedDateChange,
+  highlightedDays,
+  handleMonthChange,
+  calendarData,
+}: PaperCalendarProps) {
   const currentDate = dayjs();
   const [open, setOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-
+  const [activeTab, setActiveTab] = useState("morning");
+  const handleTabClick = (tab: SetStateAction<string>) => {
+    setActiveTab(tab);
+  };
   const handleDateChange: DateCalendarProps<Dayjs>["onChange"] = (newDate) => {
     if (!newDate) return;
 
@@ -49,16 +69,31 @@ export default function PaperCalendar() {
     } else {
       handleBottomSheetChange();
     }
-    setSelectedDate(newDate);
+    handleSelectedDateChange(newDate);
   };
   const handleBottomSheetChange = () => {
     setOpen(!open);
   };
-  const [highlightedDays, setHighlightedDays] = useState([
-    "2024-06-18",
-    "2024-06-01",
-    "2024-06-17",
-  ]);
+  const getTodayPartData = () => {
+    if (!selectedDate || !calendarData) return [];
+    const selectedDayData = calendarData.find((data) => data.day === selectedDate.date());
+
+    if (!selectedDayData) return [];
+
+    switch (activeTab) {
+      case "morning":
+        return selectedDayData.morning;
+      case "noon":
+        return selectedDayData.noon;
+      case "evening":
+        return selectedDayData.evening;
+      case "beforeBed":
+        return selectedDayData.befordBed;
+      default:
+        return [];
+    }
+  };
+  const todayPartData = getTodayPartData();
   return (
     <>
       <div>
@@ -82,6 +117,7 @@ export default function PaperCalendar() {
             }}
             value={selectedDate}
             onChange={handleDateChange}
+            onMonthChange={handleMonthChange}
           />
         </LocalizationProvider>
       </div>
@@ -92,6 +128,19 @@ export default function PaperCalendar() {
             {selectedDate && <>{selectedDate.format("YYYY년 M월 D일 (ddd)")}</>}
             <hr className={styles.bottomsheet_content_line} />
           </div>
+          <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
+          {todayPartData.length === 0 ? (
+            <div>데이터가 없습니다.</div>
+          ) : (
+            todayPartData.map((prescription, index) => (
+              <MedicationInfoBox
+                key={index}
+                title={prescription.hospitalName}
+                category={prescription.department}
+                // drugs={prescription.drugs}
+              />
+            ))
+          )}
         </div>
       </BottomSheet>
     </>

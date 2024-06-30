@@ -21,6 +21,7 @@ interface TreatmentBoxProps {
   content: string;
   future?: boolean;
   state?: boolean;
+  handleTreatmentDelete?: () => void;
 }
 export default function TreatmentBox({
   title,
@@ -32,6 +33,7 @@ export default function TreatmentBox({
   content,
   future,
   state,
+  handleTreatmentDelete,
 }: TreatmentBoxProps) {
   // const [checked, setChecked] = React.useState(true);
 
@@ -108,7 +110,12 @@ export default function TreatmentBox({
                   style={{ backgroundColor: "#FF8282" }}
                 >
                   <TiDeleteOutline size={"19px"} />
-                  <div className={styles.treatment_detail_button_text}>진료 삭제</div>
+                  <div
+                    className={styles.treatment_detail_button_text}
+                    onClick={handleTreatmentDelete}
+                  >
+                    진료 삭제
+                  </div>
                 </Link>
               </div>
               <FormControlLabel

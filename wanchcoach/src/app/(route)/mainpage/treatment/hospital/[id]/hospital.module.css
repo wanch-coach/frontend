@@ -25,6 +25,7 @@
   height: 1px;
 }
 .hospital_list_text {
-  font-size: 21px;
+  padding-top: 2vh;
+  font-size: 20px;
   font-weight: 600;
 }

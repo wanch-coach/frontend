@@ -1,0 +1,19 @@
+{
+  "name": "완치코치",
+  "short_name": "WanchCoach",
+  "theme_color": "#ffffff",
+  "Background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      " src ": "icons/logo2.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "목적": "진료 처방전 가능"
+    }
+  ],
+  "splash_pages": null
+}

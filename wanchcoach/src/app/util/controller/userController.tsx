@@ -2,6 +2,7 @@ import { Dayjs } from "dayjs";
 import fetchWithoutAuth from "../fetchWithoutAuth";
 import Cookies from "js-cookie";
 import fetchWithAuth from "../fetchWithAuth";
+import { stringify } from "querystring";
 
 interface SignupData {
   loginId: string;
@@ -12,7 +13,6 @@ interface SignupData {
   gender: string;
   phoneNumber: string;
 }
-
 export async function SignupController(formData: SignupData) {
   try {
     const url = `/member/signup`;
@@ -49,14 +49,15 @@ export async function LoginController(formData: LoginData) {
   }
 }
 
-export async function LogoutController(formData: LoginData) {
+export async function LogoutController() {
   try {
-    const url = `/member/logout`;
+    const url = `/member/sinout`;
     const response = await fetchWithAuth(url, {
       method: "GET",
     });
     Cookies.remove("refreshToken");
     Cookies.remove("accessToken");
+    Cookies.remove("familyId");
     console.log("Logout successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {
@@ -64,6 +65,22 @@ export async function LogoutController(formData: LoginData) {
     throw error; // 오류 처리
   }
 }
+
+export async function MyPageInfoController() {
+  try {
+    const url = `/member/memberInfo`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+
+    console.log("My page successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
 interface SendSMS {
   phoneNumber: string;
 }
@@ -97,5 +114,32 @@ export async function IdCheckController(loginId: string) {
   } catch (error) {
     alert("idcheck failed");
     throw error;
+  }
+}
+
+export async function updateAlarmPermission() {
+  try {
+    const url = `/member/alarm-permission`;
+    const response = await fetchWithAuth(url, {
+      method: "POST",
+    });
+    console.log("update alarm-permission successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
+export async function updateAlarm(deviceToken: string) {
+  try {
+    const url = `/member/update-device`;
+    const response = await fetchWithAuth(url, {
+      method: "PATCH",
+      body: JSON.stringify(deviceToken),
+    });
+    console.log("update device Token successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
   }
 }

@@ -14,6 +14,14 @@ import { IoMdTime } from "react-icons/io";
 import { FaPhoneAlt } from "react-icons/fa";
 import DrugBottomSheet from "@/app/_components/Component/DrugBottomSheet";
 import { TfiMenuAlt } from "react-icons/tfi";
+import {
+  NearbyMedicalController,
+  getDayOfWeekKorean,
+} from "@/app/util/controller/medicalController";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export default function Medical() {
   return (
@@ -39,10 +47,16 @@ interface NaverMapContainerProps {
 }
 
 interface MedicalDataProps {
+  id: number;
   type: string;
+  name: string;
+  address: string;
+  distance: number;
   latitude: number;
   longitude: number;
-  name: string;
+  phoneNumber: string;
+  etc: string;
+  openingHour: OpeningHourData[];
 }
 
 function NaverMapContainer({
@@ -63,6 +77,7 @@ function NaverMapContainer({
   const [drugsheetOpen, setDrugSheetOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searching, setSearching] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<MedicalDataProps | null>(null);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -85,48 +100,112 @@ function NaverMapContainer({
     setDrugSheetOpen(!drugsheetOpen);
   };
   const handleGoToRegistered = () => {};
-  const handleListSubmit = () => {
+  const handleListSubmit = (item: MedicalDataProps) => {
     /* 바텀시트에 정보 넣고 */
-    setDrugSheetOpen(false);
+    setSelectedLocation(item);
+    console.log(item);
     setSheetOpen(true); // 이 때 이쪽 지도 마커로 포커싱 해야함!
+    setDrugSheetOpen(false);
+    if (mapRef.current) {
+      const newLatLng = new naver.maps.LatLng(item.latitude, item.longitude);
+      mapRef.current.setCenter(newLatLng);
+    }
+  };
+
+  const getTotalCount = () => {
+    let count = 0;
+    if (showHospitals) {
+      count += hospitals.length;
+    }
+    if (showPharmacies) {
+      count += pharmacies.length;
+    }
+    return count;
+  };
+
+  const formatOpeningHours = (openingHour: OpeningHourData[] = []): string => {
+    console.log(openingHour);
+    return openingHour
+      .map((hour) => {
+        const dayOfWeek = getDayOfWeekKorean(hour.dayOfWeek);
+        const startTime = dayjs(hour.startTime, "HH:mm:ss").format("HH:mm");
+        const endTime = dayjs(hour.endTime, "HH:mm:ss").format("HH:mm");
+        return `${dayOfWeek}: ${startTime}~${endTime}`;
+      })
+      .join("\n");
   };
 
   // initializeMap()
   const initializeMap = () => {
-    const mapOptions = {
-      center: new naver.maps.LatLng(...initialCenter),
-      zoom: initialZoom,
-      minZoom: 6,
-      scaleControl: true,
-      mapDataControl: false,
-      logoControlOptions: {
-        position: naver.maps.Position.BOTTOM_LEFT,
-      },
-    };
-    // 새로운 네이버 맵 인스턴스 생성
-    const map = new naver.maps.Map(mapId, mapOptions);
-    mapRef.current = map;
-
-    if (onLoad) {
-      onLoad(map);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const newLocation: Coordinates = [latitude, longitude];
+        setUserLocation(newLocation);
+      });
+    } else {
+      setUserLocation(INITIAL_CENTER);
     }
   };
 
+  useEffect(() => {
+    if (userLocation) {
+      const mapOptions = {
+        center: new naver.maps.LatLng(userLocation[0], userLocation[1]),
+        zoom: 15,
+        minZoom: 6,
+        scaleControl: true,
+        mapDataControl: false,
+        logoControlOptions: {
+          position: naver.maps.Position.BOTTOM_LEFT,
+        },
+      };
+
+      const map = new naver.maps.Map(mapId, mapOptions);
+      mapRef.current = map;
+
+      if (onLoad) {
+        onLoad(map);
+      }
+    }
+  }, [userLocation]);
+
+  useEffect(() => {
+    if (window.naver && window.naver.maps) {
+      initializeMap();
+    } else {
+      const script = document.createElement("script");
+      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}&submodules=geocoder`;
+      script.async = true;
+      script.onload = initializeMap;
+      document.head.appendChild(script);
+
+      return () => {
+        mapRef.current?.destroy();
+        document.head.removeChild(script);
+      };
+    }
+  }, []);
+
   // fetchData() : 병의원, 약국 데이터 가져오기
-  const fetchData = async () => {
-    // 임시 데이터
-    const tempData = [
-      { type: "pharmacy", latitude: 37.5665, longitude: 126.978, name: "Pharmacy 1" },
-      { type: "pharmacy", latitude: 37.5655, longitude: 126.977, name: "Pharmacy 2" },
-      { type: "hospital", latitude: 37.57972, longitude: 126.99889, name: "Hospital 1" },
-      { type: "hospital", latitude: 37.5635, longitude: 126.975, name: "Hospital 2" },
-    ];
+  const fetchData = async (userLocation: [number, number]) => {
+    const locationData: LocationData = {
+      lat: userLocation[0],
+      lng: userLocation[1],
+    };
 
-    const pharmacies = tempData.filter((item) => item.type === "pharmacy");
-    const hospitals = tempData.filter((item) => item.type === "hospital");
+    try {
+      const response = await NearbyMedicalController(locationData);
+      console.log(response);
 
-    setPharmacies(pharmacies);
-    setHospitals(hospitals);
+      const pharmacies = response.data.pharmacies.map((item) => ({ ...item, type: "약국" }));
+      const hospitals = response.data.hospitals;
+
+      setPharmacies(pharmacies);
+      setHospitals(hospitals);
+    } catch (error) {
+      console.error("Error fetching medical list:", error);
+    }
   };
 
   // useEffect() : 시작할 때
@@ -146,8 +225,13 @@ function NaverMapContainer({
         document.head.removeChild(script);
       };
     }
-    fetchData();
   }, []);
+
+  useEffect(() => {
+    if (userLocation) {
+      fetchData(userLocation);
+    }
+  }, [userLocation]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -303,7 +387,7 @@ function NaverMapContainer({
           }}
         >
           <TfiMenuAlt />
-          <div className={styles.map_category_list_button_text}>목록</div>
+          <div className={styles.map_category_list_button_text}>목록 {getTotalCount()}</div>
         </div>
       </div>
       <div className={styles.map_current_position_button} onClick={handleModalOpen}>
@@ -316,43 +400,64 @@ function NaverMapContainer({
         />
       </BasicModal>
       <BottomSheet open={sheetOpen} handleBottomSheetChange={handleBottomSheetChange}>
-        <div className={styles.bottomsheet_detail_container}>
-          <div className={styles.bottomsheet_detail_title}>
-            <div className={styles.bottomsheet_detail_title_text}>
-              <div className={styles.bottomsheet_detail_title_text_01}>서울성모병원</div>
-              <div className={styles.bottomsheet_detail_title_text_02}>종합병원</div>
+        {selectedLocation && (
+          <div className={styles.bottomsheet_detail_container}>
+            <div className={styles.bottomsheet_detail_title}>
+              <div className={styles.bottomsheet_detail_title_text}>
+                <div className={styles.bottomsheet_detail_title_text_01}>
+                  {selectedLocation.name}
+                </div>
+                <div className={styles.bottomsheet_detail_title_text_02}>
+                  {selectedLocation.type}
+                </div>
+              </div>
+              <div className={styles.bottomsheet_detail_title_distance}>
+                {Math.round(selectedLocation.distance)}m
+              </div>
             </div>
-            <div className={styles.bottomsheet_detail_title_distance}>500m</div>
-          </div>
-          <div className={styles.bottomsheet_detail_address_01}>
-            <MdOutlineLocationOn size="20px" color="#CBCBCB" />
-            <div className={styles.bottomsheet_detail_address_01_text}>서울 서초구 반포동</div>
-          </div>
-          <div className={styles.bottomsheet_detail_address_02}>신림역에서 445m 거리</div>
-          <div>
-            <div className={styles.bottomsheet_detail_day}>
-              <IoMdTime size="18px" color="#CBCBCB" />
-              <div className={styles.bottomsheet_detail_day_text_01}>월 : 10:00 ~ 18:00</div>
-              <div className={styles.bottomsheet_detail_day_text_02}>점심시간 12:00 ~ 13:00</div>
+            <div className={styles.bottomsheet_detail_address_01}>
+              <MdOutlineLocationOn size="20px" color="#CBCBCB" />
+              <div className={styles.bottomsheet_detail_address_01_text}>
+                {selectedLocation.address}
+              </div>
             </div>
+            <div className={styles.bottomsheet_detail_address_02}></div>
+            <div>
+              <div className={styles.bottomsheet_detail_day}>
+                <IoMdTime size="18px" color="#CBCBCB" />
+                <div className={styles.bottomsheet_detail_day_text_01}>
+                  {formatOpeningHours(selectedLocation.openingHourItems)}
+                </div>
+                <div className={styles.bottomsheet_detail_day_text_02}>{selectedLocation.etc}</div>
+              </div>
+            </div>
+            <div className={styles.bottomsheet_detail_phone}>
+              <FaPhoneAlt size="14px" color="#CBCBCB" />
+              <div className={styles.bottomsheet_detail_phone_text_01}>
+                {selectedLocation.phoneNumber}
+              </div>
+              <div className={styles.bottomsheet_detail_phone_text_02}>전화하기</div>
+            </div>
+            <FrequentButton
+              title="진료 등록하러 하기"
+              backgroundColor="#0A6847"
+              onClick={handleGoToRegistered}
+            />
           </div>
-          <div className={styles.bottomsheet_detail_phone}>
-            <FaPhoneAlt size="14px" color="#CBCBCB" />
-            <div className={styles.bottomsheet_detail_phone_text_01}>02-1588-1511</div>
-            <div className={styles.bottomsheet_detail_phone_text_02}>전화하기</div>
-          </div>
-          <FrequentButton
-            title="진료 등록하러 하기"
-            backgroundColor="#0A6847"
-            onClick={handleGoToRegistered}
-          />
-        </div>
+        )}
       </BottomSheet>
       <DrugBottomSheet open={drugsheetOpen} handleBottomSheetChange={handleDrugBottomSheetChange}>
         {searching ? (
           <LocationSearchList title={searchValue} onClick={handleListSubmit} />
         ) : (
-          <LocationList onClick={handleListSubmit} />
+          <LocationList
+            pharmacies={pharmacies}
+            hospitals={hospitals}
+            onClick={handleListSubmit}
+            totalCount={getTotalCount()}
+            showPharmacies={showPharmacies}
+            showHospitals={showHospitals}
+          />
         )}
       </DrugBottomSheet>
     </>
@@ -377,38 +482,58 @@ function LocationSearchList({ title, onClick }: LocationSearchListProps) {
 }
 
 interface LocationListProps {
+  pharmacies: MedicalDataProps[];
+  hospitals: MedicalDataProps[];
   onClick: () => void;
+  totalCount: number;
+  showPharmacies: boolean;
+  showHospitals: boolean;
 }
-function LocationList({ onClick }: LocationListProps) {
+function LocationList({
+  pharmacies,
+  hospitals,
+  onClick,
+  totalCount,
+  showPharmacies,
+  showHospitals,
+}: LocationListProps) {
+  const combinedList = [
+    ...pharmacies.filter((pharmacy) => showPharmacies),
+    ...hospitals.filter((hospital) => showHospitals),
+  ].sort((a, b) => a.distance - b.distance);
+
   return (
     <div className={styles.drugbottomsheet_list_container}>
       <div className={styles.drugbottomsheet_list_header}>
         <TfiMenuAlt size="20px" />
-        <div className={styles.drugbottomsheet_list_header_text}>목록 (4)</div>
+        <div className={styles.drugbottomsheet_list_header_text}>목록 {totalCount}</div>
       </div>
       <div className={styles.drugbottomsheet_list_body}>
         <div className={styles.drugbottomsheet_list_tail_text}>거리 순</div>
         <hr className={styles.drugbottomsheet_list_tail_line} />
-        <LocationListProp onClick={onClick} />
+        {combinedList.map((item, index) => (
+          <LocationListProp key={index} item={item} onClick={onClick} />
+        ))}
       </div>
     </div>
   );
 }
 
 interface LocationListPropProps {
-  onClick: () => void;
+  item: MedicalDataProps;
+  onClick: (item: MedicalDataProps) => void;
 }
-function LocationListProp({ onClick }: LocationListPropProps) {
+function LocationListProp({ item, onClick }: LocationListPropProps) {
   return (
     <>
-      <div className={styles.drugbottomsheet_list_box} onClick={onClick}>
+      <div className={styles.drugbottomsheet_list_box} onClick={() => onClick(item)}>
         <div className={styles.drugbottomsheet_list_title_01}>
-          <div className={styles.drugbottomsheet_list_text_01}>서울성모병원</div>
-          <div className={styles.drugbottomsheet_list_text_02}>종합병원</div>
+          <div className={styles.drugbottomsheet_list_text_01}>{item.name}</div>
+          <div className={styles.drugbottomsheet_list_text_02}>{item.type}</div>
         </div>
         <div className={styles.drugbottomsheet_list_title_02}>
-          <div className={styles.drugbottomsheet_list_text_03}>500m</div>
-          <div className={styles.drugbottomsheet_list_text_04}>서울 서초구 반포동</div>
+          <div className={styles.drugbottomsheet_list_text_03}>{Math.round(item.distance)}m</div>
+          <div className={styles.drugbottomsheet_list_text_04}>{item.address}</div>
         </div>
       </div>
       <hr className={styles.drugbottomsheet_list_bottom_line} />

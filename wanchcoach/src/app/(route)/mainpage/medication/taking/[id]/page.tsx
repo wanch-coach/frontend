@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import { MedicationDayController, TodayTakeData } from "@/app/util/controller/medicationController";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
+import DayMenu from "@/app/_components/Component/Medication/DayMenu";
 
 const data = {
   success: true,
@@ -117,6 +118,9 @@ export default function Taking({ params }: { params: { id: number } }) {
       setCurrentDate(currentDate.add(1, "day"));
     }
   };
+  const handleGoToToday = () => {
+    setCurrentDate(dayjs());
+  };
   useEffect(() => {
     /* 복약 데이터 api 호출 */
     const fetchData = async () => {
@@ -152,7 +156,9 @@ export default function Taking({ params }: { params: { id: number } }) {
               color={today.isAfter(currentDate, "day") ? "black" : "#dddddd"}
             />
           </div>
-          <div className={styles.day_controller_gotoday_button}>GO TO TODAY</div>
+          <div className={styles.day_controller_gotoday_button} onClick={handleGoToToday}>
+            TODAY
+          </div>
         </div>
         <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
       </div>
@@ -160,67 +166,5 @@ export default function Taking({ params }: { params: { id: number } }) {
         <MedicationList todayTakedata={filteredData} activeTab={activeTab} />
       </div>
     </>
-  );
-}
-
-interface DayMenuProps {
-  activeTab: string;
-  handleTabClick: (tab: SetStateAction<string>) => void;
-}
-function DayMenu({ activeTab, handleTabClick }: DayMenuProps) {
-  const getTranslateXValue = (tab: SetStateAction<string>) => {
-    switch (tab) {
-      case "morning":
-        return "0%";
-      case "noon":
-        return "100%";
-      case "evening":
-        return "200%";
-      case "beforebed":
-        return "300%";
-      default:
-        return "0%";
-    }
-  };
-
-  return (
-    <div className={styles.day_tab_container}>
-      <div className={styles.day_tab_box}>
-        <div
-          className={`${styles.day_tab_box_title} ${activeTab === "morning" ? styles.active : ""}`}
-          onClick={() => handleTabClick("morning")}
-        >
-          아침
-        </div>
-        <div
-          className={`${styles.day_tab_box_title} ${activeTab === "noon" ? styles.active : ""}`}
-          onClick={() => handleTabClick("noon")}
-        >
-          점심
-        </div>
-        <div
-          className={`${styles.day_tab_box_title} ${activeTab === "evening" ? styles.active : ""}`}
-          onClick={() => handleTabClick("evening")}
-        >
-          저녁
-        </div>
-        <div
-          className={`${styles.day_tab_box_title} ${
-            activeTab === "beforebed" ? styles.active : ""
-          }`}
-          onClick={() => handleTabClick("beforebed")}
-        >
-          취침 전
-        </div>
-      </div>
-      <div className={styles.day_tab_line_container}>
-        <div
-          className={styles.day_tab_box_line}
-          style={{ transform: `translateX(${getTranslateXValue(activeTab)})` }}
-        >
-          <div className={styles.day_tab_box_greenline}></div>
-        </div>
-      </div>
-    </div>
   );
 }

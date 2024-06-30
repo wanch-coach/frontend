@@ -1,8 +1,10 @@
+"use client";
 import { GoChevronRight } from "react-icons/go";
 import styles from "./home.module.css";
 import Image from "next/image";
 
 export default function Home() {
+
   return (
     <div>
       <TodayTitle title="진료" />
