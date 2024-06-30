@@ -13,7 +13,11 @@ import BottomSheet from "./BottomSheet";
 import { DrugDayCalendarData } from "@/app/util/controller/medicationController";
 import DayMenu from "./Medication/DayMenu";
 import MedicationInfoBox from "@/app/(route)/mainpage/medication/taking/[id]/_components/MedicationInfoBox";
-import { TreatmentCalendarItems } from "@/app/util/controller/treatmentController";
+import {
+  TreatmentCalendar,
+  TreatmentCalendarItems,
+} from "@/app/util/controller/treatmentController";
+import TreatmentBox from "@/app/(route)/mainpage/treatment/_components/TreatmentBox";
 
 function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -38,10 +42,10 @@ interface PaperCalendarProps {
   handleSelectedDateChange: (newDate: Dayjs) => void;
   highlightedDays: string[];
   handleMonthChange: (newDate: Dayjs) => void;
-  calendarData: DrugDayCalendarData[] | undefined;
+  calendarData: TreatmentCalendarItems[];
 }
 
-export default function PaperCalendar({
+export default function TreatmentPaperCalendar({
   selectedDate,
   handleSelectedDateChange,
   highlightedDays,
@@ -50,10 +54,6 @@ export default function PaperCalendar({
 }: PaperCalendarProps) {
   const currentDate = dayjs();
   const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("morning");
-  const handleTabClick = (tab: SetStateAction<string>) => {
-    setActiveTab(tab);
-  };
   const handleDateChange: DateCalendarProps<Dayjs>["onChange"] = (newDate) => {
     if (!newDate) return;
 
@@ -74,26 +74,23 @@ export default function PaperCalendar({
   const handleBottomSheetChange = () => {
     setOpen(!open);
   };
-  const getTodayPartData = () => {
-    if (!selectedDate || !calendarData) return [];
-    const selectedDayData = calendarData.find((data) => data.day === selectedDate.date());
-
-    if (!selectedDayData) return [];
-
-    switch (activeTab) {
-      case "morning":
-        return selectedDayData.morning;
-      case "noon":
-        return selectedDayData.noon;
-      case "evening":
-        return selectedDayData.evening;
-      case "beforeBed":
-        return selectedDayData.befordBed;
-      default:
-        return [];
-    }
+  const formatDate = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(date.getDate()).padStart(2, "0")}`;
+    return formattedDate;
   };
-  const todayPartData = getTodayPartData();
+  const formatTime = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const period = hours >= 12 ? "오후" : "오전";
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    return `${period} ${formattedHours}:${formattedMinutes}`;
+  };
   return (
     <>
       <div>
@@ -128,18 +125,28 @@ export default function PaperCalendar({
             {selectedDate && <>{selectedDate.format("YYYY년 M월 D일 (ddd)")}</>}
             <hr className={styles.bottomsheet_content_line} />
           </div>
-          <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
-          {todayPartData.length === 0 ? (
-            <div>데이터가 없습니다.</div>
+          {calendarData.length > 0 ? (
+            calendarData
+              .filter(
+                (item: TreatmentCalendarItems) => item.date == selectedDate?.format("YYYY-MM-DD")
+              )
+              .flatMap((item) =>
+                item.treatmentItems.map((treatment) => (
+                  <TreatmentBox
+                    key={treatment.id}
+                    title={treatment.hospitalName}
+                    category={treatment.department}
+                    date={formatDate(treatment.date)}
+                    time={formatTime(treatment.date)}
+                    userName={treatment.familyName}
+                    userProfile="/logo.png"
+                    content={treatment.symptom}
+                    future
+                  />
+                ))
+              )
           ) : (
-            todayPartData.map((prescription, index) => (
-              <MedicationInfoBox
-                key={index}
-                title={prescription.hospitalName}
-                category={prescription.department}
-                // drugs={prescription.drugs}
-              />
-            ))
+            <div>선택된 날짜에 대한 진료 정보가 없습니다.</div>
           )}
         </div>
       </BottomSheet>

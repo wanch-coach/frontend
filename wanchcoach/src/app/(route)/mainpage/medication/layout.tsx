@@ -50,7 +50,7 @@ function MedicationMenu({ selectedFamily }: { selectedFamily: FamilySummaryListD
         <MenuHeader
           title="복약 이력"
           icon={<GiNotebook size={"40px"} />}
-          href="/mainpage/medication/recordtaking"
+          href={`/mainpage/medication/recordtaking/${selectedFamily?.familyId}`}
           press={pathname.startsWith("/mainpage/medication/recordtaking") ? true : false}
           handlePressChange={() => {
             setCalendar("NO");
@@ -59,8 +59,8 @@ function MedicationMenu({ selectedFamily }: { selectedFamily: FamilySummaryListD
         <MenuHeader
           title="내 약 정보"
           icon={<PiPillDuotone size={"40px"} />}
-          href="/mainpage/medication/mydruginformation"
-          press={pathname.startsWith("/mainpage/medication/mydruginformation") ? true : false}
+          href={`/mainpage/medication/mydruginformation/${selectedFamily?.familyId}`}
+          press={pathname.startsWith("/mainpage/medication/mydruginformation/") ? true : false}
           handlePressChange={() => {
             setCalendar("NOT");
           }}
@@ -69,7 +69,7 @@ function MedicationMenu({ selectedFamily }: { selectedFamily: FamilySummaryListD
       <div className={styles.header_calendar_right}>
         {calendar === "NOT" ? null : calendar === "YES" ? (
           <Link
-            href={"/mainpage/medication/recordtaking"}
+            href={`/mainpage/medication/recordtaking/${selectedFamily?.familyId}`}
             className={styles.header_calendar_button}
             onClick={() => {
               setCalendar("NO");
@@ -80,7 +80,7 @@ function MedicationMenu({ selectedFamily }: { selectedFamily: FamilySummaryListD
           </Link>
         ) : (
           <Link
-            href={"/mainpage/medication/recordtaking/calendar"}
+            href={`/mainpage/medication/recordtaking/${selectedFamily?.familyId}/calendar`}
             className={styles.header_calendar_button}
             onClick={() => {
               setCalendar("YES");

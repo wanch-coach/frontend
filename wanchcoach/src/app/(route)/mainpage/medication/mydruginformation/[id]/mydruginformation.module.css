@@ -33,6 +33,9 @@
 .day_select_box_title {
   font-size: 14px;
   font-weight: 600;
+  width: 50%;
+}
+.day_select_box_date {
 }
 .day_select_box_input {
   border: 1px solid #c5c6cc;

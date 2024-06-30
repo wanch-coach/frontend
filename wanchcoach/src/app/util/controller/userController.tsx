@@ -50,15 +50,15 @@ export async function LoginController(formData: LoginData) {
   }
 }
 
-
-export async function LogoutController(formData: LoginData) {
+export async function LogoutController() {
   try {
-    const url = `/member/logout`;
+    const url = `/member/sinout`;
     const response = await fetchWithAuth(url, {
       method: "GET",
     });
     Cookies.remove("refreshToken");
     Cookies.remove("accessToken");
+    Cookies.remove("familyId");
     console.log("Logout successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {
@@ -66,39 +66,54 @@ export async function LogoutController(formData: LoginData) {
     throw error; // 오류 처리
   }
 }
+
+export async function MyPageInfoController() {
+  try {
+    const url = `/member/memberInfo`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+
+    console.log("My page successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
 interface SendSMS {
   phoneNumber: string;
 }
-export async function SendSMSController(phoneNumber:string) {
-  try{
+export async function SendSMSController(phoneNumber: string) {
+  try {
     const url = `/member/sendsms?phoneNumber=${phoneNumber}`;
     const response = await fetchWithoutAuth(url, {
-      method: "GET"
+      method: "GET",
     });
     console.log("sendSMS successful", response);
     return response;
-  } catch(error) {
+  } catch (error) {
     alert("sms 전송에 실패하였습니다.");
-    throw error; 
+    throw error;
   }
 }
-interface IdCheck{
+interface IdCheck {
   loginId: String;
 }
-export async function IdCheckController(loginId:string) {
-  try{
-    const url = `/member/idcheck/${loginId}`
+export async function IdCheckController(loginId: string) {
+  try {
+    const url = `/member/idcheck/${loginId}`;
     const response = await fetchWithoutAuth(url, {
-      method: "GET"
+      method: "GET",
     });
     console.log("idcheck successful", response);
-    
-    if(response.data) alert("가입 가능한 아이디입니다.");
+
+    if (response.data) alert("가입 가능한 아이디입니다.");
     else alert("이미 존재하는 아이디입니다.");
     return response;
-  } catch(error) {
+  } catch (error) {
     alert("idcheck failed");
     throw error;
   }
-  
 }

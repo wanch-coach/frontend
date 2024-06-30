@@ -57,7 +57,7 @@ function Bottombar() {
           홈
         </div>
       </Link>
-      <Link className={styles.bottombar_box} href={"/mainpage/treatment/diagnosis"}>
+      <Link className={styles.bottombar_box} href={`/mainpage/treatment/diagnosis/${myFamilyId}`}>
         <MdOutlineMedicalServices
           size={"35px"}
           color={pathname.startsWith("/mainpage/treatment") ? "#0A6847" : "#9D9D9D"}

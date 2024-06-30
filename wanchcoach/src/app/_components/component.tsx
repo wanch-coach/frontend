@@ -46,7 +46,7 @@ interface BasicInputBoxProps {
   buttonLabel?: string;
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onClick? : () => void;
+  onClick?: () => void;
 }
 
 export function BasicInputBox({
@@ -68,8 +68,13 @@ export function BasicInputBox({
           type={type}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}/>
-        {showButton && <button className={styles.input_button} onClick={onClick} >{buttonLabel}</button>}
+          onChange={onChange}
+        />
+        {showButton && (
+          <button className={styles.input_button} onClick={onClick}>
+            {buttonLabel}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -263,12 +268,13 @@ import { styled } from "@mui/material";
 import "dayjs/locale/ko"; // 이거 선언 해야 한글형식 적용 됨!
 
 interface DateInputBoxProps {
-  label: string;
+  label?: string;
   selectedDate?: Dayjs | null;
   handleDateChange?: Dispatch<SetStateAction<Dayjs | null>>;
+  small?: boolean;
 }
 
-export function DateInputBox({ label, selectedDate, handleDateChange }: DateInputBoxProps) {
+export function DateInputBox({ label, selectedDate, handleDateChange, small }: DateInputBoxProps) {
   const currentDate = dayjs();
   // const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
 
@@ -279,7 +285,7 @@ export function DateInputBox({ label, selectedDate, handleDateChange }: DateInpu
     "& .MuiInputBase-root": {
       backgroundColor: "white",
       borderRadius: "10px",
-      height: "50px",
+      height: small ? "35px" : "50px",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
@@ -288,14 +294,15 @@ export function DateInputBox({ label, selectedDate, handleDateChange }: DateInpu
       },
     },
     "& .MuiInputBase-input": {
-      padding: "15px",
+      padding: small ? "10px" : "15px",
       paddingTop: 0,
       paddingBottom: 0,
+      fontSize: small ? "13px" : "16px",
     },
   });
 
   return (
-    <div className="mt-3">
+    <div className={small ? "" : "mt-3"}>
       <div className={styles.input_text}>{label}</div>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
         <StyledDatePicker
@@ -305,7 +312,7 @@ export function DateInputBox({ label, selectedDate, handleDateChange }: DateInpu
           showDaysOutsideCurrentMonth
           views={["year", "month", "day"]}
           sx={{
-            width: "100%",
+            width: small ? "90%" : "100%",
           }}
           slotProps={{ toolbar: { hidden: true } }}
           shouldDisableDate={(day) => {
@@ -503,7 +510,8 @@ export function TimeInputBox({ label }: { label: string }) {
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
         <StyledTimePicker
           format="A hh:mm"
-          minutesStep={1}
+          ampm={false}
+          minutesStep={10}
           sx={{
             width: "100%",
           }}
@@ -520,12 +528,13 @@ interface FrequentButtonProps {
   title: string;
   backgroundColor: string;
   onClick: () => void;
+  small?: boolean;
 }
-export function FrequentButton({ title, backgroundColor, onClick }: FrequentButtonProps) {
+export function FrequentButton({ title, backgroundColor, onClick, small }: FrequentButtonProps) {
   return (
     <div
       className={styles.frequent_button}
-      style={{ backgroundColor: backgroundColor }}
+      style={{ backgroundColor: backgroundColor, margin: small ? "2vh 40%" : "2vh 20%" }}
       onClick={onClick}
     >
       {title}
