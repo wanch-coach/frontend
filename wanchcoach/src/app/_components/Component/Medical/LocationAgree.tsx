@@ -1,12 +1,12 @@
 import styles from "./Medical.module.css";
 import { FaInfoCircle } from "react-icons/fa";
 
-interface LocationAgree {
+interface LocationAgreeProps {
   handleModalClose: () => void;
   moveToCurrentLocation: () => void;
 }
 
-export default function LocationAgree({ handleModalClose, moveToCurrentLocation }: LocationAgree) {
+export default function LocationAgree({ handleModalClose, moveToCurrentLocation }: LocationAgreeProps) {
   return (
     <div className={styles.map_agree_modal_container}>
       <div className={styles.map_agree_modal_text_01}>위치 정보 수집 동의</div>

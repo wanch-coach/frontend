@@ -2,6 +2,7 @@ import { Dayjs } from "dayjs";
 import fetchWithoutAuth from "../fetchWithoutAuth";
 import Cookies from "js-cookie";
 import fetchWithAuth from "../fetchWithAuth";
+import { stringify } from "querystring";
 
 interface SignupData {
   loginId: string;
@@ -39,7 +40,6 @@ export async function LoginController(formData: LoginData) {
       body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
     });
     Cookies.set("refreshToken", response.data.refreshToken);
-    console.log(response.data.accessToken);
     Cookies.set("accessToken", response.data.accessToken);
     console.log("Signin successful:", response);
     return response; // 예시로 데이터 반환
@@ -48,7 +48,6 @@ export async function LoginController(formData: LoginData) {
     throw error; // 오류 처리
   }
 }
-
 
 export async function LogoutController(formData: LoginData) {
   try {
@@ -68,36 +67,62 @@ export async function LogoutController(formData: LoginData) {
 interface SendSMS {
   phoneNumber: string;
 }
-export async function SendSMSController(phoneNumber:string) {
-  try{
+export async function SendSMSController(phoneNumber: string) {
+  try {
     const url = `/member/sendsms?phoneNumber=${phoneNumber}`;
     const response = await fetchWithoutAuth(url, {
-      method: "GET"
+      method: "GET",
     });
     console.log("sendSMS successful", response);
     return response;
-  } catch(error) {
+  } catch (error) {
     alert("sms 전송에 실패하였습니다.");
-    throw error; 
+    throw error;
   }
 }
-interface IdCheck{
+interface IdCheck {
   loginId: String;
 }
-export async function IdCheckController(loginId:string) {
-  try{
-    const url = `/member/idcheck/${loginId}`
+export async function IdCheckController(loginId: string) {
+  try {
+    const url = `/member/idcheck/${loginId}`;
     const response = await fetchWithoutAuth(url, {
-      method: "GET"
+      method: "GET",
     });
     console.log("idcheck successful", response);
-    
-    if(response.data) alert("가입 가능한 아이디입니다.");
+
+    if (response.data) alert("가입 가능한 아이디입니다.");
     else alert("이미 존재하는 아이디입니다.");
     return response;
-  } catch(error) {
+  } catch (error) {
     alert("idcheck failed");
     throw error;
   }
-  
+}
+
+export async function updateAlarmPermission() {
+  try {
+    const url = `/member/alarm-permission`;
+    const response = await fetchWithAuth(url, {
+      method: "POST",
+    });
+    console.log("update alarm-permission successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
+export async function updateAlarm(deviceToken:string) {
+  try {
+    const url = `/member/update-device`;
+    const response = await fetchWithAuth(url, {
+      method: "PATCH",
+      body: JSON.stringify(deviceToken),
+    });
+    console.log("update device Token successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
 }
