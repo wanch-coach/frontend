@@ -10,7 +10,7 @@ import parseXML from "xml2js"; // 예시로 xml2js 사용
 export default function DrugInfo({ params }: { params: { id: number } }) {
   const drugId = params.id;
   const [like, setLike] = useState(false);
-  const [drug, setDrug] = useState<DrugDetailData | undefined>();
+  const [drug, setDrug] = useState<DrugDetailData>();
   const [eeDoc, setEeDoc] = useState("");
   const [nbDoc, setNbDoc] = useState("");
   const [udDoc, setUdDoc] = useState("");
@@ -82,30 +82,38 @@ export default function DrugInfo({ params }: { params: { id: number } }) {
 
   return (
     <div className={styles.container}>
-      <Header title={drug.itemName} right like={like} handleLikeChange={handleLikeChange} />
-      <div className={styles.body_container}>
-        <div className={styles.druginfo_body_container}>
-          <div className={styles.druginfo_image_container}>
-            <Image
-              src={drug.drugImage ? `data:image/png;base64,${drug.drugImage}` : "/drug_icon.png"}
-              width={300}
-              height={200}
-              alt="Picture of the author"
-            />
+      {drug ? (
+        <>
+          <Header title={drug.itemName} right like={like} handleLikeChange={handleLikeChange} />
+          <div className={styles.body_container}>
+            <div className={styles.druginfo_body_container}>
+              <div className={styles.druginfo_image_container}>
+                <Image
+                  src={
+                    drug.drugImage ? `data:image/png;base64,${drug.drugImage}` : "/drug_icon.png"
+                  }
+                  width={300}
+                  height={200}
+                  alt="Picture of the author"
+                />
+              </div>
+              <DrugInfoDetailBox
+                number="1"
+                title="약품 명"
+                content={drug.itemName + "\n" + drug.itemEngName}
+              />
+              <DrugInfoDetailBox number="2" title="분류" content={drug.prductType} />
+              <DrugInfoDetailBox number="3" title="제조원" content={drug.entpName} />
+              <DrugInfoDetailBox number="4" title="보관 및 유통기한" content={drug.storageMethod} />
+              <DrugInfoDetailBox number="5" title="효능효과" content={eeDoc} />
+              <DrugInfoDetailBox number="6" title="용법용량" content={udDoc} />
+              <DrugInfoDetailBox number="7" title="사용 상의 주의사항" content={nbDoc} />
+            </div>
           </div>
-          <DrugInfoDetailBox
-            number="1"
-            title="약품 명"
-            content={drug.itemName + "\n" + drug.itemEngName}
-          />
-          <DrugInfoDetailBox number="2" title="분류" content={drug.prductType} />
-          <DrugInfoDetailBox number="3" title="제조원" content={drug.entpName} />
-          <DrugInfoDetailBox number="4" title="보관 및 유통기한" content={drug.storageMethod} />
-          <DrugInfoDetailBox number="5" title="효능효과" content={eeDoc} />
-          <DrugInfoDetailBox number="6" title="용법용량" content={udDoc} />
-          <DrugInfoDetailBox number="7" title="사용 상의 주의사항" content={nbDoc} />
-        </div>
-      </div>
+        </>
+      ) : (
+        <p>약품 정보를 불러오는 중입니다...</p>
+      )}
     </div>
   );
 }
