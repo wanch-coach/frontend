@@ -15,7 +15,9 @@ import { FaPhoneAlt } from "react-icons/fa";
 import DrugBottomSheet from "@/app/_components/Component/DrugBottomSheet";
 import { TfiMenuAlt } from "react-icons/tfi";
 import {
+  LocationData,
   NearbyMedicalController,
+  OpeningHourData,
   getDayOfWeekKorean,
 } from "@/app/util/controller/medicalController";
 import dayjs from "dayjs";
@@ -198,7 +200,10 @@ function NaverMapContainer({
       const response = await NearbyMedicalController(locationData);
       console.log(response);
 
-      const pharmacies = response.data.pharmacies.map((item) => ({ ...item, type: "약국" }));
+      const pharmacies = response.data.pharmacies.map((item: MedicalDataProps) => ({
+        ...item,
+        type: "약국",
+      }));
       const hospitals = response.data.hospitals;
 
       setPharmacies(pharmacies);
@@ -426,7 +431,8 @@ function NaverMapContainer({
               <div className={styles.bottomsheet_detail_day}>
                 <IoMdTime size="18px" color="#CBCBCB" />
                 <div className={styles.bottomsheet_detail_day_text_01}>
-                  {formatOpeningHours(selectedLocation.openingHourItems)}
+                  {formatOpeningHours(selectedLocation.openingHour)}
+                  {/* openingHourItems를 openingHour로 변경  */}
                 </div>
                 <div className={styles.bottomsheet_detail_day_text_02}>{selectedLocation.etc}</div>
               </div>
@@ -466,7 +472,7 @@ function NaverMapContainer({
 
 interface LocationSearchListProps {
   title: string;
-  onClick: () => void;
+  onClick: (item: MedicalDataProps) => void;
 }
 function LocationSearchList({ title, onClick }: LocationSearchListProps) {
   return (
@@ -476,7 +482,7 @@ function LocationSearchList({ title, onClick }: LocationSearchListProps) {
         <div className={styles.drugbottomsheet_search_header_text_02}>으로 검색한 결과 (1)</div>
       </div>
       <hr className={styles.drugbottomsheet_search_header_line} />
-      <LocationListProp onClick={onClick} />
+      {/* <LocationListProp  onClick={onClick} /> */}
     </div>
   );
 }
@@ -484,7 +490,7 @@ function LocationSearchList({ title, onClick }: LocationSearchListProps) {
 interface LocationListProps {
   pharmacies: MedicalDataProps[];
   hospitals: MedicalDataProps[];
-  onClick: () => void;
+  onClick: (item: MedicalDataProps) => void;
   totalCount: number;
   showPharmacies: boolean;
   showHospitals: boolean;

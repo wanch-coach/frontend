@@ -95,7 +95,6 @@ export default function Hospital({ params }: { params: { id: number } }) {
                     userName={item.familyName}
                     userProfile="/logo.png"
                     content={item.symptom}
-                    future
                   />
                 ))}
               </div>

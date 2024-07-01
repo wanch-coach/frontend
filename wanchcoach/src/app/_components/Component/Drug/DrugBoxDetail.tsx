@@ -49,8 +49,10 @@ export default function DrugBoxDetail({ drugInfodata }: DrugBoxDetailProps) {
       >
         <div className={styles.drug_summary_container}>
           <DrugBox
-            title={drugInfodata.drugInfo.itemName}
-            category={drugInfodata.drugInfo.prdtType}
+            drugId={drugInfodata.drugInfo.drugId}
+            itemName={drugInfodata.drugInfo.itemName}
+            prductType={drugInfodata.drugInfo.prdtType}
+            drugImage={drugInfodata.drugInfo.drugImage}
           />
         </div>
       </AccordionSummary>

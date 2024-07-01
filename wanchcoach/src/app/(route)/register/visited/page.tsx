@@ -22,7 +22,7 @@ import { AddTreatmentController } from "@/app/util/controller/treatmentControlle
 import {
   MedicalKeywordResultData,
   PharmacyResultData,
-} from "@/app/util/controller/medicalContoller";
+} from "@/app/util/controller/medicalController";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
 import { Dayjs } from "dayjs";
 

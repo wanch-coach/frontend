@@ -28,7 +28,7 @@ export default function LoginLayout({ children }: { children: ReactNode }) {
         <div className="pt-3" />
         <Link
           href={
-            "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=quIIXrYYRk1GoMBFxXNn&state=STATE_STRING&redirect_uri=http://localhost:8081/login/oauth2/code/naver"
+            " https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=quIIXrYYRk1GoMBFxXNn&state=STATE_STRING&redirect_uri=https://wanch-coach.site/login/oauth2/code/naver"
           }
         >
           <div className={styles.naver_login_button}>
@@ -39,7 +39,7 @@ export default function LoginLayout({ children }: { children: ReactNode }) {
         <div className="pt-3" />
         <Link
           href={
-            "https://kauth.kakao.com/oauth/authorize?client_id=370123a2ecc923df6371e651937c9038&redirect_uri=http://localhost:8081/login/oauth2/code/kakao&response_type=code&scope=account_email"
+            " https://kauth.kakao.com/oauth/authorize?client_id=370123a2ecc923df6371e651937c9038&redirect_uri=https://wanch-coach.site/login/oauth2/code/kakao&response_type=code&scope=account_email"
           }
         >
           <div className={styles.kakao_login_button}>

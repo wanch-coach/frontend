@@ -141,7 +141,6 @@ export default function TreatmentPaperCalendar({
                     userName={treatment.familyName}
                     userProfile="/logo.png"
                     content={treatment.symptom}
-                    future
                   />
                 ))
               )
