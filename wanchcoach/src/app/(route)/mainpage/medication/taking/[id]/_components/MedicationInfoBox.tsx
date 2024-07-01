@@ -102,11 +102,11 @@ export default function MedicationInfoBox({ title, category, state }: Medication
                 </div>
               </div>
               <div>
-                <DrugBox title="타이레놀정160mg" category="진통제" />
+                <DrugBox itemName="타이레놀정160mg" prductType="진통제" />
                 <div style={{ marginTop: "4px" }} />
-                <DrugBox title="사디반정 160mg" category="고혈압 치료제" />
+                <DrugBox itemName="사디반정 160mg" prductType="고혈압 치료제" />
                 <div style={{ marginTop: "4px" }} />
-                <DrugBox title="마게이트정" category="제산제" />
+                <DrugBox itemName="마게이트정" prductType="제산제" />
               </div>
               <div className={styles.medication_detail_total}>총 3개</div>
             </div>

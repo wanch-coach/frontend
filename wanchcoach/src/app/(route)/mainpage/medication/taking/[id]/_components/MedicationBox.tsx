@@ -106,7 +106,12 @@ export default function MedicationBox({
               <div>
                 {drugs.map((drug) => (
                   <React.Fragment key={drug.drugId}>
-                    <DrugBox title={drug.itemName} category={drug.productType} />
+                    <DrugBox
+                      drugId={drug.drugId}
+                      itemName={drug.itemName}
+                      drugImage={drug.drugImage}
+                      prductType={drug.productType}
+                    />
                     <div style={{ marginTop: "4px" }} />
                   </React.Fragment>
                 ))}

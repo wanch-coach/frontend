@@ -712,15 +712,16 @@ export function FrequentButton({ title, backgroundColor, onClick, small }: Frequ
 
 // 기본적인 Modal
 import { Modal } from "@mui/material";
+
+import {
+  FamilySummaryListController,
+  FamilySummaryListData,
+} from "../util/controller/familyController";
 import {
   MedicalKeywordResultData,
   MedicalKeywordSearchController,
   PharmacyResultData,
 } from "../util/controller/medicalController";
-import {
-  FamilySummaryListController,
-  FamilySummaryListData,
-} from "../util/controller/familyController";
 
 interface BasicModalProps {
   open: boolean;

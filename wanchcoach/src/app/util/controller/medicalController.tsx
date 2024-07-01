@@ -2,6 +2,23 @@ import { Dayjs } from "dayjs";
 import fetchWithoutAuth from "../fetchWithoutAuth";
 import Cookies from "js-cookie";
 
+interface MedicalKeywordSearchData {
+  keyword: string;
+  lng: string;
+  lat: string;
+}
+export interface MedicalKeywordResultData {
+  hospitalId: number;
+  name: string;
+  type: string;
+  address: string;
+}
+export interface PharmacyResultData {
+  pharmacyId: number;
+  name: string;
+  address: string;
+}
+
 export interface HospitalDetailData {
   hospitalId: number;
   name: string;
