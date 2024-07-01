@@ -2,7 +2,6 @@ import { Dayjs } from "dayjs";
 import fetchWithAuth from "../fetchWithAuth";
 import { SetStateAction } from "react";
 import Cookies from "js-cookie";
-import fetchWithoutAuth from "../fetchWithoutAuth";
 
 interface SearchData {
   type: string;
@@ -41,7 +40,7 @@ export interface DrugDetailData {
 export async function SearchDrugDetail(drugId: number) {
   try {
     const url = `/drug/${drugId}`;
-    const response = await fetchWithoutAuth(url, {
+    const response = await fetchWithAuth(url, {
       method: "Get",
     });
     console.log("Drug Detail Search successful:", response);
@@ -54,7 +53,7 @@ export async function SearchDrugDetail(drugId: number) {
 export async function SearchFavorites(drugId: number) {
   try {
     const url = "/favorites";
-    const response = await fetchWithoutAuth(url, {
+    const response = await fetchWithAuth(url, {
       method: "Get",
     });
     console.log("Favorite List successful:", response);
@@ -67,7 +66,7 @@ export async function SearchFavorites(drugId: number) {
 export async function ToFavorite(drugId: number) {
   try {
     const url = `/drug/${drugId}/favorites`;
-    const response = await fetchWithoutAuth(url, {
+    const response = await fetchWithAuth(url, {
       method: "Post",
     });
     console.log("Favorite making successful:", response);
@@ -80,7 +79,7 @@ export async function ToFavorite(drugId: number) {
 export async function DeleteFavorite(favoriteId: number) {
   try {
     const url = `/drug/favorites/${favoriteId}`;
-    const response = await fetchWithoutAuth(url, {
+    const response = await fetchWithAuth(url, {
       method: "Delete",
     });
     console.log("Delete Favorites successful:", response);
