@@ -42,8 +42,10 @@ interface BasicInputBoxProps {
   type: string;
   label?: string;
   placeholder: string;
+  disabledInput?: boolean;
   showButton?: boolean;
   buttonLabel?: string;
+  disabledButton?: boolean;
   value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onClick?: () => void;
@@ -53,8 +55,10 @@ export function BasicInputBox({
   type,
   label,
   placeholder,
+  disabledInput,
   showButton,
   buttonLabel,
+  disabledButton,
   value,
   onChange,
   onClick,
@@ -69,9 +73,16 @@ export function BasicInputBox({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          disabled={disabledInput}
+          style={{ color: disabledInput ? "#DDDDDD" : "#000000" }}
         />
         {showButton && (
-          <button className={styles.input_button} onClick={onClick}>
+          <button
+            className={styles.input_button}
+            onClick={onClick}
+            style={{ backgroundColor: disabledButton ? "#545454" : "#f3ca52" }}
+            disabled={disabledButton}
+          >
             {buttonLabel}
           </button>
         )}
