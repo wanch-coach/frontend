@@ -84,9 +84,9 @@ export async function MyPageInfoController() {
 interface SendSMS {
   phoneNumber: string;
 }
-export async function SendSMSController(phoneNumber: string) {
+export async function SendSMSController(data: SendSMS) {
   try {
-    const url = `/member/sendsms?phoneNumber=${phoneNumber}`;
+    const url = `/member/sendsms?phoneNumber=${data.phoneNumber}`;
     const response = await fetchWithoutAuth(url, {
       method: "GET",
     });
@@ -100,9 +100,9 @@ export async function SendSMSController(phoneNumber: string) {
 interface IdCheck {
   loginId: String;
 }
-export async function IdCheckController(loginId: string) {
+export async function IdCheckController(data: IdCheck) {
   try {
-    const url = `/member/idcheck/${loginId}`;
+    const url = `/member/idcheck/${data.loginId}`;
     const response = await fetchWithoutAuth(url, {
       method: "GET",
     });
