@@ -8,11 +8,12 @@
   padding: 10px 15px;
   width: 100%;
   align-items: center;
+  cursor: pointer;
 }
 .drug_box_image {
   flex: 3;
   position: relative;
-  padding-left:3%;
+  padding-left: 3%;
 }
 .drug_box_title {
   font-size: 15px;
@@ -21,6 +22,9 @@
   text-align: center;
   align-content: center;
   padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .drug_box_category {
   font-size: 14px;
@@ -29,6 +33,9 @@
   text-align: center;
   align-content: center;
   padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* DrugBoxDedail() 컴포넌트 */

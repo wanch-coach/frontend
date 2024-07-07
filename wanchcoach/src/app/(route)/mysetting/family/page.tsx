@@ -53,7 +53,6 @@ function FamilyMenu({ href, data }: FamilyMenuProps) {
   return (
     <Link href={href}>
       <div className={styles.family_menu_container}>
-        <Image src="/logo.png" width={50} height={50} priority alt="Picture of the author" />
         <div className={styles.family_menu_text}>{data.name}</div>
         <div className={styles.family_menu_text}>{formattedBirthDate}</div>
         <div className={styles.family_menu_text}>{data.gender}</div>

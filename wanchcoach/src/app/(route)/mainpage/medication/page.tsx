@@ -1,3 +1,7 @@
+import { redirect } from "next/navigation";
+import Cookies from "js-cookie";
+
 export default function Medication() {
-  return <div>복약 정보 페이지 입니다.</div>;
+  const familyId = Cookies.get("myFamilyId");
+  redirect(`/mainpage/medication/taking/${familyId}`);
 }

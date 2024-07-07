@@ -25,9 +25,9 @@ export default function Login() {
           });
         return;
       })
-      .catch((e) => {
-        console.log(e);
-        return alert("비밀번호가 일치하지 않습니다.");
+      .catch((error) => {
+        console.log(error);
+        return alert(error.message);
       });
   };
   return (

@@ -109,6 +109,7 @@
   align-items: center;
   padding: 7px 40px;
   border-radius: 20px;
+  cursor: pointer;
 }
 .medication_detail_button_text {
   font-size: 17px;

@@ -1,6 +1,8 @@
 .container {
   width: 100%;
   text-align: -webkit-center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 .logo_image {
   position: relative;
@@ -59,6 +61,7 @@
   border-radius: 10px;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 .naver_login_button_text {
   font-size: 17px;

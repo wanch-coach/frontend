@@ -135,8 +135,7 @@ export default function PaperCalendar({
             todayPartData.map((prescription, index) => (
               <MedicationInfoBox
                 key={index}
-                title={prescription.hospitalName}
-                category={prescription.department}
+                prescription={prescription}
                 // drugs={prescription.drugs}
               />
             ))

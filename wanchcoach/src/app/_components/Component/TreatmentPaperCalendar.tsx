@@ -19,8 +19,13 @@ import {
 } from "@/app/util/controller/treatmentController";
 import TreatmentBox from "@/app/(route)/mainpage/treatment/_components/TreatmentBox";
 
-function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+interface ServerDayProps extends PickersDayProps<Dayjs> {
+  highlightedDays?: string[];
+  color?: string;
+}
+
+function ServerDay(props: ServerDayProps) {
+  const { highlightedDays = [], day, outsideCurrentMonth, color, ...other } = props;
 
   const isSelected =
     !props.outsideCurrentMonth && highlightedDays.includes(day.format("YYYY-MM-DD"));
@@ -29,7 +34,7 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] 
       key={props.day.toString()}
       overlap="circular"
       badgeContent={isSelected ? " " : undefined}
-      sx={{ "& .MuiBadge-overlapCircular": { backgroundColor: "#FFAE81" } }}
+      sx={{ "& .MuiBadge-overlapCircular": { backgroundColor: color } }}
       variant={isSelected ? "dot" : undefined}
     >
       <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
@@ -74,23 +79,18 @@ export default function TreatmentPaperCalendar({
   const handleBottomSheetChange = () => {
     setOpen(!open);
   };
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(date.getDate()).padStart(2, "0")}`;
-    return formattedDate;
+
+  const extractFirstFamilyColor = (calendarData: TreatmentCalendarItems[]): string | null => {
+    for (const item of calendarData) {
+      for (const treatmentItem of item.treatmentItems) {
+        if (treatmentItem.familyColor) {
+          return treatmentItem.familyColor;
+        }
+      }
+    }
+    return null;
   };
-  const formatTime = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const period = hours >= 12 ? "오후" : "오전";
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    return `${period} ${formattedHours}:${formattedMinutes}`;
-  };
+  const familyColors = extractFirstFamilyColor(calendarData);
   return (
     <>
       <div>
@@ -101,15 +101,13 @@ export default function TreatmentPaperCalendar({
             sx={{
               width: "100%",
             }}
-            shouldDisableDate={(day) => {
-              return dayjs(day as Dayjs).isAfter(currentDate, "day");
-            }}
             slots={{
               day: ServerDay,
             }}
             slotProps={{
               day: {
                 highlightedDays,
+                color: familyColors,
               } as any,
             }}
             value={selectedDate}
@@ -132,16 +130,7 @@ export default function TreatmentPaperCalendar({
               )
               .flatMap((item) =>
                 item.treatmentItems.map((treatment) => (
-                  <TreatmentBox
-                    key={treatment.id}
-                    title={treatment.hospitalName}
-                    category={treatment.department}
-                    date={formatDate(treatment.date)}
-                    time={formatTime(treatment.date)}
-                    userName={treatment.familyName}
-                    userProfile="/logo.png"
-                    content={treatment.symptom}
-                  />
+                  <TreatmentBox treatmentItems={treatment} key={treatment.id} />
                 ))
               )
           ) : (

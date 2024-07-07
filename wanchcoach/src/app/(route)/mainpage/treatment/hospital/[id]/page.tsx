@@ -9,6 +9,7 @@ import {
   TreatmentHospitalItems,
 } from "@/app/util/controller/treatmentController";
 import TreatmentBox from "../../_components/TreatmentBox";
+import { FamilyDetailController } from "@/app/util/controller/familyController";
 
 export default function Hospital({ params }: { params: { id: number } }) {
   const familyId = params.id;
@@ -16,6 +17,21 @@ export default function Hospital({ params }: { params: { id: number } }) {
   const [searchValue, setSearchValue] = useState("");
   const [filteredHospitals, setFilteredHospitals] = useState(hospitals);
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = `${today.getMonth() + 1}`.padStart(2, "0"); // month is zero-indexed
+    const day = `${today.getDate()}`.padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+  const formatDate = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(date.getDate()).padStart(2, "0")}`;
+    return formattedDate;
+  };
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
@@ -37,6 +53,7 @@ export default function Hospital({ params }: { params: { id: number } }) {
             hospital.treatmentItems.some((item) => item.familyId == familyId)
         );
         setFilteredHospitals(filtered);
+
         console.log("병원 데이터 가져오기 성공:", response);
       } catch (error) {
         console.error("데이터 가져오기 실패:", error);
@@ -46,23 +63,6 @@ export default function Hospital({ params }: { params: { id: number } }) {
     fetchData();
   }, []);
 
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(date.getDate()).padStart(2, "0")}`;
-    return formattedDate;
-  };
-  const formatTime = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const period = hours >= 12 ? "오후" : "오전";
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    return `${period} ${formattedHours}:${formattedMinutes}`;
-  };
   return (
     <div className={styles.body_container}>
       <HospitalSearchBox
@@ -88,13 +88,9 @@ export default function Hospital({ params }: { params: { id: number } }) {
                 {filteredItems.map((item) => (
                   <TreatmentBox
                     key={item.id}
-                    title={item.hospitalName}
-                    category={item.department}
-                    date={formatDate(item.date)}
-                    time={formatTime(item.date)}
-                    userName={item.familyName}
-                    userProfile="/logo.png"
-                    content={item.symptom}
+                    treatmentItems={item}
+                    future={formatDate(item.date) >= getCurrentDate()}
+                    state={formatDate(item.date) < getCurrentDate()}
                   />
                 ))}
               </div>

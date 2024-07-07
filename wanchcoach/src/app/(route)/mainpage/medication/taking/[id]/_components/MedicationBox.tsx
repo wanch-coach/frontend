@@ -21,6 +21,7 @@ interface MedicationBoxProps {
   count: number;
   drugs: DrugData[];
   state?: boolean;
+  handleEatSubmit?: () => void;
 }
 export default function MedicationBox({
   title,
@@ -28,6 +29,7 @@ export default function MedicationBox({
   count,
   drugs,
   state,
+  handleEatSubmit,
 }: MedicationBoxProps) {
   // const [checked, setChecked] = React.useState(true);
 
@@ -39,6 +41,7 @@ export default function MedicationBox({
   const handleExpandedChange = (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
     setExpanded(isExpanded);
   };
+
   return (
     <div className={styles.medication_container}>
       {state && <div className={styles.medication_stack_container}></div>}
@@ -120,7 +123,9 @@ export default function MedicationBox({
               <div className={styles.medication_detail_button_container}>
                 <div className={styles.medication_detail_button}>
                   <GoDotFill size={"20px"} color={"white"} />
-                  <div className={styles.medication_detail_button_text}>먹기</div>
+                  <div className={styles.medication_detail_button_text} onClick={handleEatSubmit}>
+                    먹기
+                  </div>
                 </div>
               </div>
             </div>

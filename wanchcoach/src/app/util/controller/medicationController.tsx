@@ -13,10 +13,10 @@ export interface DrugData {
   drugImage: string;
 }
 export interface PrescriptionData {
-  prescrptionId: number;
+  prescriptionId: number;
   hospitalName: string;
   department: string;
-  remaining: number;
+  remains: number;
   drugs: DrugData[];
 }
 export interface DrugTakeData {
@@ -48,8 +48,8 @@ export async function MedicationDayController(data: DayData) {
 export interface DrugRecordData {
   drugId: number;
   itemName: string;
-  itemImage: Uint8Array;
-  productType: string;
+  drugImage: string;
+  prductType: string;
 }
 
 export interface PrescriptionRecordData {
@@ -97,9 +97,11 @@ export interface DrugDayCalendarData {
   befordBed: PrescriptionCalendarData[];
 }
 interface PrescriptionCalendarData {
+  hospitalId: number;
   hospitalName: string;
   department: string;
   prescriptionId: number;
+  start: string;
   drugs: DrugRecordData[];
 }
 export async function MedicationCalendarController(data: MedicationCalendarData) {
@@ -118,8 +120,8 @@ export async function MedicationCalendarController(data: MedicationCalendarData)
 
 interface MedicationMyDrug {
   familyId: number;
-  startDate: Dayjs | null;
-  endDate: Dayjs | null;
+  startDate: string | undefined;
+  endDate: string | undefined;
 }
 export interface MyDrugInfoData {
   drugInfo: MyDrugInfoPropsData;
@@ -137,13 +139,32 @@ interface MyDrugRecordData {
 
 export async function MedicationMyDrugController(data: MedicationMyDrug) {
   try {
-    const url = `/medication/pills/families/${data.familyId}`;
-    const formData = { startDate: data.startDate, endDate: data.endDate };
+    const url = `/medication/pills/families/${data.familyId}?start-date=${data.startDate}&end-date=${data.endDate}`;
     const response = await fetchWithAuth(url, {
       method: "GET",
-      body: JSON.stringify(formData),
     });
     console.log("My Drug successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
+interface MedicationEatData {
+  prescriptionId: number;
+  familyId: number;
+  time: string;
+}
+
+export async function MedicationEatController(data: MedicationEatData) {
+  try {
+    const url = `/medication/taken/${data.prescriptionId}`;
+    const response = await fetchWithAuth(url, {
+      method: "POST",
+      body: JSON.stringify({ familyId: data.familyId, time: data.time }),
+    });
+    console.log("Eat successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {
     console.error("Error :", error);

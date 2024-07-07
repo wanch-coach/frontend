@@ -2,15 +2,20 @@ import styles from "./Component.module.css";
 import { ReactNode, useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { useDrag } from "react-use-gesture";
+import { MdSettingsBackupRestore } from "react-icons/md";
 
 interface DrugBottomSheetProps {
   children: ReactNode;
   open: boolean;
+  reSearchButton: boolean;
+  handleReSearch: () => void;
   handleBottomSheetChange: () => void;
 }
 export default function DrugBottomSheet({
   children,
   open,
+  reSearchButton,
+  handleReSearch,
   handleBottomSheetChange,
 }: DrugBottomSheetProps) {
   const [windowHeight, setWindowHeight] = useState(0);
@@ -70,10 +75,22 @@ export default function DrugBottomSheet({
         style={{ transform: y.to((y) => `translateY(${y}px)`) }}
         {...bind()}
       >
-        <div className={styles.bottomsheet_header} {...bind()}>
-          <hr className={styles.bottomsheet_header_line} />
+        {reSearchButton ? (
+          <div className={styles.drugbottomsheet_re_search}>
+            <div className={styles.drugbottomsheet_re_search_button} onClick={handleReSearch}>
+              <MdSettingsBackupRestore size="17px" />
+              <div className={styles.drugbottomsheet_re_search_text}>현위치에서 재검색</div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+        <div className={styles.drugbottomsheet_body}>
+          <div className={styles.bottomsheet_header} {...bind()}>
+            <hr className={styles.bottomsheet_header_line} />
+          </div>
+          {children}
         </div>
-        {children}
       </animated.div>
     </>
   );

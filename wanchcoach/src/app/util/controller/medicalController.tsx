@@ -1,12 +1,7 @@
 import { Dayjs } from "dayjs";
-import fetchWithoutAuth from "../fetchWithoutAuth";
 import Cookies from "js-cookie";
+import fetchWithAuth from "../fetchWithAuth";
 
-interface MedicalKeywordSearchData {
-  keyword: string;
-  lng: string;
-  lat: string;
-}
 export interface MedicalKeywordResultData {
   hospitalId: number;
   name: string;
@@ -48,9 +43,15 @@ export interface OpeningHourData {
   endTime: Dayjs;
 }
 
-export interface LocationData {
+interface LocationData {
   lat: number;
   lng: number;
+}
+
+interface MedicalKeywordSearchData {
+  keyword: string;
+  lng: number;
+  lat: number;
 }
 
 interface queryData {
@@ -58,11 +59,6 @@ interface queryData {
   location: LocationData;
 }
 
-interface MedicalKeywordSearchData {
-  keyword: string;
-  lng: string;
-  lat: string;
-}
 export interface MedicalKeywordResultData {
   hospitalId: number;
   name: string;
@@ -72,13 +68,14 @@ export interface MedicalKeywordResultData {
 export interface PharmacyResultData {
   pharmacyId: number;
   name: string;
+  type: string;
   address: string;
 }
 
 export async function NearbyMedicalController(data: LocationData) {
   try {
     const url = `/medical/location-search?lng=${data.lng}&lat=${data.lat}`;
-    const response = await fetchWithoutAuth(url, {
+    const response = await fetchWithAuth(url, {
       method: "GET",
     });
     console.log("find Nearby Medicals successful:", response);
@@ -92,7 +89,7 @@ export async function NearbyMedicalController(data: LocationData) {
 export async function MedicalKeywordSearchController(data: MedicalKeywordSearchData) {
   try {
     const url = `/medical/detail?keyword=${data.keyword}&lng=${data.lng}&lat=${data.lat}`;
-    const response = await fetchWithoutAuth(url, {
+    const response = await fetchWithAuth(url, {
       method: "GET",
     });
     console.log("keyword search success");

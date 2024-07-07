@@ -1,5 +1,5 @@
-import styles from "./register.module.css";
+import { redirect } from "next/navigation";
 
 export default function Register() {
-  return <></>;
+  redirect("/register/upcomming");
 }

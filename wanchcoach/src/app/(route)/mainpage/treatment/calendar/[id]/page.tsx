@@ -22,6 +22,7 @@ export default function Calendar({ params }: { params: { id: number } }) {
   const handleMonthChange = (newDate: Dayjs) => {
     setSelectedDate(newDate);
   };
+
   useEffect(() => {
     /* 달 별 복약 데이터 api 호출 */
     const fetchData = async () => {
@@ -32,11 +33,10 @@ export default function Calendar({ params }: { params: { id: number } }) {
           month: selectedDate.month() + 1,
         };
         const response = await TreatmentCalendarController(data);
-        console.log("로그:", response.data.treatmentDateItems);
         setCalendartData(response.data.treatmentDateItems);
-        console.log("달력 데이터 가져오기 성공:", response);
         const dates = response.data.treatmentDateItems.map((item: TreatmentItems) => item.date);
         setHighlightedDays(dates);
+        console.log("달력 데이터 가져오기 성공:", response);
       } catch (error) {
         console.error("데이터 가져오기 실패:", error);
         // 오류 처리

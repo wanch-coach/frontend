@@ -6,3 +6,19 @@
   background-color: #f6f4ea;
   overflow: auto;
 }
+.mypage_info {
+  margin: 0 6%;
+}
+.mymage_info_title {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 4%;
+}
+.mypage_info_content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 10px 0;
+}

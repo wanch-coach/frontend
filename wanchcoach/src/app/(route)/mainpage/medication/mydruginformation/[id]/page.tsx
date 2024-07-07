@@ -22,12 +22,12 @@ export default function MyDrugInformation({ params }: { params: { id: number } }
       try {
         const data = {
           familyId: familyId,
-          startDate: startDate,
-          endDate: endDate,
+          startDate: startDate?.format("YYYY-MM-DD"),
+          endDate: endDate?.format("YYYY-MM-DD"),
         };
         const response = await MedicationMyDrugController(data);
         setMyDrugData(response.data);
-        console.log("복약 이력 데이터 가져오기 성공:", response);
+        console.log("내 약 정보 가져오기 성공:", response);
       } catch (error) {
         console.error("데이터 가져오기 실패:", error);
         // 오류 처리

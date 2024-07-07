@@ -9,37 +9,60 @@ import { TbPencilMinus } from "react-icons/tb";
 import { TiDeleteOutline } from "react-icons/ti";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import { TreatmentItems } from "@/app/util/controller/treatmentController";
 
-//변수 title, category, date, time, userName, userProfile, future
 interface TreatmentBoxProps {
-  title: string;
-  category: string;
-  date: string;
-  time: string;
-  userName: string;
-  userProfile: string;
-  content: string;
+  treatmentItems: TreatmentItems;
   future?: boolean;
   state?: boolean;
   handleTreatmentDelete?: () => void;
 }
 export default function TreatmentBox({
-  title,
-  category,
-  date,
-  time,
-  userName,
-  userProfile,
-  content,
+  treatmentItems,
   future,
   state,
   handleTreatmentDelete,
 }: TreatmentBoxProps) {
-  // const [checked, setChecked] = React.useState(true);
+  const calculateDDay = (targetDate: string) => {
+    const currentDate = new Date();
+    const targetDateTime = new Date(targetDate);
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setChecked(event.target.checked);
-  // };
+    const currentTimestamp = new Date(currentDate.setHours(0, 0, 0, 0)).getTime();
+    const targetTimestamp = new Date(targetDateTime.setHours(0, 0, 0, 0)).getTime();
+
+    // D-day 계산
+    const timeDiff = targetTimestamp - currentTimestamp;
+    const millisecondsInADay = 1000 * 60 * 60 * 24;
+    const dDay = Math.ceil(timeDiff / millisecondsInADay);
+
+    if (dDay === 0) {
+      return <div className={styles.treatment_box_dday}>D - day</div>;
+    } else if (dDay > 0) {
+      return <div className={styles.treatment_box_notdday}>{`D - ${dDay}`}</div>;
+    } else {
+      return <div className={styles.treatment_box_notdday}>{`D - ${dDay}`}</div>;
+    }
+  };
+  const dDayMessage = calculateDDay(treatmentItems.date);
+
+  const formatDate = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(date.getDate()).padStart(2, "0")}`;
+    return formattedDate;
+  };
+
+  const formatTime = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const period = hours >= 12 ? "오후" : "오전";
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    return `${period} ${formattedHours}:${formattedMinutes}`;
+  };
   return (
     <div className={styles.treatment_container}>
       {state && <div className={styles.treatment_stack_container}></div>}
@@ -69,20 +92,31 @@ export default function TreatmentBox({
           <div className={styles.treatment_main_container}>
             <div className={styles.treatment_box_left}>
               <div className={styles.treatment_box_left_title}>
-                <div className={styles.treatment_text_left_title}>{title}</div>
-                <div className={styles.treatment_text_left_category}>{category}</div>
+                <div className={styles.treatment_text_left_title}>
+                  {treatmentItems.hospitalName}
+                </div>
+                <div className={styles.treatment_text_left_category}>
+                  {treatmentItems.department}
+                </div>
               </div>
               <div className={styles.treatment_box_left_content}>
-                <div className={styles.treatment_text_left_date_01}>{date}</div>
-                <div className={styles.treatment_text_left_date_02}>{time}</div>
+                <div className={styles.treatment_text_left_date_01}>
+                  {formatDate(treatmentItems.date)}
+                </div>
+                <div className={styles.treatment_text_left_date_02}>
+                  {formatTime(treatmentItems.date)}
+                </div>
               </div>
             </div>
-            {future && <div>D - day</div>}
+            {future && dDayMessage}
             <div className={styles.treatment_box_right}>
-              <div className={styles.treatment_box_right_profile}>
-                <Image src={userProfile} alt="프로필" fill sizes="30px" />
+              <div
+                className={styles.treatment_box_right_profile}
+                style={{ backgroundColor: treatmentItems.familyColor }}
+              >
+                {treatmentItems.familyName}
               </div>
-              {userName}
+              {treatmentItems.familyName}
             </div>
           </div>
         </AccordionSummary>
@@ -93,7 +127,7 @@ export default function TreatmentBox({
           }}
         >
           <div className={styles.treatment_detail_container}>
-            <div className={styles.treatment_detail_content}>{content}</div>
+            <div className={styles.treatment_detail_content}>{treatmentItems.symptom}</div>
             <div className={styles.treatment_detail_box}>
               <div className={styles.treatment_detail_box_left}>
                 <Link

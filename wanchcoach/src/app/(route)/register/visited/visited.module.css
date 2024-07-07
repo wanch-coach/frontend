@@ -19,20 +19,24 @@
 .prescription_title {
   display: flex;
   justify-content: space-between;
-
-  align-items: end;
-}
-.prescription_title_text {
   font-size: 19px;
   font-weight: 700;
   height: max-content;
+  align-items: end;
+}
+.prescription_register_container {
+  width: 100%;
+  text-align: -webkit-right;
+  padding-top: 12px;
 }
 .prescription_register_button {
   display: flex;
   background-color: #ff5a5a;
   align-items: center;
+  width: max-content;
   border-radius: 12px;
   padding: 7px 10px;
+  cursor: pointer;
 }
 .prescription_register_text {
   color: white;
@@ -43,6 +47,7 @@
 .drug_container {
   padding: 0 10px;
 }
+
 .drug_header {
   display: flex;
   justify-content: space-between;
@@ -71,6 +76,7 @@
   height: 1px;
   border: none;
   background: #dddddd;
+  margin-top: 10px;
 }
 .drug_footer_text {
   display: flex;

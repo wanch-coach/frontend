@@ -28,23 +28,23 @@ export default function LoginLayout({ children }: { children: ReactNode }) {
         <div className="pt-3" />
         <Link
           href={
-            " https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=quIIXrYYRk1GoMBFxXNn&state=STATE_STRING&redirect_uri=https://wanch-coach.site/login/oauth2/code/naver"
+            "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=quIIXrYYRk1GoMBFxXNn&state=STATE_STRING&redirect_uri=http://localhost:3000/naversignup"
           }
         >
           <div className={styles.naver_login_button}>
             <SiNaver size="25px" />
-            <div className={styles.naver_login_button_text}>네이버 아이디로 회원가입</div>
+            <div className={styles.naver_login_button_text}>네이버 아이디로 로그인</div>
           </div>
         </Link>
         <div className="pt-3" />
         <Link
           href={
-            " https://kauth.kakao.com/oauth/authorize?client_id=370123a2ecc923df6371e651937c9038&redirect_uri=https://wanch-coach.site/login/oauth2/code/kakao&response_type=code&scope=account_email"
+            " https://kauth.kakao.com/oauth/authorize?client_id=370123a2ecc923df6371e651937c9038&redirect_uri=http://localhost:3000/kakaosignup"
           }
         >
           <div className={styles.kakao_login_button}>
             <RiKakaoTalkFill size="25px" />
-            <div className={styles.kakao_login_button_text}>카카오 아이디로 회원가입</div>
+            <div className={styles.kakao_login_button_text}>카카오 아이디로 로그인</div>
           </div>
         </Link>
       </div>

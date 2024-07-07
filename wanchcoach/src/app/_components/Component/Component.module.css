@@ -28,12 +28,33 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  background-color: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 998;
   touch-action: none;
+}
+.drugbottomsheet_body {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+.drugbottomsheet_re_search {
+  text-align: -webkit-center;
+}
+.drugbottomsheet_re_search_button {
+  background-color: white;
+  width: max-content;
+  padding: 7px 15px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+.drugbottomsheet_re_search_text {
+  font-size: 15px;
+  padding-left: 4px;
 }
 .bottomsheet_header {
   height: 25px;
