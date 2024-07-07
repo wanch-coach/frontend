@@ -68,6 +68,20 @@ export async function FamilySummaryListController() {
   }
 }
 
+export async function FamilyDetailController(familyId: number) {
+  try {
+    const url = `/family/${familyId}`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+    console.log("Family detail successful:", response.data);
+    return response;
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
 export async function FindMyFamilyIdController() {
   try {
     const url = "/family/findmyfamilyid";

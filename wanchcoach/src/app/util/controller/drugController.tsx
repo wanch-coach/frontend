@@ -8,11 +8,19 @@ interface SearchData {
   keyword: string;
 }
 
+export interface DrugData {
+  drugId: number;
+  itemName: string;
+  prductType: string;
+  drugImage: string;
+  favorite: number;
+}
+
 export async function SearchDrugByKeyword(data: SearchData) {
   try {
     const url = `/drug?type=${data.type}&keyword=${data.keyword}`;
     const response = await fetchWithAuth(url, {
-      method: "Get",
+      method: "GET",
     });
     console.log("Drug Search successful:", response);
     return response; // 예시로 데이터 반환
@@ -36,12 +44,14 @@ export interface DrugDetailData {
   udDocData: string; //용법 용량 DATA
   nbDocData: string; //사용상의 주의사항 DATA
   drugImage: string; //약 이미지
+  favoriteId: number;
 }
+
 export async function SearchDrugDetail(drugId: number) {
   try {
     const url = `/drug/${drugId}`;
     const response = await fetchWithAuth(url, {
-      method: "Get",
+      method: "GET",
     });
     console.log("Drug Detail Search successful:", response);
     return response; // 예시로 데이터 반환
@@ -50,11 +60,11 @@ export async function SearchDrugDetail(drugId: number) {
     throw error; // 오류 처리
   }
 }
-export async function SearchFavorites(drugId: number) {
+export async function SearchFavorites() {
   try {
-    const url = "/favorites";
+    const url = "/drug/favorites";
     const response = await fetchWithAuth(url, {
-      method: "Get",
+      method: "GET",
     });
     console.log("Favorite List successful:", response);
     return response; // 예시로 데이터 반환
@@ -67,7 +77,7 @@ export async function ToFavorite(drugId: number) {
   try {
     const url = `/drug/${drugId}/favorites`;
     const response = await fetchWithAuth(url, {
-      method: "Post",
+      method: "POST",
     });
     console.log("Favorite making successful:", response);
     return response; // 예시로 데이터 반환
@@ -80,9 +90,27 @@ export async function DeleteFavorite(favoriteId: number) {
   try {
     const url = `/drug/favorites/${favoriteId}`;
     const response = await fetchWithAuth(url, {
-      method: "Delete",
+      method: "DELETE",
     });
     console.log("Delete Favorites successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
+export interface SimpleDrugData {
+  drugId: number;
+  itemName: string;
+}
+export async function SimpleSearchDrugByKeyword(keyword: string) {
+  try {
+    const url = `/drug/search?keyword=${keyword}`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+    console.log("Simple Drug Search successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {
     console.error("Error :", error);

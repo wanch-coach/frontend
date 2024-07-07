@@ -51,18 +51,32 @@
   padding: 1px;
   margin-left: 15px;
 }
+.treatment_box_dday {
+  font-size: 17px;
+  font-weight: 900;
+  color: #0a6847;
+}
+.treatment_box_notdday {
+  font-size: 17px;
+  font-weight: 900;
+}
 .treatment_box_right {
   font-size: 11px;
   font-weight: 800;
   text-align: center;
 }
 .treatment_box_right_profile {
-  border-radius: 50%;
-  box-shadow: 2px 2px 3px #dddddd;
-  position: relative;
   height: 40px;
   width: 40px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 3px #dddddd;
   margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  align-content: center;
+  overflow: hidden;
+  color: white;
 }
 .treatment_detail_container {
   margin: 0 3%;

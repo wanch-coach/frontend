@@ -34,7 +34,8 @@ export default function FamilyCreate() {
     };
     FamilyCreateController(data)
       .then(() => {
-        router.push("/mysetting/family");
+        router.back();
+        router.replace("/mysetting/family");
         return;
       })
       .catch((e) => {

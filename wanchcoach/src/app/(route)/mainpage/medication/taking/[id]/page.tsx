@@ -107,6 +107,7 @@ export default function Taking({ params }: { params: { id: number } }) {
   const [currentDate, setCurrentDate] = useState(today);
   const [activeTab, setActiveTab] = useState("morning");
   const [todayTaken, setTodayTaken] = useState<TodayTakeData[]>([]);
+
   const handleTabClick = (tab: SetStateAction<string>) => {
     setActiveTab(tab);
   };
@@ -138,10 +139,11 @@ export default function Taking({ params }: { params: { id: number } }) {
         // 오류 처리
       }
     };
+    setTodayTaken([]); // 원래 것 싹 비움
     fetchData();
   }, [currentDate]);
   const formattedDate = currentDate.format("M월 D일");
-  const filteredData = todayTaken?.filter((data) => data.familyId === familyId) || [];
+  const filteredData = todayTaken?.filter((data) => data.familyId == familyId) || [];
   return (
     <>
       <div className={styles.body_container}>
@@ -163,7 +165,7 @@ export default function Taking({ params }: { params: { id: number } }) {
         <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
       </div>
       <div className={styles.day_body_container}>
-        <MedicationList todayTakedata={filteredData} activeTab={activeTab} />
+        <MedicationList todayTakedata={filteredData} activeTab={activeTab} familyId={familyId} />
       </div>
     </>
   );

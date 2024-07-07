@@ -30,6 +30,12 @@
   font-size: 26px;
   font-weight: 700;
 }
+.home_today_treatment_container {
+  margin: 0 6%;
+}
+.home_today_treatment {
+  margin: 10px 0;
+}
 .home_more_box {
   height: max-content;
   display: flex;

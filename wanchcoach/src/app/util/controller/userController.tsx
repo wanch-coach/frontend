@@ -49,9 +49,45 @@ export async function LoginController(formData: LoginData) {
   }
 }
 
+interface NaverSignupData {
+  code: string;
+}
+export async function NaverLoginController(formData: NaverSignupData) {
+  try {
+    const url = `/login/oauth2/code/naver`;
+    const response = await fetchWithoutAuth(url, {
+      method: "POST",
+      body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
+    });
+    console.log("naverlogin successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error naver login:", error);
+    throw error; // 오류 처리
+  }
+}
+
+interface KakaoSignupData {
+  code: string;
+}
+export async function KakaoLoginController(formData: KakaoSignupData) {
+  try {
+    const url = `/login/oauth2/code/kakao`;
+    const response = await fetchWithoutAuth(url, {
+      method: "POST",
+      body: JSON.stringify(formData), // formData를 JSON 문자열로 변환하여 전송
+    });
+    console.log("kakaologin successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error naver login:", error);
+    throw error; // 오류 처리
+  }
+}
+
 export async function LogoutController() {
   try {
-    const url = `/member/sinout`;
+    const url = `/member/signout`;
     const response = await fetchWithAuth(url, {
       method: "GET",
     });

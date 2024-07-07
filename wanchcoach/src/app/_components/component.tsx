@@ -1,6 +1,13 @@
 "use client";
 
-import { ReactElement, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
+import {
+  ReactElement,
+  useState,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  KeyboardEvent,
+} from "react";
 import { useRouter } from "next/navigation";
 import styles from "./component.module.css";
 import { IoMdArrowBack } from "react-icons/io";
@@ -16,6 +23,10 @@ interface HeaderProps {
 }
 export function Header({ title, right, like, handleLikeChange }: HeaderProps) {
   const router = useRouter();
+  const truncateTitle = (str: string, num: number) => {
+    return str.length > num ? str.slice(0, num) + "..." : str;
+  };
+
   return (
     <div className={styles.header}>
       <span className={styles.header_backicon} onClick={() => router.back()}>
@@ -91,36 +102,104 @@ export function BasicInputBox({
   );
 }
 
+// List 생성 Input Box
+interface ListInputBoxProps {
+  type: string;
+  label?: string;
+  placeholder: string;
+  disabledInput?: boolean;
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  drugsData: (input: string) => SimpleDrugData[];
+  drugSearching: boolean;
+  handleDrugValueSubmit: (index: number, drug: SimpleDrugData) => void;
+  prescriptionIndex: number;
+}
+
+export function ListInputBox({
+  type,
+  label,
+  placeholder,
+  disabledInput,
+  value,
+  onChange,
+  drugsData,
+  drugSearching,
+  handleDrugValueSubmit,
+  prescriptionIndex,
+}: ListInputBoxProps) {
+  return (
+    <div className="mt-3">
+      <div className={styles.input_text}>{label}</div>
+      <div className={styles.input_container}>
+        <input
+          className={styles.input_box}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          disabled={disabledInput}
+          style={{ color: disabledInput ? "#DDDDDD" : "#000000" }}
+        />
+      </div>
+      <div className={styles.input_suggestion_container}>
+        <ul className={styles.input_suggestion_list}>
+          {value &&
+            drugSearching &&
+            drugsData(value).map((drug, index) => (
+              <li
+                key={index}
+                className={styles.input_suggestion_text}
+                onClick={() => handleDrugValueSubmit(prescriptionIndex, drug)}
+              >
+                {drug.itemName}
+              </li>
+            ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 // 모달 이용해서 찾는 Input Box
 import { IoMdSearch } from "react-icons/io";
 
-interface ModalInputBoxProps {
+interface HospitalModalInputBoxProps {
   label: string;
   placeholder: string;
   value: MedicalKeywordResultData;
-  handleHospitalChange: (result: any) => void;
+  handleHospitalChange: (result: MedicalKeywordResultData) => void;
 }
-export function ModalInputBox({
+export function HospitalModalInputBox({
   label,
   placeholder,
   value,
   handleHospitalChange,
 }: // handleValueChange,
-ModalInputBoxProps) {
+HospitalModalInputBoxProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [keyword, setKeyword] = useState<string>("");
+  const [fixedKeyword, setFixedKeyword] = useState<string>("");
+  const [searching, setSearching] = useState(false);
   const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]);
 
-  const handleModalOpen = () => setModalOpen(true);
+  const handleModalOpen = () => {
+    setKeywordSearchResponse([]);
+    setKeyword("");
+    setSearching(false);
+    setModalOpen(true);
+  };
   const handleModalClose = () => setModalOpen(false);
   const handleSearch = () => {
     const data = {
       keyword: keyword,
-      lng: "127.0851566",
-      lat: "37.48813256",
+      lng: 127.0851566,
+      lat: 37.48813256,
     };
     MedicalKeywordSearchController(data)
       .then((response) => {
+        setFixedKeyword(keyword);
+        setSearching(true);
         setKeywordSearchResponse(response.data.hospitals);
         return;
       })
@@ -135,6 +214,12 @@ ModalInputBoxProps) {
     handleModalClose();
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // 기본 Enter 동작을 막음 (필요한 경우)
+      handleSearch();
+    }
+  };
   return (
     <>
       <div className="mt-3">
@@ -146,7 +231,7 @@ ModalInputBoxProps) {
             readOnly
             placeholder={placeholder}
             value={value?.name}
-            onChange={handleHospitalChange}
+            onChange={() => handleHospitalChange}
           />
           <button className={styles.modal_input_button} onClick={handleModalOpen}>
             <IoMdSearch size={"25px"} color="#0A6847" />
@@ -164,61 +249,81 @@ ModalInputBoxProps) {
               value={keyword}
               onChange={(e) => {
                 setKeyword(e.target.value);
-              }} //handleValueChange
+              }}
+              onKeyDown={handleKeyDown}
             />
             <button className={styles.modal_input_button} onClick={handleSearch}>
               <IoMdSearch size={"25px"} color="#0A6847" />
             </button>
           </div>
-          <div className="pt-4">* {label}으로 검색하세요.</div>
-          <div className="pt-2">
-            <hr className={styles.search_modal_headline} />
-            {searchResult.map((result, index) => (
-              <div
-                key={index}
-                className={styles.search_modal_box}
-                onClick={() => selectHospital(result)}
-              >
-                <div>
-                  <span className={styles.search_modal_text_01}>{result.name}</span>
-                  <span className={styles.search_modal_text_02}>{result.type}</span>
-                </div>
-                <div className={styles.search_modal_text_03}>{result.address}</div>
+          {searching ? (
+            <>
+              <div className="pt-4">
+                * {fixedKeyword}으로 검색한 결과 ({searchResult.length})
               </div>
-            ))}
-          </div>
+              <div className="pt-2">
+                <hr className={styles.search_modal_headline} />
+                <div className={styles.search_modal_content}>
+                  {searchResult.map((result, index) => (
+                    <div
+                      key={index}
+                      className={styles.search_modal_box}
+                      onClick={() => selectHospital(result)}
+                    >
+                      <div>
+                        <span className={styles.search_modal_text_01}>{result.name}</span>
+                        <span className={styles.search_modal_text_02}>{result.type}</span>
+                      </div>
+                      <div className={styles.search_modal_text_03}>{result.address}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="pt-4">* {label}으로 검색하세요.</div>
+          )}
         </div>
       </BasicModal>
     </>
   );
 }
 //--------------------------------------------약국 모달
-interface ModalInputBox2Props {
+interface PharmacyModalInputBoxProps {
   label: string;
   placeholder: string;
   value: PharmacyResultData;
-  handlePharmacyChange: (result: any) => void;
+  handlePharmacyChange: (result: PharmacyResultData) => void;
 }
-export function ModalInputBox2({
+export function PharmacyModalInputBox({
   label,
   placeholder,
   value,
   handlePharmacyChange,
-}: ModalInputBox2Props) {
+}: PharmacyModalInputBoxProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [keyword, setKeyword] = useState<string>("");
-  const [searchResult, setKeywordSearchResponse] = useState<MedicalKeywordResultData[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [fixedKeyword, setFixedKeyword] = useState<string>("");
+  const [searchResult, setKeywordSearchResponse] = useState<PharmacyResultData[]>([]);
 
-  const handleModalOpen = () => setModalOpen(true);
+  const handleModalOpen = () => {
+    setKeywordSearchResponse([]);
+    setKeyword("");
+    setSearching(false);
+    setModalOpen(true);
+  };
   const handleModalClose = () => setModalOpen(false);
   const handleSearch = () => {
     const data = {
       keyword: keyword,
-      lng: "127.0851566",
-      lat: "37.48813256",
+      lng: 127.0851566,
+      lat: 37.48813256,
     };
     MedicalKeywordSearchController(data)
       .then((response) => {
+        setFixedKeyword(keyword);
+        setSearching(true);
         setKeywordSearchResponse(response.data.pharmacies);
         return;
       })
@@ -228,9 +333,16 @@ export function ModalInputBox2({
       });
   };
 
-  const selectHospital = (result: MedicalKeywordResultData) => {
+  const selectPharmacy = (result: PharmacyResultData) => {
     handlePharmacyChange(result);
     handleModalClose();
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // 기본 Enter 동작을 막음 (필요한 경우)
+      handleSearch();
+    }
   };
 
   return (
@@ -244,7 +356,7 @@ export function ModalInputBox2({
             readOnly
             placeholder={placeholder}
             value={value?.name}
-            onChange={handlePharmacyChange}
+            onChange={() => handlePharmacyChange}
           />
           <button className={styles.modal_input_button} onClick={handleModalOpen}>
             <IoMdSearch size={"25px"} color="#0A6847" />
@@ -262,29 +374,40 @@ export function ModalInputBox2({
               value={keyword}
               onChange={(e) => {
                 setKeyword(e.target.value);
-              }} //handleValueChange
+              }}
+              onKeyDown={handleKeyDown}
             />
             <button className={styles.modal_input_button} onClick={handleSearch}>
               <IoMdSearch size={"25px"} color="#0A6847" />
             </button>
           </div>
-          <div className="pt-4">* {label}으로 검색하세요.</div>
-          <div className="pt-2">
-            <hr className={styles.search_modal_headline} />
-            {searchResult.map((result, index) => (
-              <div
-                key={index}
-                className={styles.search_modal_box}
-                onClick={() => selectHospital(result)}
-              >
-                <div>
-                  <span className={styles.search_modal_text_01}>{result.name}</span>
-                  <span className={styles.search_modal_text_02}>{result.type}</span>
-                </div>
-                <div className={styles.search_modal_text_03}>{result.address}</div>
+          {searching ? (
+            <>
+              <div className="pt-4">
+                * {fixedKeyword}으로 검색한 결과 ({searchResult.length})
               </div>
-            ))}
-          </div>
+              <div className="pt-2">
+                <hr className={styles.search_modal_headline} />
+                <div className={styles.search_modal_content}>
+                  {searchResult.map((result, index) => (
+                    <div
+                      key={index}
+                      className={styles.search_modal_box}
+                      onClick={() => selectPharmacy(result)}
+                    >
+                      <div>
+                        <span className={styles.search_modal_text_01}>{result.name}</span>
+                        <span className={styles.search_modal_text_02}>{result.type}</span>
+                      </div>
+                      <div className={styles.search_modal_text_03}>{result.address}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="pt-4">* {label}으로 검색하세요.</div>
+          )}
         </div>
       </BasicModal>
     </>
@@ -356,7 +479,7 @@ export function SelectInputbox({ label, handleVisitorChange, value }: SelectInpu
 interface TextAreaInputboxProps {
   label: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 // TextArea Input box
@@ -364,19 +487,23 @@ export function TextAreaInputbox({ label, value, onChange }: TextAreaInputboxPro
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
-      <textarea className={styles.input_area_box} placeholder="내용을 입력하세요" />
+      <textarea
+        className={styles.input_area_box}
+        value={value}
+        onChange={onChange}
+        placeholder="내용을 입력하세요"
+      />
     </div>
   );
 }
 
 // 숫자 선택 Select Box
-export function NumberSelectInputbox({ label }: { label: string }) {
-  const [selectedValue, setSelectedValue] = useState<string>("none");
-
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(event.target.value);
-    console.log("Selected Value:", event.target.value); // 선택된 값 출력
-  };
+interface NumberSelectInputboxProps {
+  label: string;
+  value: number;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+export function NumberSelectInputbox({ label, value, onChange }: NumberSelectInputboxProps) {
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
@@ -384,11 +511,11 @@ export function NumberSelectInputbox({ label }: { label: string }) {
         name=""
         id=""
         className={`${styles.number_input_box} ${styles.select_box}`}
-        value={selectedValue}
-        onChange={handleSelectChange}
-        style={{ color: selectedValue === "none" ? "#8F9098" : "black" }}
+        value={value.toString()}
+        onChange={onChange}
+        style={{ color: value === 0 ? "#8F9098" : "black" }}
       >
-        <option value="none" hidden>
+        <option value="0" hidden>
           회
         </option>
         <option value="1" className={styles.default_text}>
@@ -412,8 +539,17 @@ export function NumberSelectInputbox({ label }: { label: string }) {
 interface NumberInputboxProps {
   label: string;
   placeholder: string;
+  rightLabel?: string;
+  value: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-export function NumberInputbox({ label, placeholder }: NumberInputboxProps) {
+export function NumberInputbox({
+  label,
+  placeholder,
+  rightLabel,
+  value,
+  onChange,
+}: NumberInputboxProps) {
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
@@ -423,8 +559,10 @@ export function NumberInputbox({ label, placeholder }: NumberInputboxProps) {
           style={{ width: "18vw", height: "45px", textAlign: "center" }}
           type="number"
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
         />
-        <span className={styles.number_input_text}>일</span>
+        <span className={styles.number_input_text}>{rightLabel}</span>
       </div>
     </div>
   );
@@ -443,15 +581,17 @@ interface DateInputBoxProps {
   selectedDate?: Dayjs | null;
   handleDateChange?: Dispatch<SetStateAction<Dayjs | null>>;
   small?: boolean;
+  future?: boolean;
 }
 
-export function DateInputBox({ label, selectedDate, handleDateChange, small }: DateInputBoxProps) {
+export function DateInputBox({
+  label,
+  selectedDate,
+  handleDateChange,
+  small,
+  future,
+}: DateInputBoxProps) {
   const currentDate = dayjs();
-  // const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-
-  // const handleDateChange = (date: Dayjs | null) => {
-  //   setSelectedDate(date);
-  // };
   const StyledDatePicker = styled(DatePicker)({
     "& .MuiInputBase-root": {
       backgroundColor: "white",
@@ -481,6 +621,7 @@ export function DateInputBox({ label, selectedDate, handleDateChange, small }: D
           onChange={(date: Dayjs | null) => {
             if (handleDateChange) {
               handleDateChange(date); // handleDateChange가 정의된 경우 호출
+              console.log(date);
             }
           }}
           format="YYYY-MM-DD"
@@ -491,7 +632,9 @@ export function DateInputBox({ label, selectedDate, handleDateChange, small }: D
           }}
           slotProps={{ toolbar: { hidden: true } }}
           shouldDisableDate={(day) => {
-            return dayjs(day as Dayjs).isAfter(currentDate, "day");
+            return future
+              ? dayjs(day as Dayjs).isBefore(currentDate, "day")
+              : dayjs(day as Dayjs).isAfter(currentDate, "day");
           }}
         />
       </LocalizationProvider>
@@ -567,85 +710,45 @@ export function TwoCheckBox({
 }
 
 // 아침, 점심, 저녁, 취침 전 Check Box
-export function DayCheckBox() {
-  const [selectedChecks, setSelectedChecks] = useState<string[]>([]);
+interface DayCheckBoxProps {
+  selectedChecks: boolean[];
+  handleCheckboxChange: (index: number, isChecked: boolean) => void;
+}
+export function DayCheckBox({ selectedChecks, handleCheckboxChange }: DayCheckBoxProps) {
+  // const [selectedChecks, setSelectedChecks] = useState<string[]>([]);
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    setSelectedChecks((prev) =>
-      prev.includes(name) ? prev.filter((check) => check !== name) : [...prev, name]
-    );
-    console.log(selectedChecks);
+  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name } = event.target;
+  //   setSelectedChecks((prev) =>
+  //     prev.includes(name) ? prev.filter((check) => check !== name) : [...prev, name]
+  //   );
+  //   console.log(selectedChecks);
+  // };
+  const handleCheckChange = (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
+    handleCheckboxChange(index, event.target.checked);
   };
   return (
-    <div className={styles.daycheck_container}>
-      <div className={styles.daycheck_box}>
-        <Checkbox
-          checked={selectedChecks.includes("morning")}
-          onChange={handleCheckboxChange}
-          name="morning"
-          icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<RadioButtonCheckedIcon />}
-          size="small"
-          sx={{
-            padding: "5px",
-            "&.Mui-checked": {
-              color: "#2F3036",
-            },
-          }}
-        />
-        <span>아침</span>
-      </div>
-      <div className={styles.daycheck_box}>
-        <Checkbox
-          checked={selectedChecks.includes("noon")}
-          onChange={handleCheckboxChange}
-          name="noon"
-          icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<RadioButtonCheckedIcon />}
-          size="small"
-          sx={{
-            padding: "5px",
-            "&.Mui-checked": {
-              color: "#2F3036",
-            },
-          }}
-        />
-        <span>점심</span>
-      </div>
-      <div className={styles.daycheck_box}>
-        <Checkbox
-          checked={selectedChecks.includes("evening")}
-          onChange={handleCheckboxChange}
-          name="evening"
-          icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<RadioButtonCheckedIcon />}
-          size="small"
-          sx={{
-            padding: "5px",
-            "&.Mui-checked": {
-              color: "#2F3036",
-            },
-          }}
-        />
-        <span>저녁</span>
-      </div>
-      <div className={styles.daycheck_box}>
-        <Checkbox
-          checked={selectedChecks.includes("beforeBed")}
-          onChange={handleCheckboxChange}
-          name="beforeBed"
-          icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<RadioButtonCheckedIcon />}
-          size="small"
-          sx={{
-            padding: "5px",
-            "&.Mui-checked": {
-              color: "#2F3036",
-            },
-          }}
-        />
-        <span>취침 전</span>
+    <div className="mt-4">
+      <div className={styles.input_text}>복용 시간</div>
+      <div className={styles.daycheck_container}>
+        {["아침", "점심", "저녁", "취침 전"].map((label, index) => (
+          <div className={styles.daycheck_box} key={index}>
+            <Checkbox
+              checked={selectedChecks[index]}
+              onChange={handleCheckChange(index)}
+              icon={<RadioButtonUncheckedIcon />}
+              checkedIcon={<RadioButtonCheckedIcon />}
+              size="small"
+              sx={{
+                padding: "5px",
+                "&.Mui-checked": {
+                  color: "#2F3036",
+                },
+              }}
+            />
+            <span>{label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -733,6 +836,7 @@ import {
   MedicalKeywordSearchController,
   PharmacyResultData,
 } from "../util/controller/medicalController";
+import { DrugData, SimpleDrugData } from "../util/controller/drugController";
 
 interface BasicModalProps {
   open: boolean;

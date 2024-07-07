@@ -13,17 +13,14 @@ export default function Calender({ params }: { params: { id: number } }) {
   const familyId = params.id;
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [calendarData, setCalendartData] = useState<DrugDayCalendarData[] | undefined>();
-  const [highlightedDays, setHighlightedDays] = useState([
-    "2024-06-18",
-    "2024-06-01",
-    "2024-06-17",
-  ]);
+  const [highlightedDays, setHighlightedDays] = useState<string[]>([]);
   const handleSelectedDateChange = (newDate: Dayjs) => {
     setSelectedDate(newDate);
   };
   const handleMonthChange = (newDate: Dayjs) => {
     setSelectedDate(newDate);
   };
+
   useEffect(() => {
     /* 달 별 복약 데이터 api 호출 */
     const fetchData = async () => {
@@ -35,6 +32,14 @@ export default function Calender({ params }: { params: { id: number } }) {
         };
         const response = await MedicationCalendarController(data);
         setCalendartData(response.data?.records);
+        const year = response.data.year;
+        const month = response.data.month;
+        const dates = response.data.records.map((item: DrugDayCalendarData) => {
+          const formattedMonth = String(month).padStart(2, "0");
+          const formattedDay = String(item.day).padStart(2, "0");
+          return `${year}-${formattedMonth}-${formattedDay}`;
+        });
+        setHighlightedDays(dates);
         console.log("달력 데이터 가져오기 성공:", response);
       } catch (error) {
         console.error("데이터 가져오기 실패:", error);
@@ -43,6 +48,7 @@ export default function Calender({ params }: { params: { id: number } }) {
     };
     fetchData();
   }, [selectedDate.year(), selectedDate.month()]);
+
   return (
     <div className={style.body_container}>
       <PaperCalendar

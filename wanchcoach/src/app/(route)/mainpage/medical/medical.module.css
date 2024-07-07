@@ -56,7 +56,7 @@
 }
 .map_current_position_button {
   position: fixed;
-  bottom: 110px;
+  bottom: calc(70px + 15vh);
   left: 10px;
   height: max-content;
   width: max-content;
@@ -149,8 +149,17 @@
 /* */
 .drugbottomsheet_list_container {
   padding: 0 10px;
-  height: 65%;
-  overflow: auto;
+  height: 75%;
+}
+@media screen and (max-height: 1000px) {
+  .drugbottomsheet_list_container {
+    height: 70%;
+  }
+}
+@media screen and (max-height: 800px) {
+  .drugbottomsheet_list_container {
+    height: 65%;
+  }
 }
 .drugbottomsheet_list_header {
   display: flex;
@@ -163,6 +172,7 @@
 }
 .drugbottomsheet_list_body {
   margin: 0 8%;
+  height: 100%;
 }
 .drugbottomsheet_list_tail_text {
   font-size: 13px;
@@ -172,6 +182,10 @@
   height: 1px;
   background: black;
   border: none;
+}
+.drugbottomsheet_list_content {
+  overflow: auto;
+  height: calc(100% - 46.5px);
 }
 .drugbottomsheet_list_box {
   padding: 15px 10px;
@@ -207,6 +221,17 @@
 /* */
 .drugbottomsheet_search_container {
   margin: 0 5%;
+  height: 75%;
+}
+@media screen and (max-height: 1000px) {
+  .drugbottomsheet_search_container {
+    height: 70%;
+  }
+}
+@media screen and (max-height: 800px) {
+  .drugbottomsheet_search_container {
+    height: 65%;
+  }
 }
 .drugbottomsheet_search_header_text {
   display: flex;
@@ -228,4 +253,8 @@
   background: black;
   border: none;
   margin-top: 2px;
+}
+.drugbottomsheet_search_body {
+  height: 100%;
+  overflow: auto;
 }

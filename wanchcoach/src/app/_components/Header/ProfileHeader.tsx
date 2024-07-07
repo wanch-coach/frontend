@@ -112,7 +112,7 @@ export default function ProfileHeader({
           </div>
           <div className={styles.modal_content}>
             <Link
-              href={"/register"}
+              href={"/mainpage/medical"}
               className={styles.modal_content_box}
               style={{ backgroundColor: "#CECECE" }}
             >

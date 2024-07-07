@@ -12,24 +12,29 @@ import { TbPencilMinus } from "react-icons/tb";
 import { TiDeleteOutline } from "react-icons/ti";
 import { FaRegTrashAlt } from "react-icons/fa";
 import DrugBox from "@/app/_components/Component/Drug/DrugBox";
+import { PrescriptionRecordData } from "@/app/util/controller/medicationController";
+import { useRouter } from "next/navigation";
 
 //변수 title, category, count, state
 interface MedicationInfoBoxProps {
-  title: string;
-  category: string;
+  prescription: PrescriptionRecordData;
   state?: boolean;
 }
-export default function MedicationInfoBox({ title, category, state }: MedicationInfoBoxProps) {
-  // const [checked, setChecked] = React.useState(true);
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setChecked(event.target.checked);
-  // };
+export default function MedicationInfoBox({ prescription, state }: MedicationInfoBoxProps) {
+  const route = useRouter();
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandedChange = (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
     setExpanded(isExpanded);
   };
+  function formatDate(inputDateStr: string) {
+    const dateObj = new Date(inputDateStr);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+
+    return `${year}.${month}.${day}`;
+  }
   return (
     <div className={styles.medication_container}>
       {state && (
@@ -66,13 +71,15 @@ export default function MedicationInfoBox({ title, category, state }: Medication
             </div>
             <div className={styles.medication_box_right}>
               <div className={styles.medication_box_right_01}>
-                <div className={styles.medication_text_title}>{title}</div>
-                <div className={styles.medication_text_category}>{category}</div>
+                <div className={styles.medication_text_title}>{prescription.hospitalName}</div>
+                <div className={styles.medication_text_category}>{prescription.department}</div>
               </div>
               <div className={styles.medication_box_right_02}>
                 <div className={styles.medication_text_number_01}>복용 기간</div>
-                <div className={styles.medication_text_number_02}>2024.05.29</div>
-                <div className={styles.medication_text_number_02}>~ 2024.06.12</div>
+                <div className={styles.medication_text_number_02}>
+                  {formatDate(prescription.start)}
+                </div>
+                <div className={styles.medication_text_number_02}>~ </div>
               </div>
               <div className={styles.medication_box_right_03}>
                 {expanded ? (
@@ -93,22 +100,28 @@ export default function MedicationInfoBox({ title, category, state }: Medication
           <div className={styles.medication_detail_container}>
             <div className={styles.medication_detail_content}>
               <div className={styles.medication_detail_header}>
-                <div className={styles.medication_detail_header_text} style={{ flex: "1" }}></div>
-                <div className={styles.medication_detail_header_text} style={{ flex: "1.4" }}>
+                <div className={styles.medication_detail_header_text} style={{ flex: "3" }}></div>
+                <div className={styles.medication_detail_header_text} style={{ flex: "6" }}>
                   약 명
                 </div>
-                <div className={styles.medication_detail_header_text} style={{ flex: "1.4" }}>
+                <div className={styles.medication_detail_header_text} style={{ flex: "3" }}>
                   종류
                 </div>
               </div>
               <div>
-                <DrugBox itemName="타이레놀정160mg" prductType="진통제" />
-                <div style={{ marginTop: "4px" }} />
-                <DrugBox itemName="사디반정 160mg" prductType="고혈압 치료제" />
-                <div style={{ marginTop: "4px" }} />
-                <DrugBox itemName="마게이트정" prductType="제산제" />
+                {prescription.drugs.map((drug, index) => (
+                  <div key={index}>
+                    <DrugBox
+                      itemName={drug.itemName}
+                      prductType={drug.prductType}
+                      drugImage={drug.drugImage}
+                      onClick={() => route.push(`/druginfo/${drug.drugId}`)}
+                    />
+                    <div style={{ marginTop: "4px" }} />
+                  </div>
+                ))}
               </div>
-              <div className={styles.medication_detail_total}>총 3개</div>
+              <div className={styles.medication_detail_total}>총 {prescription.drugs.length}개</div>
             </div>
             <div className={styles.medication_detail_footer}>
               <div className={styles.medication_detail_footer_left}>

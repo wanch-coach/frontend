@@ -4,38 +4,31 @@ import { Header } from "@/app/_components/component";
 import styles from "./druginfo.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { DrugDetailData, SearchDrugDetail } from "@/app/util/controller/drugController";
+import {
+  DeleteFavorite,
+  DrugDetailData,
+  SearchDrugDetail,
+  ToFavorite,
+} from "@/app/util/controller/drugController";
 import parseXML from "xml2js"; // 예시로 xml2js 사용
 
 export default function DrugInfo({ params }: { params: { id: number } }) {
   const drugId = params.id;
-  const [like, setLike] = useState(false);
+  const [favoriteId, setFavoriteId] = useState(null);
   const [drug, setDrug] = useState<DrugDetailData>();
   const [eeDoc, setEeDoc] = useState("");
   const [nbDoc, setNbDoc] = useState("");
   const [udDoc, setUdDoc] = useState("");
 
-  interface Drug {
-    itemName: string;
-    drugImage: string;
-    drugId: number;
-    prductType: string;
-    entpName: string;
-    storageMethod: string;
-    eeDocData: string;
-    nbDocData: string;
-    udDocData: string;
-    itemEngName: string;
-  }
-
   useEffect(() => {
     /* 약 검색하는 API 호출 해야함! */
     SearchDrugDetail(drugId)
       .then((response) => {
-        setDrug(response);
-        setEeDoc(getText(response.eeDocData));
-        setNbDoc(getText(response.nbDocData));
-        setUdDoc(getText(response.udDocData));
+        setDrug(response.data);
+        setFavoriteId(response.data.favoriteId);
+        setEeDoc(getText(response.data.eeDocData));
+        setNbDoc(getText(response.data.nbDocData));
+        setUdDoc(getText(response.data.udDocData));
       })
       .catch((e) => {
         console.log(e);
@@ -77,14 +70,35 @@ export default function DrugInfo({ params }: { params: { id: number } }) {
 
   const handleLikeChange = () => {
     /* 좋아요 눌렀을 때 혹은 취소했을 때 */
-    setLike((prevLike) => !prevLike);
+    if (favoriteId === null) {
+      ToFavorite(drugId)
+        .then((response) => {
+          setFavoriteId(response.data.favoriteId);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      DeleteFavorite(favoriteId)
+        .then((response) => {
+          setFavoriteId(null);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   };
 
   return (
     <div className={styles.container}>
       {drug ? (
         <>
-          <Header title={drug.itemName} right like={like} handleLikeChange={handleLikeChange} />
+          <Header
+            title={drug.itemName}
+            right
+            like={favoriteId === null ? false : true}
+            handleLikeChange={handleLikeChange}
+          />
           <div className={styles.body_container}>
             <div className={styles.druginfo_body_container}>
               <div className={styles.druginfo_image_container}>
@@ -100,7 +114,7 @@ export default function DrugInfo({ params }: { params: { id: number } }) {
               <DrugInfoDetailBox
                 number="1"
                 title="약품 명"
-                content={drug.itemName + "\n" + drug.itemEngName}
+                content={drug.itemName + "\n" + "영문 명 : " + drug.itemEngName}
               />
               <DrugInfoDetailBox number="2" title="분류" content={drug.prductType} />
               <DrugInfoDetailBox number="3" title="제조원" content={drug.entpName} />
