@@ -140,6 +140,7 @@
 .input_area_box {
   width: 100%;
   border: 1px solid #c5c6cc;
+  background-color: white;
   border-radius: 10px;
   padding: 12px 15px;
   height: 120px;

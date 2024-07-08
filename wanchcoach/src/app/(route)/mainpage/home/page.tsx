@@ -8,12 +8,18 @@ import {
   TreatmentItems,
   TreatmentTotalDayController,
 } from "@/app/util/controller/treatmentController";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import DayMenu from "@/app/_components/Component/Medication/DayMenu";
+import {
+  TodayMedicationController,
+  TodayMedicationData,
+  TodayPrescriptionData,
+} from "@/app/util/controller/medicationController";
 
 const responsive = {
   superLargeDesktop: {
@@ -34,12 +40,35 @@ const responsive = {
     items: 1,
   },
 };
+const responsive2 = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 5000, min: 900 },
+    items: 4,
+  },
+  desktop: {
+    breakpoint: { max: 900, min: 650 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 650, min: 350 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 350, min: 0 },
+    items: 1,
+  },
+};
 
 export default function Home() {
   const myFamilyId = Cookies.get("myFamilyId");
   const [todayTreatmentData, setTodayTreatmentData] = useState<TreatmentItems[]>([]);
+  const [todayMedicationData, setTodayMedicationData] = useState<TodayMedicationData>();
   const [todayDate, setTodayDate] = useState(dayjs());
-
+  const [activeTab, setActiveTab] = useState("morning");
+  const handleTabClick = (tab: SetStateAction<string>) => {
+    setActiveTab(tab);
+  };
   useEffect(() => {
     const data = {
       year: todayDate.year(),
@@ -59,20 +88,72 @@ export default function Home() {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await TodayMedicationController();
+        setTodayMedicationData(response.data);
+        console.log(response);
+        console.log("복약 데이터 가져오기 성공:", response);
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+        // 오류 처리
+      }
+    };
+    fetchData();
+  }, []);
+  const getMedicationData = (): TodayPrescriptionData[] => {
+    if (!todayMedicationData) return [];
+    switch (activeTab) {
+      case "morning":
+        return todayMedicationData.morning;
+      case "noon":
+        return todayMedicationData.noon;
+      case "evening":
+        return todayMedicationData.evening;
+      case "beforeBed":
+        return todayMedicationData.beforeBed;
+      default:
+        return [];
+    }
+  };
+  const medicationData = getMedicationData();
   return (
     <div>
-      <TodayTitle title="진료" link={`/treatment/diagnosis/${myFamilyId}`} />
+      <TodayTitle title="진료" link={`/treatment/diagnosis/0`} />
       <div className={styles.home_today_treatment_container}>
         <Carousel responsive={responsive}>
-          {todayTreatmentData.map((item, index) => (
-            <div className={styles.home_today_treatment} key={index}>
-              <TreatmentBox treatmentItems={item} />
+          {todayTreatmentData.length !== 0 ? (
+            todayTreatmentData.map((item, index) => (
+              <div className={styles.home_today_treatment} key={index}>
+                <TreatmentBox treatmentItems={item} />
+              </div>
+            ))
+          ) : (
+            <div className={styles.home_today_treatment}>
+              <div className={styles.no_treatment_message}>오늘 예약된 치료가 없습니다.</div>
             </div>
-          ))}
+          )}
         </Carousel>
       </div>
-
+      <div className="mt-5" />
       <TodayTitle title="복약" link={`/medication/taking/${myFamilyId}`} />
+      <div className={styles.home_today_medication_container}>
+        <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
+        <Carousel responsive={responsive2}>
+          {medicationData.length !== 0 ? (
+            medicationData.map((item, index) => (
+              <div className={styles.home_today_medication}>
+                <TodayMedicationBox key={index} medicationData={item} />
+              </div>
+            ))
+          ) : (
+            <div className={styles.home_today_treatment}>
+              <div className={styles.no_treatment_message}>먹을 약이 없습니다.</div>
+            </div>
+          )}
+        </Carousel>
+      </div>
     </div>
   );
 }
@@ -94,24 +175,26 @@ function TodayTitle({ title, link }: TodayTitleProps) {
   );
 }
 
-function TodayTreatmentBox() {
+interface TodayMedicationBoxProps {
+  medicationData: TodayPrescriptionData;
+}
+function TodayMedicationBox({ medicationData }: TodayMedicationBoxProps) {
   return (
-    <div className={styles.treatment_container}>
-      <div className={styles.treatment_box_left}>
-        <div className={styles.treatment_box_left_title}>
-          <div className={styles.treatment_text_left_title}>서울성모병원</div>
-          <div className={styles.treatment_text_left_category}>내과</div>
+    <div className={styles.home_medication_box}>
+      <div
+        className={styles.home_medication_box_left}
+        style={{ backgroundColor: medicationData.familyColor as string }}
+      >
+        <div
+          className={styles.home_medication_box_left_profile}
+          style={{ backgroundColor: medicationData.familyColor as string }}
+        >
+          {medicationData.familyName}
         </div>
-        <div className={styles.treatment_box_left_content}>
-          <div className={styles.treatment_text_left_date_01}>5.22 수</div>
-          <div className={styles.treatment_text_left_date_02}>오후 1:30</div>
-        </div>
+        {medicationData.familyName}
       </div>
-      <div className={styles.treatment_box_right}>
-        <div className={styles.treatment_box_right_profile}>
-          <Image src={"/logo.png"} alt="프로필" fill sizes="30px" />
-        </div>
-        나종현
+      <div className={styles.home_medication_box_right}>
+        <div>{medicationData.hospitalName}</div>
       </div>
     </div>
   );

@@ -30,7 +30,6 @@
 }
 .medication_box_left {
   flex: 2.5;
-  background-color: #ffae81;
   height: 100%;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;

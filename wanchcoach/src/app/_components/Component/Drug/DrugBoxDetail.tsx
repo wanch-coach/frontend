@@ -17,6 +17,17 @@ export default function DrugBoxDetail({ drugInfodata }: DrugBoxDetailProps) {
   const handleExpandedChange = (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
     setExpanded(isExpanded);
   };
+  const formatTimestamp = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
   return (
     <Accordion
       elevation={0}
@@ -38,6 +49,10 @@ export default function DrugBoxDetail({ drugInfodata }: DrugBoxDetailProps) {
           margin: 0,
           "& .MuiAccordionSummary-content": {
             margin: 0,
+            "& .Mui-expanded": {
+              margin: 0,
+              minHeight: 0,
+            },
           },
           "& .Mui-expanded": {
             minHeight: 0,
@@ -51,7 +66,7 @@ export default function DrugBoxDetail({ drugInfodata }: DrugBoxDetailProps) {
           <DrugBox
             drugId={drugInfodata.drugInfo.drugId}
             itemName={drugInfodata.drugInfo.itemName}
-            prductType={drugInfodata.drugInfo.prdtType}
+            prductType={drugInfodata.drugInfo.prductType}
             drugImage={drugInfodata.drugInfo.drugImage}
           />
         </div>
@@ -69,7 +84,7 @@ export default function DrugBoxDetail({ drugInfodata }: DrugBoxDetailProps) {
           </div>
           {drugInfodata.records.map((record) => (
             <div className={styles.drug_detail_record_text}>
-              {record.takenTime.format("YYYY-MM-DD HH:mm:ss")}
+              {formatTimestamp(record.takenTime)}
             </div>
           ))}
         </div>

@@ -19,8 +19,10 @@ interface ProfileHeaderProps {
   selectedFamily: FamilySummaryListData | undefined;
   handleSelectedFamilyChange: (family: FamilySummaryListData) => void;
   register?: boolean;
+  entire?: boolean;
 }
 export default function ProfileHeader({
+  entire,
   register,
   selectedFamily,
   handleSelectedFamilyChange,
@@ -44,7 +46,7 @@ export default function ProfileHeader({
       try {
         const response = await FamilySummaryListController();
         setFamilyProfiles(response.data);
-        if (response.data.length > 0) {
+        if (response.data.length > 0 && !entire) {
           handleSelectedFamilyChange(response.data[0]);
         }
       } catch (error) {
@@ -83,6 +85,24 @@ export default function ProfileHeader({
         open={profileOpen}
         onClick={handleOpenClose}
       >
+        {entire && (
+          <SpeedDialAction
+            key="전체"
+            icon={
+              <div className={styles.header_profile_box} style={{ backgroundColor: "#CCCCCC" }}>
+                전체
+              </div>
+            }
+            tooltipTitle="전체"
+            onClick={() =>
+              handleActionClick({
+                name: "전체",
+                color: "#757575",
+                familyId: 0,
+              })
+            }
+          />
+        )}
         {familyProfiles.map((family) => (
           <SpeedDialAction
             key={family.name}

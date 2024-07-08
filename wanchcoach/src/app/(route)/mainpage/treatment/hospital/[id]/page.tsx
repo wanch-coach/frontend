@@ -36,10 +36,11 @@ export default function Hospital({ params }: { params: { id: number } }) {
     const value = e.target.value;
     setSearchValue(value);
     // 검색어에 따라 병원 이름 필터링
-    const filtered = hospitals.filter(
-      (hospital: TreatmentHospitalItems) =>
-        hospital.hospitalName.includes(value) &&
-        hospital.treatmentItems.some((item) => item.familyId == familyId)
+    const filtered = hospitals.filter((hospital: TreatmentHospitalItems) =>
+      familyId == 0
+        ? hospital.hospitalName.includes(value)
+        : hospital.hospitalName.includes(value) &&
+          hospital.treatmentItems.some((item) => item.familyId == familyId)
     );
     setFilteredHospitals(filtered);
   };
@@ -50,7 +51,7 @@ export default function Hospital({ params }: { params: { id: number } }) {
         setHospitals(response.data.treatmentHospitalItems);
         const filtered = response.data.treatmentHospitalItems.filter(
           (hospital: TreatmentHospitalItems) =>
-            hospital.treatmentItems.some((item) => item.familyId == familyId)
+            familyId == 0 ? true : hospital.treatmentItems.some((item) => item.familyId == familyId)
         );
         setFilteredHospitals(filtered);
 
@@ -76,7 +77,10 @@ export default function Hospital({ params }: { params: { id: number } }) {
           <hr className={styles.hospital_list_menu_line} />
         </div>
         {filteredHospitals.map((hospital, index) => {
-          const filteredItems = hospital.treatmentItems.filter((item) => item.familyId == familyId);
+          const filteredItems =
+            familyId == 0
+              ? hospital.treatmentItems
+              : hospital.treatmentItems.filter((item) => item.familyId == familyId);
           if (filteredItems.length === 0) return null;
 
           return (

@@ -11,6 +11,7 @@ import {
 
 export default function Calender({ params }: { params: { id: number } }) {
   const familyId = params.id;
+  const [familyColor, setFamilyColor] = useState("");
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [calendarData, setCalendartData] = useState<DrugDayCalendarData[] | undefined>();
   const [highlightedDays, setHighlightedDays] = useState<string[]>([]);
@@ -31,7 +32,8 @@ export default function Calender({ params }: { params: { id: number } }) {
           month: selectedDate.month() + 1,
         };
         const response = await MedicationCalendarController(data);
-        setCalendartData(response.data?.records);
+        setFamilyColor(response.data.familyColor);
+        setCalendartData(response.data.records);
         const year = response.data.year;
         const month = response.data.month;
         const dates = response.data.records.map((item: DrugDayCalendarData) => {
@@ -52,6 +54,7 @@ export default function Calender({ params }: { params: { id: number } }) {
   return (
     <div className={style.body_container}>
       <PaperCalendar
+        familyColor={familyColor}
         selectedDate={selectedDate}
         handleSelectedDateChange={handleSelectedDateChange}
         highlightedDays={highlightedDays}

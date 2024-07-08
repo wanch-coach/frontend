@@ -67,6 +67,20 @@ export async function TreatmentTotalController() {
   }
 }
 
+export async function TreatmentDetailController(treatmentId: number) {
+  try {
+    const url = `/treatment/${treatmentId}`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+    console.log("Treatment detail successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
 export interface TreatmentHospital {
   treatmentHospitalItems: TreatmentHospitalItems;
 }
@@ -119,6 +133,25 @@ export async function TreatmentCalendarController(data: TreatmentCalendarData) {
   }
 }
 
+interface TreatmentCalendarForAll {
+  year: number;
+  month: number;
+}
+
+export async function TreatmentCalendarForAllController(data: TreatmentCalendarForAll) {
+  try {
+    const url = `/treatment/date?year=${data.year}&month=${data.month}`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+    console.log("treatment Calendar Total successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
 interface TreatmentTotalDayData {
   year: number;
   month: number;
@@ -151,5 +184,37 @@ export async function OCRAddPrescriptionController(formData: FormData) {
   } catch (error) {
     console.error("Error add Treatment:", error);
     throw error;
+  }
+}
+
+export async function TreatmentCheckWhetherChangeController(treatmentId: number) {
+  try {
+    const url = `/treatment/taken/${treatmentId}`;
+    const response = await fetchWithAuth(url, {
+      method: "PATCH",
+    });
+    console.log("treatment Whether change successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
+export async function TreatmentPrescriptionRegisterController(
+  formData: FormData,
+  treatmentId: number
+) {
+  try {
+    const url = `/treatment/${treatmentId}/prescription`;
+    const response = await fetchFormData(url, {
+      method: "POST",
+      body: formData,
+    });
+    console.log("Prescription successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
   }
 }

@@ -1,0 +1,97 @@
+.container {
+  width: 100%;
+}
+
+.body_container {
+  background-color: #f6f4ea;
+  height: calc(100vh - 45px);
+}
+
+.sub_container {
+  margin: 0 8%;
+  height: calc(100vh - 45px);
+  overflow: auto;
+}
+.sub_container::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+.middle_line {
+  margin: 2.5vh 0;
+  border: none;
+  height: 1px;
+  background: none;
+  border-top: 1px dashed #dddddd;
+}
+
+.prescription_container {
+}
+.prescription_title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 19px;
+  font-weight: 700;
+  height: max-content;
+  align-items: end;
+}
+.prescription_register_container {
+  width: 100%;
+  text-align: -webkit-right;
+  padding-top: 12px;
+}
+.prescription_register_button {
+  display: flex;
+  background-color: #ff5a5a;
+  align-items: center;
+  width: max-content;
+  border-radius: 12px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.prescription_register_text {
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 5px;
+}
+.drug_container {
+  padding: 0 10px;
+}
+
+.drug_header {
+  display: flex;
+  justify-content: space-between;
+}
+.drug_header_text_01 {
+  font-size: 17px;
+  font-weight: 500;
+}
+.drug_header_text_02 {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+.drug_header_line {
+  height: 1px;
+  border: none;
+  background: black;
+}
+.drug_number_box {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.drug_footer_line {
+  height: 1px;
+  border: none;
+  background: #dddddd;
+  margin-top: 10px;
+}
+.drug_footer_text {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-size: 16px;
+  font-weight: 600;
+  color: #a9a9a9;
+}

@@ -48,8 +48,10 @@ export default function MyDrugInformation({ params }: { params: { id: number } }
         handleMyDrugSubmit={handleMyDrugSubmit}
       />
       <div>최근 복용한 약</div>
-      {myDrugData.map((drugInfoData) => (
-        <DrugBoxDetail key={drugInfoData.drugInfo.drugId} drugInfodata={drugInfoData} />
+      {myDrugData.map((drugInfoData, index) => (
+        <div className={styles.mydrug_list_container}>
+          <DrugBoxDetail key={index} drugInfodata={drugInfoData} />
+        </div>
       ))}
     </div>
   );
