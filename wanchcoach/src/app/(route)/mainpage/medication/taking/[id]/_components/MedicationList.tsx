@@ -1,6 +1,7 @@
 import { MedicationEatController, TodayTakeData } from "@/app/util/controller/medicationController";
 import MedicationBox from "./MedicationBox";
 import styles from "./components.module.css";
+import { useRouter } from "next/navigation";
 
 interface MedicationListProps {
   todayTakedata: TodayTakeData[];
@@ -12,6 +13,7 @@ export default function MedicationList({
   activeTab,
   familyId,
 }: MedicationListProps) {
+  const route = useRouter();
   const getTodayPartData = () => {
     switch (activeTab) {
       case "morning":
@@ -29,7 +31,7 @@ export default function MedicationList({
   const todayPartData = getTodayPartData();
   const unTakenCount = todayPartData.reduce((acc, data) => acc + data.unTaken.length, 0);
   const takenCount = todayPartData.reduce((acc, data) => acc + data.taken.length, 0);
-
+  const familyColor = todayTakedata.length > 0 ? todayTakedata[0].familyColor : "";
   const handleEatSubmit = async (id: number) => {
     try {
       const data = {
@@ -40,6 +42,7 @@ export default function MedicationList({
       const response = await MedicationEatController(data);
 
       console.log("먹기 성공:", response);
+      route.replace(`/mainpage/medication/taking/${familyId}`);
     } catch (error) {
       console.error("먹기 실패:", error);
       // 오류 처리
@@ -56,10 +59,8 @@ export default function MedicationList({
               {data.unTaken.map((prescription, idx) => (
                 <MedicationBox
                   key={idx}
-                  title={prescription.hospitalName}
-                  category={prescription.department}
-                  count={prescription.remains}
-                  drugs={prescription.drugs}
+                  prescription={prescription}
+                  color={familyColor}
                   handleEatSubmit={() => handleEatSubmit(prescription.prescriptionId)}
                 />
               ))}
@@ -74,13 +75,7 @@ export default function MedicationList({
           {todayPartData.map((data, index) => (
             <div key={index}>
               {data.taken.map((prescription, idx) => (
-                <MedicationBox
-                  key={idx}
-                  title={prescription.hospitalName}
-                  category={prescription.department}
-                  count={prescription.remains}
-                  drugs={prescription.drugs}
-                />
+                <MedicationBox key={idx} prescription={prescription} color={familyColor} state />
               ))}
             </div>
           ))}

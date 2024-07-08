@@ -10,13 +10,17 @@ export default function MySetting() {
   const route = useRouter();
   const handleLogout = async () => {
     /* 로그아웃 api 호출 */
-    try {
-      const response = await LogoutController();
-      route.push("/");
-      console.log("로그아웃 성공:", response);
-    } catch (error) {
-      console.error("로그아웃 실패:", error);
-      // 오류 처리
+    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+
+    if (confirmLogout) {
+      try {
+        const response = await LogoutController();
+        route.push("/");
+        console.log("로그아웃 성공:", response);
+      } catch (error) {
+        console.error("로그아웃 실패:", error);
+        // 오류 처리
+      }
     }
   };
   return (

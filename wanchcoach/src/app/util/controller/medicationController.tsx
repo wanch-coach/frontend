@@ -17,6 +17,7 @@ export interface PrescriptionData {
   hospitalName: string;
   department: string;
   remains: number;
+  alarm: boolean;
   drugs: DrugData[];
 }
 export interface DrugTakeData {
@@ -25,6 +26,7 @@ export interface DrugTakeData {
 }
 export interface TodayTakeData {
   familyId: number;
+  familyColor: string;
   morning: DrugTakeData;
   noon: DrugTakeData;
   evening: DrugTakeData;
@@ -63,6 +65,7 @@ export interface PrescriptionRecordData {
 export interface DrugRecordsData {
   taking: PrescriptionRecordData[];
   end: PrescriptionRecordData[];
+  familyColor: string;
 }
 
 export async function MedicationRecordController(data: { familyId: number }) {
@@ -131,10 +134,10 @@ interface MyDrugInfoPropsData {
   drugId: number;
   itemName: string;
   drugImage: string;
-  prdtType: string;
+  prductType: string;
 }
 interface MyDrugRecordData {
-  takenTime: Dayjs;
+  takenTime: string;
 }
 
 export async function MedicationMyDrugController(data: MedicationMyDrug) {
@@ -165,6 +168,49 @@ export async function MedicationEatController(data: MedicationEatData) {
       body: JSON.stringify({ familyId: data.familyId, time: data.time }),
     });
     console.log("Eat successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
+export async function MedicationAlarmChangeController(prescriptionId: number) {
+  try {
+    const url = `/medication/alarm/${prescriptionId}`;
+    const response = await fetchWithAuth(url, {
+      method: "PATCH",
+    });
+    console.log("Alarm Change successful:", response);
+    return response; // 예시로 데이터 반환
+  } catch (error) {
+    console.error("Error :", error);
+    throw error; // 오류 처리
+  }
+}
+
+export interface TodayMedicationData {
+  morning: TodayPrescriptionData[];
+  noon: TodayPrescriptionData[];
+  evening: TodayPrescriptionData[];
+  beforeBed: TodayPrescriptionData[];
+}
+
+export interface TodayPrescriptionData {
+  familyColor: String;
+  familyId: number;
+  familyName: string;
+  hospitalName: string;
+  department: string;
+}
+
+export async function TodayMedicationController() {
+  try {
+    const url = `/medication/today`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+    console.log("Today Medication successful:", response);
     return response; // 예시로 데이터 반환
   } catch (error) {
     console.error("Error :", error);

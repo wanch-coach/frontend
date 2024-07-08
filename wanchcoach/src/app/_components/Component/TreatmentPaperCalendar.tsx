@@ -43,6 +43,7 @@ function ServerDay(props: ServerDayProps) {
 }
 
 interface PaperCalendarProps {
+  familyId: number;
   selectedDate: Dayjs | null;
   handleSelectedDateChange: (newDate: Dayjs) => void;
   highlightedDays: string[];
@@ -51,6 +52,7 @@ interface PaperCalendarProps {
 }
 
 export default function TreatmentPaperCalendar({
+  familyId,
   selectedDate,
   handleSelectedDateChange,
   highlightedDays,
@@ -80,7 +82,14 @@ export default function TreatmentPaperCalendar({
     setOpen(!open);
   };
 
-  const extractFirstFamilyColor = (calendarData: TreatmentCalendarItems[]): string | null => {
+  const extractFirstFamilyColor = (
+    calendarData: TreatmentCalendarItems[],
+    familyId: number
+  ): string | null => {
+    if (familyId == 0) {
+      return "#757575";
+    }
+
     for (const item of calendarData) {
       for (const treatmentItem of item.treatmentItems) {
         if (treatmentItem.familyColor) {
@@ -90,7 +99,7 @@ export default function TreatmentPaperCalendar({
     }
     return null;
   };
-  const familyColors = extractFirstFamilyColor(calendarData);
+  const familyColors = extractFirstFamilyColor(calendarData, familyId);
   return (
     <>
       <div>

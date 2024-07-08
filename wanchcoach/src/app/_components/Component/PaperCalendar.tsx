@@ -13,10 +13,14 @@ import BottomSheet from "./BottomSheet";
 import { DrugDayCalendarData } from "@/app/util/controller/medicationController";
 import DayMenu from "./Medication/DayMenu";
 import MedicationInfoBox from "@/app/(route)/mainpage/medication/taking/[id]/_components/MedicationInfoBox";
-import { TreatmentCalendarItems } from "@/app/util/controller/treatmentController";
 
-function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+interface ServerDayProps extends PickersDayProps<Dayjs> {
+  highlightedDays?: string[];
+  color?: string;
+}
+
+function ServerDay(props: ServerDayProps) {
+  const { highlightedDays = [], day, outsideCurrentMonth, color, ...other } = props;
 
   const isSelected =
     !props.outsideCurrentMonth && highlightedDays.includes(day.format("YYYY-MM-DD"));
@@ -25,7 +29,7 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] 
       key={props.day.toString()}
       overlap="circular"
       badgeContent={isSelected ? " " : undefined}
-      sx={{ "& .MuiBadge-overlapCircular": { backgroundColor: "#FFAE81" } }}
+      sx={{ "& .MuiBadge-overlapCircular": { backgroundColor: color } }}
       variant={isSelected ? "dot" : undefined}
     >
       <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
@@ -34,6 +38,7 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] 
 }
 
 interface PaperCalendarProps {
+  familyColor: string;
   selectedDate: Dayjs | null;
   handleSelectedDateChange: (newDate: Dayjs) => void;
   highlightedDays: string[];
@@ -42,6 +47,7 @@ interface PaperCalendarProps {
 }
 
 export default function PaperCalendar({
+  familyColor,
   selectedDate,
   handleSelectedDateChange,
   highlightedDays,
@@ -113,6 +119,7 @@ export default function PaperCalendar({
             slotProps={{
               day: {
                 highlightedDays,
+                color: familyColor,
               } as any,
             }}
             value={selectedDate}
@@ -129,17 +136,11 @@ export default function PaperCalendar({
             <hr className={styles.bottomsheet_content_line} />
           </div>
           <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
-          {todayPartData.length === 0 ? (
-            <div>데이터가 없습니다.</div>
-          ) : (
-            todayPartData.map((prescription, index) => (
-              <MedicationInfoBox
-                key={index}
-                prescription={prescription}
-                // drugs={prescription.drugs}
-              />
-            ))
-          )}
+          {todayPartData.length === 0
+            ? null
+            : todayPartData.map((prescription, index) => (
+                <MedicationInfoBox key={index} prescription={prescription} color={familyColor} />
+              ))}
         </div>
       </BottomSheet>
     </>

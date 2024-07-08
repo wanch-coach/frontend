@@ -11,8 +11,8 @@
 }
 .mymage_info_title {
   font-size: 22px;
-  font-weight: 500;
-  margin: 0 4%;
+  font-weight: 900;
+  margin: 15px 4%;
 }
 .mypage_info_content {
   display: flex;
@@ -21,4 +21,25 @@
   font-size: 20px;
   font-weight: 500;
   padding: 10px 0;
+}
+.exit_container {
+  height: 70px;
+  align-content: center;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+.exit_box {
+  margin: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 500;
+}
+.exit_button {
+  background-color: #e75757;
+  font-size: 16px;
+  color: white;
+  padding: 7px 20px;
+  border-radius: 10px;
 }

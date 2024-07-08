@@ -32,10 +32,15 @@ export default function Diagnosis({ params }: { params: { id: number } }) {
   }, []);
 
   const filteredPastData =
-    treatmentPastData.length > 0 && treatmentPastData.filter((item) => item.familyId == familyId);
+    treatmentPastData.length > 0 &&
+    (familyId == 0
+      ? treatmentPastData
+      : treatmentPastData.filter((item) => item.familyId == familyId));
   const filteredUpcomingData =
     treatmentUpcomingData.length > 0 &&
-    treatmentUpcomingData.filter((item) => item.familyId == familyId);
+    (familyId == 0
+      ? treatmentUpcomingData
+      : treatmentUpcomingData.filter((item) => item.familyId == familyId));
   return (
     <>
       <div className={styles.body_container}>

@@ -12,6 +12,7 @@ export default function RecordTaking({ params }: { params: { id: number } }) {
   const familyId = params.id;
   const [takingRecordData, setTakingRecordData] = useState<PrescriptionRecordData[]>();
   const [endRecordData, setEndRecordData] = useState<PrescriptionRecordData[]>();
+  const [familyColor, setFamilyColor] = useState("");
   useEffect(() => {
     /* 내 약정보 데이터 api 호출 */
     const fetchData = async () => {
@@ -22,6 +23,7 @@ export default function RecordTaking({ params }: { params: { id: number } }) {
         const response = await MedicationRecordController(data);
         setTakingRecordData(response.data.taking);
         setEndRecordData(response.data.end);
+        setFamilyColor(response.data.familyColor);
         console.log("복약 이력 데이터 가져오기 성공:", response);
       } catch (error) {
         console.error("데이터 가져오기 실패:", error);
@@ -36,7 +38,7 @@ export default function RecordTaking({ params }: { params: { id: number } }) {
       {takingRecordData && takingRecordData.length > 0 ? (
         <>
           {takingRecordData.map((prescription, index) => (
-            <MedicationInfoBox key={index} prescription={prescription} />
+            <MedicationInfoBox key={index} prescription={prescription} color={familyColor} />
           ))}
         </>
       ) : null}
@@ -45,7 +47,7 @@ export default function RecordTaking({ params }: { params: { id: number } }) {
       {endRecordData && endRecordData.length > 0 ? (
         <>
           {endRecordData.map((prescription, index) => (
-            <MedicationInfoBox key={index} prescription={prescription} />
+            <MedicationInfoBox key={index} prescription={prescription} color={familyColor} />
           ))}
         </>
       ) : null}

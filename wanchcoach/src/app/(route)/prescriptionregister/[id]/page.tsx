@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "./visited.module.css";
+import styles from "./prescriptionregister.module.css";
 import {
   BasicInputBox,
   DateInputBox,
@@ -23,13 +23,15 @@ import {
   AddTreatmentController,
   OCRAddPrescriptionController,
   PrescriptionDrugData,
+  TreatmentDetailController,
+  TreatmentPrescriptionRegisterController,
 } from "@/app/util/controller/treatmentController";
 import {
   MedicalKeywordResultData,
   PharmacyResultData,
 } from "@/app/util/controller/medicalController";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import {
   DrugData,
   SearchDrugByKeyword,
@@ -37,7 +39,8 @@ import {
   SimpleSearchDrugByKeyword,
 } from "@/app/util/controller/drugController";
 
-export default function Visited() {
+export default function PrescriptionRegister({ params }: { params: { id: number } }) {
+  const treatmentId = params.id;
   const route = useRouter();
   const [selectedHospital, setSelectedHospital] = useState<MedicalKeywordResultData>({
     hospitalId: 0,
@@ -70,6 +73,7 @@ export default function Visited() {
   const [frequencyValue, setFrequencyValue] = useState<number[]>([0]);
   const [dayValue, setDayValue] = useState<number[]>([0]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [firstName, setFirstName] = useState("");
 
   const handleCheckboxChange = (index: number, isChecked: boolean) => {
     const newSelectedChecks = [...selectedChecks];
@@ -185,34 +189,21 @@ export default function Visited() {
 
   const handleTreatmentRegister = () => {
     const data = {
-      hospitalId: selectedHospital.hospitalId,
       familyId: selectedVisitor.familyId,
-      department: "",
-      date: selectedDate
-        ? selectedDate.format("YYYY-MM-DD") +
-          "T" +
-          (selectedTime ? selectedTime.format("HH:mm") : "")
-        : "",
-      taken: true,
-      alarm: true,
-      symptom: symptoms,
-      prescription: {
-        familyId: selectedVisitor.familyId,
-        pharmacyId: selectedPharmacy.pharmacyId,
-        morning: selectedChecks[0],
-        noon: selectedChecks[1],
-        evening: selectedChecks[2],
-        beforeBed: selectedChecks[3],
-        prescribedDrugs: prescribedDrugs,
-      },
+      pharmacyId: selectedPharmacy.pharmacyId,
+      morning: selectedChecks[0],
+      noon: selectedChecks[1],
+      evening: selectedChecks[2],
+      beforeBed: selectedChecks[3],
+      prescribedDrugs: prescribedDrugs,
     };
     console.log(data);
     const formData = new FormData();
     const json = JSON.stringify(data);
     const blob = new Blob([json], { type: "application/json" });
-    formData.append("treatmentRequest", blob);
+    formData.append("prescriptionRequest", blob);
     console.log(blob);
-    AddTreatmentController(formData)
+    TreatmentPrescriptionRegisterController(formData, treatmentId)
       .then(() => {
         console.log("success add visited treatment");
         route.back();
@@ -282,13 +273,41 @@ export default function Visited() {
   //       console.error("Error fetching data:", error);
   //     }
   //   };
-
-  //   // drugValue가 변경될 때만 fetchData 함수 실행
   //   fetchData();
   // }, [drugValue]);
 
   useEffect(() => {
     const fetchData = async () => {
+      try {
+        const response = await TreatmentDetailController(treatmentId);
+        console.log("진료 가져오기", response);
+        const data = response.data;
+        const dateTime = dayjs(data.date);
+        setSelectedHospital({
+          hospitalId: data.hospitalId,
+          name: data.hospitalName,
+          type: "",
+          address: "",
+        });
+        setSelectedVisitor({
+          familyId: data.familyId,
+          name: data.familyName,
+          color: "",
+        });
+        setSelectedDate(dateTime.startOf("day"));
+        setSelectedTime(dateTime);
+        setSymptoms(data.symptom);
+        setFirstName(data.familyName);
+      } catch (error) {
+        console.error("진료 여부 변경 실패:", error);
+        // 오류 처리
+      }
+    };
+    fetchData();
+  }, [treatmentId]);
+
+  useEffect(() => {
+    const SearchData = async () => {
       try {
         const responses = await Promise.all(
           drugValue.map(async (keyword) => {
@@ -308,7 +327,7 @@ export default function Visited() {
     // 입력 중단 시간이 500ms 이후에 fetchData 실행
     const delayedFetchData = () => {
       clearTimeout(timeoutId);
-      timeoutId = setTimeout(fetchData, 500); // 500ms 딜레이
+      timeoutId = setTimeout(SearchData, 500); // 500ms 딜레이
     };
 
     // drugValue가 변경될 때 delayedFetchData 함수 실행
@@ -319,24 +338,38 @@ export default function Visited() {
   }, [drugValue]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.sub_container}>
       <HospitalModalInputBox
         label="병원명"
         placeholder="병원 명"
         value={selectedHospital}
         handleHospitalChange={handleHospitalChange}
+        isButtonDisabled
       />
       <SelectInputbox
         label="방문자"
         value={selectedVisitor}
         handleVisitorChange={handleVisitorChange}
+        firstName={firstName}
+        isDisabled
       />
-      <DateInputBox label="날짜" selectedDate={selectedDate} handleDateChange={setSelectedDate} />
-      <TimeInputBox label="시간" selectedTime={selectedTime} handleTimeChange={setSelectedTime} />
+      <DateInputBox
+        label="날짜"
+        selectedDate={selectedDate}
+        handleDateChange={setSelectedDate}
+        isDisabled
+      />
+      <TimeInputBox
+        label="시간"
+        selectedTime={selectedTime}
+        handleTimeChange={setSelectedTime}
+        isDisabled
+      />
       <TextAreaInputbox
         label="증상"
         value={symptoms}
         onChange={(e) => setSymptoms(e.target.value)} // 상태 업데이트 함수 전달
+        isDisabled
       />
       <hr className={styles.middle_line} />
       <PrescriptionContainer

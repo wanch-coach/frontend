@@ -39,7 +39,7 @@ export default function LoginLayout({ children }: { children: ReactNode }) {
         <div className="pt-3" />
         <Link
           href={
-            " https://kauth.kakao.com/oauth/authorize?client_id=370123a2ecc923df6371e651937c9038&redirect_uri=https://wanch-coach.site/kakaosignup"
+            "https://kauth.kakao.com/oauth/authorize?client_id=370123a2ecc923df6371e651937c9038&redirect_uri=https://wanch-coach.site/kakaosignup&response_type=code&scope=account_email"
           }
         >
           <div className={styles.kakao_login_button}>

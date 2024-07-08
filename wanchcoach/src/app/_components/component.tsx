@@ -169,12 +169,14 @@ interface HospitalModalInputBoxProps {
   placeholder: string;
   value: MedicalKeywordResultData;
   handleHospitalChange: (result: MedicalKeywordResultData) => void;
+  isButtonDisabled?: boolean;
 }
 export function HospitalModalInputBox({
   label,
   placeholder,
   value,
   handleHospitalChange,
+  isButtonDisabled,
 }: // handleValueChange,
 HospitalModalInputBoxProps) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -233,7 +235,11 @@ HospitalModalInputBoxProps) {
             value={value?.name}
             onChange={() => handleHospitalChange}
           />
-          <button className={styles.modal_input_button} onClick={handleModalOpen}>
+          <button
+            className={styles.modal_input_button}
+            onClick={handleModalOpen}
+            disabled={isButtonDisabled}
+          >
             <IoMdSearch size={"25px"} color="#0A6847" />
           </button>
         </div>
@@ -416,12 +422,20 @@ export function PharmacyModalInputBox({
 
 interface SelectInputbox {
   label: string;
-  handleVisitorChange: (eselectedFamily: FamilySummaryListData) => void;
+  handleVisitorChange: (selectedFamily: FamilySummaryListData) => void;
   value: FamilySummaryListData;
+  firstName?: string | undefined;
+  isDisabled?: boolean;
 }
 // 가족 Select box
-export function SelectInputbox({ label, handleVisitorChange, value }: SelectInputbox) {
-  const [selectedValue, setSelectedValue] = useState<string>("none");
+export function SelectInputbox({
+  label,
+  handleVisitorChange,
+  value,
+  firstName,
+  isDisabled,
+}: SelectInputbox) {
+  const [selectedValue, setSelectedValue] = useState<string>(firstName || "none");
   const [searchResult, setSearchResult] = useState<FamilySummaryListData[]>([]);
   // const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //   setSelectedValue(event.target.value);
@@ -442,7 +456,7 @@ export function SelectInputbox({ label, handleVisitorChange, value }: SelectInpu
     const selectedValue = event.target.value;
     setSelectedValue(selectedValue);
 
-    const selectedFamily = searchResult.find((family) => family.name === selectedValue);
+    const selectedFamily = searchResult.find((family) => family.name == selectedValue);
     if (selectedFamily) {
       handleVisitorChange(selectedFamily);
     }
@@ -462,9 +476,10 @@ export function SelectInputbox({ label, handleVisitorChange, value }: SelectInpu
         onChange={handleSelectChange}
         onClick={handleSearch}
         style={{ color: selectedValue === "none" ? "#8F9098" : "black" }}
+        disabled={isDisabled}
       >
         <option value="none" hidden>
-          가족
+          {isDisabled ? firstName : "가족"}
         </option>
         {searchResult.map((family) => (
           <option key={family.familyId} value={family.name} className={styles.default_text}>
@@ -480,10 +495,11 @@ interface TextAreaInputboxProps {
   label: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  isDisabled?: boolean;
 }
 
 // TextArea Input box
-export function TextAreaInputbox({ label, value, onChange }: TextAreaInputboxProps) {
+export function TextAreaInputbox({ label, value, onChange, isDisabled }: TextAreaInputboxProps) {
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
@@ -492,6 +508,7 @@ export function TextAreaInputbox({ label, value, onChange }: TextAreaInputboxPro
         value={value}
         onChange={onChange}
         placeholder="내용을 입력하세요"
+        disabled={isDisabled}
       />
     </div>
   );
@@ -582,6 +599,7 @@ interface DateInputBoxProps {
   handleDateChange?: Dispatch<SetStateAction<Dayjs | null>>;
   small?: boolean;
   future?: boolean;
+  isDisabled?: boolean;
 }
 
 export function DateInputBox({
@@ -590,6 +608,7 @@ export function DateInputBox({
   handleDateChange,
   small,
   future,
+  isDisabled,
 }: DateInputBoxProps) {
   const currentDate = dayjs();
   const StyledDatePicker = styled(DatePicker)({
@@ -624,6 +643,7 @@ export function DateInputBox({
               console.log(date);
             }
           }}
+          disabled={isDisabled}
           format="YYYY-MM-DD"
           showDaysOutsideCurrentMonth
           views={["year", "month", "day"]}
@@ -761,6 +781,7 @@ interface TimeInputBoxProps {
   label: string;
   selectedTime?: Dayjs | null;
   handleTimeChange?: Dispatch<SetStateAction<Dayjs | null>>;
+  isDisabled?: boolean;
 }
 const StyledTimePicker = styled(TimePicker)({
   "& .MuiInputBase-root": {
@@ -781,7 +802,12 @@ const StyledTimePicker = styled(TimePicker)({
   },
 });
 
-export function TimeInputBox({ label, selectedTime, handleTimeChange }: TimeInputBoxProps) {
+export function TimeInputBox({
+  label,
+  selectedTime,
+  handleTimeChange,
+  isDisabled,
+}: TimeInputBoxProps) {
   return (
     <div className="mt-3">
       <div className={styles.input_text}>{label}</div>
@@ -790,6 +816,7 @@ export function TimeInputBox({ label, selectedTime, handleTimeChange }: TimeInpu
           format="A hh:mm"
           ampm={false}
           minutesStep={10}
+          disabled={isDisabled}
           sx={{
             width: "100%",
           }}

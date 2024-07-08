@@ -19,8 +19,9 @@ import { useRouter } from "next/navigation";
 interface MedicationInfoBoxProps {
   prescription: PrescriptionRecordData;
   state?: boolean;
+  color?: string;
 }
-export default function MedicationInfoBox({ prescription, state }: MedicationInfoBoxProps) {
+export default function MedicationInfoBox({ prescription, state, color }: MedicationInfoBoxProps) {
   const route = useRouter();
   const [expanded, setExpanded] = useState(false);
 
@@ -56,6 +57,10 @@ export default function MedicationInfoBox({ prescription, state }: MedicationInf
             padding: 0,
             "& .MuiAccordionSummary-content": {
               margin: 0,
+              "& .Mui-expanded": {
+                minHeight: 0,
+                margin: 0,
+              },
             },
             "& .Mui-expanded": {
               minHeight: 0,
@@ -66,7 +71,7 @@ export default function MedicationInfoBox({ prescription, state }: MedicationInf
           }}
         >
           <div className={styles.medication_main_container} style={{ height: "90px" }}>
-            <div className={styles.medication_box_left}>
+            <div className={styles.medication_box_left} style={{ backgroundColor: color }}>
               <BsJournalMedical size={"40px"} color="#494949" />
             </div>
             <div className={styles.medication_box_right}>
@@ -74,13 +79,15 @@ export default function MedicationInfoBox({ prescription, state }: MedicationInf
                 <div className={styles.medication_text_title}>{prescription.hospitalName}</div>
                 <div className={styles.medication_text_category}>{prescription.department}</div>
               </div>
-              <div className={styles.medication_box_right_02}>
-                <div className={styles.medication_text_number_01}>복용 기간</div>
-                <div className={styles.medication_text_number_02}>
-                  {formatDate(prescription.start)}
+              {prescription.start && (
+                <div className={styles.medication_box_right_02}>
+                  <div className={styles.medication_text_number_01}>복용 기간</div>
+                  <div className={styles.medication_text_number_02}>
+                    {formatDate(prescription.start)}
+                  </div>
+                  <div className={styles.medication_text_number_02}>~ </div>
                 </div>
-                <div className={styles.medication_text_number_02}>~ </div>
-              </div>
+              )}
               <div className={styles.medication_box_right_03}>
                 {expanded ? (
                   <IoIosArrowUp size={"18px"} color="#CFCFCF" />

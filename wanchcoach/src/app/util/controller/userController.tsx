@@ -102,6 +102,15 @@ export async function LogoutController() {
   }
 }
 
+export interface MyPageData {
+  loginId: string;
+  name: string;
+  email: string;
+  birthDate: string;
+  gender: string;
+  phoneNumber: string;
+}
+
 export async function MyPageInfoController() {
   try {
     const url = `/member/memberInfo`;
@@ -174,6 +183,48 @@ export async function updateAlarm(deviceToken: string) {
       body: JSON.stringify(deviceToken),
     });
     console.log("update device Token successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
+// interface AlarmTimeData {
+//   morning: Dayjs | null;
+//   noon: Dayjs | null;
+//   evening: Dayjs | null;
+//   beforeBed: Dayjs | null;
+// }
+interface AlarmTimeData {
+  morning: string | undefined;
+  noon: string | undefined;
+  evening: string | undefined;
+  beforeBed: string | undefined;
+}
+
+export async function AlarmTimeUpdateController(data: AlarmTimeData) {
+  try {
+    const url = `/member/alarm`;
+    const response = await fetchWithAuth(url, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+    console.log("update alarm Time successful:", response);
+    return response;
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
+export async function AlarmTimeListController() {
+  try {
+    const url = `/member/alarm`;
+    const response = await fetchWithAuth(url, {
+      method: "GET",
+    });
+    console.log("alarm Time list successful:", response);
+    return response;
   } catch (error) {
     console.error("Error logout:", error);
     throw error; // 오류 처리
