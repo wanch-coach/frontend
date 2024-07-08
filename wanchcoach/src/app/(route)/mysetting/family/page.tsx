@@ -55,7 +55,7 @@ function FamilyMenu({ href, data }: FamilyMenuProps) {
       <div className={styles.family_menu_container}>
         <div className={styles.family_menu_text}>{data.name}</div>
         <div className={styles.family_menu_text}>{formattedBirthDate}</div>
-        <div className={styles.family_menu_text}>{data.gender}</div>
+        <div className={styles.family_menu_text}>{data.gender === "male" ? "남" : "여"}</div>
         <div className={styles.family_menu_color} style={{ backgroundColor: data.color }} />
       </div>
     </Link>

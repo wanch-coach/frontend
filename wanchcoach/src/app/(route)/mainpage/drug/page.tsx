@@ -18,6 +18,7 @@ export default function Drug() {
   const [searching, setSearching] = useState(false);
   const [searchData, setSearchData] = useState<DrugData[]>([]);
   const [favorite, setFavorite] = useState<DrugData[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -31,6 +32,7 @@ export default function Drug() {
   };
 
   const handleSearchSubmit = () => {
+    setLoading(true);
     const data = {
       type: "itemName",
       keyword: searchValue,
@@ -40,6 +42,7 @@ export default function Drug() {
       .then((response) => {
         setSearchData(response.data);
         setSearching(true);
+        setLoading(false);
         console.log(response.data);
       })
       .catch((e) => {
@@ -70,9 +73,11 @@ export default function Drug() {
         />
       </div>
       <div className={styles.drug_list_container}>
-        {searching ? (
-          searchData.map((data, index) => (
-            <>
+        {loading ? (
+          <div className={styles.empty_container}>검색 중...</div>
+        ) : searching ? (
+          searchData.length > 0 ? (
+            searchData.map((data, index) => (
               <div key={index} className={styles.drug_list_box}>
                 <DrugBox
                   favorite={data.favorite}
@@ -83,8 +88,10 @@ export default function Drug() {
                   onClick={() => handleDrugDetail(data.drugId)}
                 />
               </div>
-            </>
-          ))
+            ))
+          ) : (
+            <div className={styles.empty_container}>검색 결과가 없습니다.</div>
+          )
         ) : (
           <div className={styles.drug_list_like_container}>
             <div className={styles.drug_list_like_header}>
@@ -92,18 +99,16 @@ export default function Drug() {
               <div className={styles.drug_list_like_text}> 약상자 ({favorite.length}) </div>
             </div>
             {favorite.map((data, index) => (
-              <>
-                <div key={index} className={styles.drug_list_box}>
-                  <DrugBox
-                    favorite={data.favorite}
-                    drugImage={data.drugImage}
-                    itemName={data.itemName}
-                    prductType={data.prductType}
-                    drugId={data.drugId}
-                    onClick={() => handleDrugDetail(data.drugId)}
-                  />
-                </div>
-              </>
+              <div key={index} className={styles.drug_list_box}>
+                <DrugBox
+                  favorite={data.favorite}
+                  drugImage={data.drugImage}
+                  itemName={data.itemName}
+                  prductType={data.prductType}
+                  drugId={data.drugId}
+                  onClick={() => handleDrugDetail(data.drugId)}
+                />
+              </div>
             ))}
           </div>
         )}

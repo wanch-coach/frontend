@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import styles from "./register.module.css";
 import { Header } from "../../_components/component";
 import { SetStateAction, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function RegisterLayout({ children }: { children: ReactNode }) {
   return (
@@ -19,8 +19,10 @@ export default function RegisterLayout({ children }: { children: ReactNode }) {
 }
 
 function VisitMenu() {
-  const [activeTab, setActiveTab] = useState("upcoming");
   const router = useRouter();
+  const pathname = usePathname();
+  const initialTab = pathname.startsWith("/register/upcoming") ? "upcoming" : "visited";
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   const handleTabClick = (tab: SetStateAction<string>) => {
     setActiveTab(tab);

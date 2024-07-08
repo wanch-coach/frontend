@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./upcoming.module.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   HospitalModalInputBox,
   SelectInputbox,
@@ -18,6 +18,9 @@ import { Dayjs } from "dayjs";
 import { MedicalKeywordResultData } from "@/app/util/controller/medicalController";
 
 export default function Upcoming() {
+  const params = useSearchParams();
+  const hospitalId = params.get("hospitalId");
+  const hospitalName = params.get("hospitalName");
   const route = useRouter();
   const [selectedAlarmCheck, setSelectedAlarmCheck] = useState("ON");
   const [selectedHospital, setSelectedHospital] = useState<MedicalKeywordResultData>({
@@ -47,7 +50,7 @@ export default function Upcoming() {
           (selectedTime ? selectedTime.format("HH:mm") : "")
         : "",
       taken: false,
-      alarm: selectedAlarmCheck === "ON",
+      alarm: "ON",
       symptom: symptoms,
       department: "",
       prescription: null,
@@ -77,9 +80,15 @@ export default function Upcoming() {
   };
 
   useEffect(() => {
-    const hospitalName = new URLSearchParams(window.location.search).get("hospitalName");
-    if (hospitalName) {
+    if (hospitalId && hospitalName) {
+      console.log(hospitalId);
       console.log(hospitalName);
+      setSelectedHospital({
+        hospitalId: parseInt(hospitalId),
+        name: hospitalName,
+        type: "",
+        address: "",
+      });
     }
   }, []);
 
@@ -108,7 +117,7 @@ export default function Upcoming() {
         value={symptoms}
         onChange={(e) => setSymptoms(e.target.value)} // 상태 업데이트 함수 전달
       />
-      <TwoCheckBox
+      {/* <TwoCheckBox
         label="알람 등록 여부"
         type1="ON"
         type1Text="ON"
@@ -116,10 +125,10 @@ export default function Upcoming() {
         type2Text="OFF"
         selectedCheck={selectedAlarmCheck}
         onChange={setSelectedAlarmCheck}
-      />
-      <div className={styles.alarm_text}>
+      /> */}
+      {/* <div className={styles.alarm_text}>
         ※ 알람 등록 ON 설정 시 3일전, 1일전, 당일에 알림이 울립니다.
-      </div>
+      </div> */}
       <div style={{ padding: "2vh 0" }}>
         <FrequentButton
           title="진료 등록"

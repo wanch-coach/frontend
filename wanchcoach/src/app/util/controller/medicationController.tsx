@@ -158,6 +158,7 @@ interface MedicationEatData {
   prescriptionId: number;
   familyId: number;
   time: string;
+  takenDate: Date;
 }
 
 export async function MedicationEatController(data: MedicationEatData) {
@@ -165,7 +166,7 @@ export async function MedicationEatController(data: MedicationEatData) {
     const url = `/medication/taken/${data.prescriptionId}`;
     const response = await fetchWithAuth(url, {
       method: "POST",
-      body: JSON.stringify({ familyId: data.familyId, time: data.time }),
+      body: JSON.stringify({ familyId: data.familyId, time: data.time, takenDate: data.takenDate }),
     });
     console.log("Eat successful:", response);
     return response; // 예시로 데이터 반환

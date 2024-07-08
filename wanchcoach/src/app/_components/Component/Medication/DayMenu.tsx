@@ -14,7 +14,7 @@ export default function DayMenu({ activeTab, handleTabClick }: DayMenuProps) {
         return "100%";
       case "evening":
         return "200%";
-      case "beforebed":
+      case "beforeBed":
         return "300%";
       default:
         return "0%";
@@ -44,9 +44,9 @@ export default function DayMenu({ activeTab, handleTabClick }: DayMenuProps) {
         </div>
         <div
           className={`${styles.day_tab_box_title} ${
-            activeTab === "beforebed" ? styles.active : ""
+            activeTab === "beforeBed" ? styles.active : ""
           }`}
-          onClick={() => handleTabClick("beforebed")}
+          onClick={() => handleTabClick("beforeBed")}
         >
           취침 전
         </div>

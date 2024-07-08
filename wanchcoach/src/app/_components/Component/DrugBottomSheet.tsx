@@ -86,7 +86,7 @@ export default function DrugBottomSheet({
           ""
         )}
         <div className={styles.drugbottomsheet_body}>
-          <div className={styles.bottomsheet_header} {...bind()}>
+          <div className={styles.bottomsheet_header} {...bind()} onClick={handleBottomSheetChange}>
             <hr className={styles.bottomsheet_header_line} />
           </div>
           {children}

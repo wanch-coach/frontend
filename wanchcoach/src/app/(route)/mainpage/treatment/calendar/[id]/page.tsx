@@ -71,7 +71,6 @@ export default function Calendar({ params }: { params: { id: number } }) {
     }
     return null;
   };
-  const familyColors = extractFirstFamilyColor(calendarData, familyId);
   return (
     <>
       <div className={styles.body_container}>

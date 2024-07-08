@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./visited.module.css";
 import {
   BasicInputBox,
@@ -39,6 +39,9 @@ import {
 
 export default function Visited() {
   const route = useRouter();
+  const params = useSearchParams();
+  const hospitalId = params.get("hospitalId");
+  const hospitalName = params.get("hospitalName");
   const [selectedHospital, setSelectedHospital] = useState<MedicalKeywordResultData>({
     hospitalId: 0,
     name: "",
@@ -70,6 +73,7 @@ export default function Visited() {
   const [frequencyValue, setFrequencyValue] = useState<number[]>([0]);
   const [dayValue, setDayValue] = useState<number[]>([0]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [ocrLoading, setOcrLoading] = useState(false);
 
   const handleCheckboxChange = (index: number, isChecked: boolean) => {
     const newSelectedChecks = [...selectedChecks];
@@ -238,7 +242,7 @@ export default function Visited() {
       const file = e.target.files[0];
       const formData = new FormData();
       formData.append("file", file);
-
+      setOcrLoading(true);
       OCRAddPrescriptionController(formData)
         .then((response) => {
           const ocrItems = response.data.ocrItems;
@@ -255,9 +259,11 @@ export default function Visited() {
             direction: item.direction,
           }));
           setPrescribedDrugs(updatedDrugs);
+          setOcrLoading(false);
         })
         .catch((e) => {
           console.log(e);
+          setOcrLoading(false);
           return;
         });
     }
@@ -318,8 +324,22 @@ export default function Visited() {
     return () => clearTimeout(timeoutId);
   }, [drugValue]);
 
+  useEffect(() => {
+    if (hospitalId && hospitalName) {
+      console.log(hospitalId);
+      console.log(hospitalName);
+      setSelectedHospital({
+        hospitalId: parseInt(hospitalId),
+        name: hospitalName,
+        type: "",
+        address: "",
+      });
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
+      {ocrLoading && <LoadingScreen />}
       <HospitalModalInputBox
         label="병원명"
         placeholder="병원 명"
@@ -375,6 +395,15 @@ export default function Visited() {
           onClick={handleTreatmentRegister}
         />
       </div>
+    </div>
+  );
+}
+
+function LoadingScreen() {
+  return (
+    <div className={styles.loading_screen}>
+      <div className={styles.loading_spinner}></div>
+      <p>OCR 로딩 중...</p>
     </div>
   );
 }
@@ -463,24 +492,34 @@ function PrescriptionContainer({
                 handleDrugValueSubmit={handleDrugValueSubmit}
               />
               <div className={styles.drug_number_box}>
-                <NumberInputbox
-                  label="1회 투약량"
-                  placeholder="0"
-                  value={quantityValue[index]}
-                  onChange={(e) => handleQuantityValueInputChange(index, parseInt(e.target.value))}
-                />
-                <NumberSelectInputbox
-                  label="1일 투여횟수"
-                  value={frequencyValue[index]}
-                  onChange={(e) => handleFrequencyValueInputChange(index, parseInt(e.target.value))}
-                />
-                <NumberInputbox
-                  label="총 투약일수"
-                  placeholder="0"
-                  rightLabel="일"
-                  value={dayValue[index]}
-                  onChange={(e) => handleDayValueInputChange(index, parseInt(e.target.value))}
-                />
+                <div className={styles.drug_number_box_prop}>
+                  <NumberInputbox
+                    label="1회 투약량"
+                    placeholder="0"
+                    value={quantityValue[index]}
+                    onChange={(e) =>
+                      handleQuantityValueInputChange(index, parseInt(e.target.value))
+                    }
+                  />
+                </div>
+                <div className={styles.drug_number_box_prop}>
+                  <NumberSelectInputbox
+                    label="1일 투여횟수"
+                    value={frequencyValue[index]}
+                    onChange={(e) =>
+                      handleFrequencyValueInputChange(index, parseInt(e.target.value))
+                    }
+                  />
+                </div>
+                <div className={styles.drug_number_box_prop}>
+                  <NumberInputbox
+                    label="총 투약일수"
+                    placeholder="0"
+                    rightLabel="일"
+                    value={dayValue[index]}
+                    onChange={(e) => handleDayValueInputChange(index, parseInt(e.target.value))}
+                  />
+                </div>
               </div>
               <hr className={styles.drug_footer_line} />
             </div>

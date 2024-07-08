@@ -46,3 +46,12 @@
   font-weight: 500;
   padding-left: 5px;
 }
+.empty_container {
+  margin: 0 2%;
+  height: 77.5px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #dddddd;
+  text-align: center;
+  align-content: center;
+}

@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 interface MedicationListProps {
   todayTakedata: TodayTakeData[];
   activeTab: string;
+  currentDate: Date;
   familyId: number;
 }
 export default function MedicationList({
   todayTakedata,
   activeTab,
+  currentDate,
   familyId,
 }: MedicationListProps) {
   const route = useRouter();
@@ -38,10 +40,12 @@ export default function MedicationList({
         prescriptionId: id,
         familyId: familyId,
         time: activeTab,
+        takenDate: currentDate,
       };
       const response = await MedicationEatController(data);
 
       console.log("먹기 성공:", response);
+      route.back();
       route.replace(`/mainpage/medication/taking/${familyId}`);
     } catch (error) {
       console.error("먹기 실패:", error);
@@ -52,7 +56,7 @@ export default function MedicationList({
   return (
     <div className={styles.taking_container}>
       <div className={styles.taking_text}>먹어야 해요 ({unTakenCount})</div>
-      {unTakenCount > 0 && (
+      {unTakenCount > 0 ? (
         <>
           {todayPartData.map((data, index) => (
             <div key={index}>
@@ -67,10 +71,12 @@ export default function MedicationList({
             </div>
           ))}
         </>
+      ) : (
+        <div className={styles.empty_container}>약이 없어요</div>
       )}
-
+      <div className="mt-5" />
       <div className={styles.taking_text}>이미 먹었어요({takenCount})</div>
-      {takenCount > 0 && (
+      {takenCount > 0 ? (
         <>
           {todayPartData.map((data, index) => (
             <div key={index}>
@@ -80,6 +86,8 @@ export default function MedicationList({
             </div>
           ))}
         </>
+      ) : (
+        <div className={styles.empty_container}>약이 없어요</div>
       )}
     </div>
   );

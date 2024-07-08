@@ -11,7 +11,7 @@ import LocationAgree from "@/app/_components/Component/Medical/LocationAgree";
 import BottomSheet from "@/app/_components/Component/BottomSheet";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaHandHoldingMedical, FaLongArrowAltRight, FaPhoneAlt } from "react-icons/fa";
 import DrugBottomSheet from "@/app/_components/Component/DrugBottomSheet";
 import { TfiMenuAlt } from "react-icons/tfi";
 import {
@@ -23,6 +23,9 @@ import {
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { IoLocationOutline } from "react-icons/io5";
+import { TiPencil } from "react-icons/ti";
 
 dayjs.extend(customParseFormat);
 
@@ -78,6 +81,7 @@ function NaverMapContainer({
   const [showHospitals, setShowHospitals] = useState(true);
   const [userLocation, setUserLocation] = useState<Coordinates>(initialCenter);
   const [modalOpen, setModalOpen] = useState(false);
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [drugsheetOpen, setDrugSheetOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -95,6 +99,7 @@ function NaverMapContainer({
     }
   };
   const handleModalClose = () => setModalOpen(false);
+  const handleRegisterModalClose = () => setRegisterModalOpen(false);
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
@@ -138,12 +143,16 @@ function NaverMapContainer({
   const handleDrugBottomSheetChange = () => {
     setDrugSheetOpen(!drugsheetOpen);
   };
-  const handleGoToRegistered = () => {
+  const handleGoToRegistered = (visit: boolean) => {
     if (selectedLocation) {
-      if (selectedLocation.type === "약국") {
-        router.push(`/register/upcoming?pharmacyId=${selectedLocation.pharmacyId}`);
+      if (visit) {
+        router.push(
+          `/register/visited?hospitalId=${selectedLocation.hospitalId}&hospitalName=${selectedLocation.name}`
+        );
       } else {
-        router.push(`/register/upcoming?hospitalId=${selectedLocation.hospitalId}`);
+        router.push(
+          `/register/upcoming?hospitalId=${selectedLocation.hospitalId}&hospitalName=${selectedLocation.name}`
+        );
       }
     }
   };
@@ -483,11 +492,13 @@ function NaverMapContainer({
               </div>
               <div className={styles.bottomsheet_detail_phone_text_02}>전화하기</div>
             </div>
-            <FrequentButton
-              title="진료 등록하러 하기"
-              backgroundColor="#0A6847"
-              onClick={handleGoToRegistered}
-            />
+            {selectedLocation.type !== "약국" ? (
+              <FrequentButton
+                title="진료 등록하러 가기"
+                backgroundColor="#0A6847"
+                onClick={() => setRegisterModalOpen(true)}
+              />
+            ) : null}
           </div>
         )}
       </BottomSheet>
@@ -518,6 +529,39 @@ function NaverMapContainer({
           />
         )}
       </DrugBottomSheet>
+      <BasicModal
+        open={registerModalOpen}
+        handleModalClose={handleRegisterModalClose}
+        width="65%"
+        height="23vh"
+      >
+        <>
+          <div className={styles.modal_header}>
+            <FaHandHoldingMedical color="#0A6847" size={"25px"} />
+            <div className={styles.modal_header_text_01}>진료 등록</div>
+            <FaLongArrowAltRight size={"23px"} />
+            <div className={styles.modal_header_text_02}>진료 선택</div>
+          </div>
+          <div className={styles.modal_content}>
+            <div
+              onClick={() => handleGoToRegistered(false)}
+              className={styles.modal_content_box}
+              style={{ backgroundColor: "#CECECE" }}
+            >
+              <TiPencil size={"35px"} />
+              <div className={styles.modal_content_text}>방문할 진료</div>
+            </div>
+            <div
+              onClick={() => handleGoToRegistered(true)}
+              className={styles.modal_content_box}
+              style={{ backgroundColor: "#D0DBFF" }}
+            >
+              <TiPencil size={"35px"} />
+              <div className={styles.modal_content_text}>방문한 진료</div>
+            </div>
+          </div>
+        </>
+      </BasicModal>
     </>
   );
 }

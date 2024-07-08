@@ -9,7 +9,7 @@ import {
 } from "@/app/_components/component";
 import styles from "./familycreate.module.css";
 import { useState } from "react";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FamilyCreateController } from "@/app/util/controller/familyController";
@@ -27,7 +27,7 @@ export default function FamilyCreate() {
     /* 가족 추가 API 호출 */
     const data = {
       name: name,
-      birthDate: selectedDate,
+      birthDate: dayjs(selectedDate).add(1, "day"),
       imageFileName: "",
       gender: gender,
       color: selectedColor,

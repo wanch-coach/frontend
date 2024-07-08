@@ -139,11 +139,14 @@ export default function TreatmentPaperCalendar({
               )
               .flatMap((item) =>
                 item.treatmentItems.map((treatment) => (
-                  <TreatmentBox treatmentItems={treatment} key={treatment.id} />
+                  <>
+                    <TreatmentBox treatmentItems={treatment} key={treatment.id} />
+                    <div className="mb-2" />
+                  </>
                 ))
               )
           ) : (
-            <div>선택된 날짜에 대한 진료 정보가 없습니다.</div>
+            <div className={styles.empty_container}>선택된 날짜에 대한 진료 정보가 없습니다.</div>
           )}
         </div>
       </BottomSheet>

@@ -258,3 +258,40 @@
   height: 100%;
   overflow: auto;
 }
+
+/* modal */
+.modal_header {
+  display: flex;
+  height: 8vh;
+  justify-content: center;
+  align-items: center;
+}
+.modal_header_text_01 {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0 5px;
+  padding-right: 10px;
+}
+.modal_header_text_02 {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 5px;
+  margin-top: 5px;
+}
+.modal_content {
+  height: 14vh;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+.modal_content_box {
+  width: 40%;
+  border-radius: 10px;
+  align-content: center;
+  text-align: -webkit-center;
+}
+.modal_content_text {
+  font-size: 14px;
+  padding-top: 10px;
+  font-weight: 600;
+}

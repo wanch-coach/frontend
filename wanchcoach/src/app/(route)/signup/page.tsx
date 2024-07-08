@@ -62,10 +62,11 @@ export default function Signup() {
       pwd: loginPwd,
       name: name,
       email: email,
-      birthDate: birthDate,
+      birthDate: dayjs(birthDate).add(1, "day"),
       gender: gender,
       phoneNumber: phoneNumber,
     };
+    console.log(data);
     SignupController(data)
       .then(() => {
         alert("회원가입이 완료되었습니다.");
@@ -166,9 +167,9 @@ export default function Signup() {
     }
   };
 
-  // useEffect(()=>{
-
-  // },[]);
+  useEffect(() => {
+    handleIsSamePassword();
+  }, [loginPwd, confirmPassword]);
 
   return (
     <div className={styles.body_container}>
@@ -225,7 +226,9 @@ export default function Signup() {
           label="비밀번호"
           placeholder="비밀번호"
           value={loginPwd}
-          onChange={(e) => setLoginPwd(e.target.value)}
+          onChange={(e) => {
+            setLoginPwd(e.target.value);
+          }}
         />
         <BasicInputBox
           type="password"

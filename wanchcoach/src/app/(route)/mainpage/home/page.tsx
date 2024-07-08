@@ -122,37 +122,37 @@ export default function Home() {
     <div>
       <TodayTitle title="진료" link={`/treatment/diagnosis/0`} />
       <div className={styles.home_today_treatment_container}>
-        <Carousel responsive={responsive}>
-          {todayTreatmentData.length !== 0 ? (
-            todayTreatmentData.map((item, index) => (
+        {todayTreatmentData.length !== 0 ? (
+          <Carousel responsive={responsive}>
+            {todayTreatmentData.map((item, index) => (
               <div className={styles.home_today_treatment} key={index}>
                 <TreatmentBox treatmentItems={item} />
               </div>
-            ))
-          ) : (
-            <div className={styles.home_today_treatment}>
-              <div className={styles.no_treatment_message}>오늘 예약된 치료가 없습니다.</div>
-            </div>
-          )}
-        </Carousel>
+            ))}
+          </Carousel>
+        ) : (
+          <div className={styles.home_today_treatment}>
+            <div className={styles.no_treatment_message}>오늘 예약된 치료가 없습니다.</div>
+          </div>
+        )}
       </div>
       <div className="mt-5" />
       <TodayTitle title="복약" link={`/medication/taking/${myFamilyId}`} />
       <div className={styles.home_today_medication_container}>
         <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
-        <Carousel responsive={responsive2}>
-          {medicationData.length !== 0 ? (
-            medicationData.map((item, index) => (
+        {medicationData.length !== 0 ? (
+          <Carousel responsive={responsive2}>
+            {medicationData.map((item, index) => (
               <div className={styles.home_today_medication}>
                 <TodayMedicationBox key={index} medicationData={item} />
               </div>
-            ))
-          ) : (
-            <div className={styles.home_today_treatment}>
-              <div className={styles.no_treatment_message}>먹을 약이 없습니다.</div>
-            </div>
-          )}
-        </Carousel>
+            ))}
+          </Carousel>
+        ) : (
+          <div className={styles.home_today_treatment}>
+            <div className={styles.no_treatment_message}>먹을 약이 없습니다.</div>
+          </div>
+        )}
       </div>
     </div>
   );
