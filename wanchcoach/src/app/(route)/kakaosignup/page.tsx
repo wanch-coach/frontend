@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 import styles from "./kakaosignup.module.css";
 import { BasicInputBox, DateInputBox, TwoCheckBox } from "../../_components/component";
 import { ChangeEvent, useEffect, useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
 import SignupStepText from "@/app/_components/Component/Signup/SignupStepText";
 import SignupAgree from "@/app/_components/Component/Signup/SignupAgree";
 import { useRouter } from "next/navigation";
@@ -14,6 +13,7 @@ import {
   SignupController,
 } from "@/app/util/controller/userController";
 import { FindMyFamilyIdController } from "@/app/util/controller/familyController";
+import { Dayjs } from "dayjs";
 
 export default function KakaoSignup() {
   const router = useRouter();

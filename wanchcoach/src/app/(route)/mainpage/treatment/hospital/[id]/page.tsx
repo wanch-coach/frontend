@@ -81,7 +81,8 @@ export default function Hospital({ params }: { params: { id: number } }) {
             familyId == 0
               ? hospital.treatmentItems
               : hospital.treatmentItems.filter((item) => item.familyId == familyId);
-          if (filteredItems.length === 0) return null;
+          if (filteredItems.length === 0)
+            return <div className={styles.empty_container}>등록한 진료가 없습니다</div>;
 
           return (
             <div key={index} className={styles.hospital_list}>

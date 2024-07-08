@@ -136,11 +136,13 @@ export default function PaperCalendar({
             <hr className={styles.bottomsheet_content_line} />
           </div>
           <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
-          {todayPartData.length === 0
-            ? null
-            : todayPartData.map((prescription, index) => (
-                <MedicationInfoBox key={index} prescription={prescription} color={familyColor} />
-              ))}
+          {todayPartData && todayPartData.length !== 0 ? (
+            todayPartData.map((prescription, index) => (
+              <MedicationInfoBox key={index} prescription={prescription} color={familyColor} />
+            ))
+          ) : (
+            <div className={styles.empty_container}>이력 없음</div>
+          )}
         </div>
       </BottomSheet>
     </>

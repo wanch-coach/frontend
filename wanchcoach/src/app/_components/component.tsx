@@ -640,7 +640,6 @@ export function DateInputBox({
           onChange={(date: Dayjs | null) => {
             if (handleDateChange) {
               handleDateChange(date); // handleDateChange가 정의된 경우 호출
-              console.log(date);
             }
           }}
           disabled={isDisabled}
@@ -826,6 +825,7 @@ export function TimeInputBox({
               handleTimeChange(time);
             }
           }}
+          slotProps={{ textField: { placeholder: "--:--" } }}
         />
       </LocalizationProvider>
     </div>

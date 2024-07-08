@@ -33,7 +33,7 @@ export default function LoginLayout({ children }: { children: ReactNode }) {
         >
           <div className={styles.naver_login_button}>
             <SiNaver size="25px" />
-            <div className={styles.naver_login_button_text}>네이버 아이디로 로그인</div>
+            <div className={styles.naver_login_button_text}>네이버로 이용하기</div>
           </div>
         </Link>
         <div className="pt-3" />
@@ -44,7 +44,7 @@ export default function LoginLayout({ children }: { children: ReactNode }) {
         >
           <div className={styles.kakao_login_button}>
             <RiKakaoTalkFill size="25px" />
-            <div className={styles.kakao_login_button_text}>카카오 아이디로 로그인</div>
+            <div className={styles.kakao_login_button_text}>카카오로 이용하기</div>
           </div>
         </Link>
       </div>

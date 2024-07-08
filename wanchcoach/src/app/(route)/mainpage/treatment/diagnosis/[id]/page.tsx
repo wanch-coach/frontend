@@ -45,17 +45,23 @@ export default function Diagnosis({ params }: { params: { id: number } }) {
     <>
       <div className={styles.body_container}>
         <div className={styles.body_text}>예약 중인 진료</div>
-        {filteredUpcomingData &&
+        {filteredUpcomingData ? (
           filteredUpcomingData.map((item: TreatmentItems) => (
             <TreatmentBox key={item.id} treatmentItems={item} future />
-          ))}
+          ))
+        ) : (
+          <div className={styles.empty_container}>예약 중인 진료가 없습니다</div>
+        )}
       </div>
       <div className={`${styles.body_container} pt-5`}>
         <div className={styles.body_text}>지난 예약</div>
-        {filteredPastData &&
+        {filteredPastData ? (
           filteredPastData.map((item: TreatmentItems) => (
             <TreatmentBox key={item.id} treatmentItems={item} state />
-          ))}
+          ))
+        ) : (
+          <div className={styles.empty_container}>지난 진료가 없습니다</div>
+        )}
       </div>
     </>
   );

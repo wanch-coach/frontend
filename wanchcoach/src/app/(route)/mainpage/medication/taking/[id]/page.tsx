@@ -5,7 +5,6 @@ import MedicationBox from "./_components/MedicationBox";
 import MedicationInfoBox from "./_components/MedicationInfoBox";
 import styles from "./taking.module.css";
 import MedicationList from "./_components/MedicationList";
-import dayjs from "dayjs";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import { MedicationDayController, TodayTakeData } from "@/app/util/controller/medicationController";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
@@ -13,7 +12,7 @@ import DayMenu from "@/app/_components/Component/Medication/DayMenu";
 
 export default function Taking({ params }: { params: { id: number } }) {
   const familyId = params.id;
-  const today = dayjs();
+  const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
   const [activeTab, setActiveTab] = useState("morning");
   const [todayTaken, setTodayTaken] = useState<TodayTakeData[]>([]);
@@ -22,24 +21,33 @@ export default function Taking({ params }: { params: { id: number } }) {
     setActiveTab(tab);
   };
   const handlePrevDay = () => {
-    setCurrentDate(currentDate.subtract(1, "day"));
+    const newDate = new Date(currentDate);
+    newDate.setDate(newDate.getDate() - 1);
+    setCurrentDate(newDate);
   };
   const handleNextDay = () => {
-    if (today.isAfter(currentDate, "day")) {
-      setCurrentDate(currentDate.add(1, "day"));
+    const newDate = new Date(currentDate);
+    newDate.setHours(0, 0, 0, 0);
+
+    const todayMidnight = new Date(today);
+    todayMidnight.setHours(0, 0, 0, 0);
+
+    if (todayMidnight.getTime() > newDate.getTime()) {
+      newDate.setDate(newDate.getDate() + 1);
+      setCurrentDate(newDate);
     }
   };
   const handleGoToToday = () => {
-    setCurrentDate(dayjs());
+    setCurrentDate(today);
   };
   useEffect(() => {
     /* 복약 데이터 api 호출 */
     const fetchData = async () => {
       try {
         const data = {
-          year: currentDate.year(),
-          month: currentDate.month() + 1,
-          day: currentDate.date(),
+          year: currentDate.getFullYear(),
+          month: currentDate.getMonth() + 1,
+          day: currentDate.getDate() + 1,
         };
         const response = await MedicationDayController(data);
         setTodayTaken(response.data);
@@ -52,7 +60,7 @@ export default function Taking({ params }: { params: { id: number } }) {
     setTodayTaken([]); // 원래 것 싹 비움
     fetchData();
   }, [currentDate]);
-  const formattedDate = currentDate.format("M월 D일");
+  const formattedDate = `${currentDate.getMonth() + 1}월 ${currentDate.getDate()}일`;
   const filteredData = todayTaken?.filter((data) => data.familyId == familyId) || [];
   return (
     <>
@@ -65,7 +73,7 @@ export default function Taking({ params }: { params: { id: number } }) {
           <div className={styles.day_controller_icon} onClick={handleNextDay}>
             <FaCaretRight
               size={"20px"}
-              color={today.isAfter(currentDate, "day") ? "black" : "#dddddd"}
+              color={currentDate.getDate() >= today.getDate() ? "#dddddd" : "black"}
             />
           </div>
           <div className={styles.day_controller_gotoday_button} onClick={handleGoToToday}>
@@ -75,7 +83,12 @@ export default function Taking({ params }: { params: { id: number } }) {
         <DayMenu activeTab={activeTab} handleTabClick={handleTabClick} />
       </div>
       <div className={styles.day_body_container}>
-        <MedicationList todayTakedata={filteredData} activeTab={activeTab} familyId={familyId} />
+        <MedicationList
+          todayTakedata={filteredData}
+          activeTab={activeTab}
+          currentDate={currentDate}
+          familyId={familyId}
+        />
       </div>
     </>
   );

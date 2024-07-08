@@ -16,6 +16,8 @@ export default function MyDrugInformation({ params }: { params: { id: number } }
   const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
   const [endDate, setEndDate] = useState<Dayjs | null>(dayjs());
   const [myDrugData, setMyDrugData] = useState<MyDrugInfoData[]>([]);
+  const [searing, setSearing] = useState(false);
+
   const handleMyDrugSubmit = () => {
     /* api 호출 */
     const fetchData = async () => {
@@ -27,6 +29,7 @@ export default function MyDrugInformation({ params }: { params: { id: number } }
         };
         const response = await MedicationMyDrugController(data);
         setMyDrugData(response.data);
+        setSearing(true);
         console.log("내 약 정보 가져오기 성공:", response);
       } catch (error) {
         console.error("데이터 가져오기 실패:", error);
@@ -35,9 +38,7 @@ export default function MyDrugInformation({ params }: { params: { id: number } }
     };
     fetchData();
   };
-  // useEffect(() => {
 
-  // }, []);
   return (
     <div className={styles.body_container}>
       <DaySelectBox
@@ -47,12 +48,22 @@ export default function MyDrugInformation({ params }: { params: { id: number } }
         handleEndDateChange={setEndDate}
         handleMyDrugSubmit={handleMyDrugSubmit}
       />
-      <div>최근 복용한 약</div>
-      {myDrugData.map((drugInfoData, index) => (
-        <div className={styles.mydrug_list_container}>
-          <DrugBoxDetail key={index} drugInfodata={drugInfoData} />
-        </div>
-      ))}
+      {searing ? (
+        myDrugData.length > 0 ? (
+          <>
+            <div>최근 복용한 약</div>
+            {myDrugData.map((drugInfoData, index) => (
+              <div className={styles.mydrug_list_container} key={index}>
+                <DrugBoxDetail key={index} drugInfodata={drugInfoData} />
+              </div>
+            ))}
+          </>
+        ) : (
+          <div className={styles.empty_container}>현재 범위에 조회된 약이 없습니다</div>
+        )
+      ) : (
+        <div className={styles.empty_container}>조회를 눌러 데이터를 조회하세요</div>
+      )}
     </div>
   );
 }

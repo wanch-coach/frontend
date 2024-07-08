@@ -34,15 +34,17 @@ export default function RecordTaking({ params }: { params: { id: number } }) {
   }, [familyId]);
   return (
     <div className={styles.body_container}>
-      <div className={styles.body_text}>복용중인 약</div>
+      <div className={styles.body_text}>복용 중인 약</div>
       {takingRecordData && takingRecordData.length > 0 ? (
         <>
           {takingRecordData.map((prescription, index) => (
             <MedicationInfoBox key={index} prescription={prescription} color={familyColor} />
           ))}
         </>
-      ) : null}
-
+      ) : (
+        <div className={styles.empty_container}>복용 중인 약이 없어요</div>
+      )}
+      <div className="mt-5" />
       <div className={styles.body_text}>과거에 먹은 약</div>
       {endRecordData && endRecordData.length > 0 ? (
         <>
@@ -50,7 +52,9 @@ export default function RecordTaking({ params }: { params: { id: number } }) {
             <MedicationInfoBox key={index} prescription={prescription} color={familyColor} />
           ))}
         </>
-      ) : null}
+      ) : (
+        <div className={styles.empty_container}>과거에 먹은 약이 없어요</div>
+      )}
     </div>
   );
 }

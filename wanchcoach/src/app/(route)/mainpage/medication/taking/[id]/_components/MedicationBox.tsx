@@ -17,6 +17,8 @@ import {
   MedicationAlarmChangeController,
   PrescriptionData,
 } from "@/app/util/controller/medicationController";
+import { BasicModal } from "@/app/_components/component";
+import { GiPill } from "react-icons/gi";
 
 //변수 title, category, count, state
 interface MedicationBoxProps {
@@ -32,8 +34,8 @@ export default function MedicationBox({
   handleEatSubmit,
 }: MedicationBoxProps) {
   const [checked, setChecked] = React.useState(prescription.alarm);
-
   const [expanded, setExpanded] = useState(false);
+  const [eatModal, setEatModal] = useState(false);
 
   const handleExpandedChange = (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
     setExpanded(isExpanded);
@@ -48,6 +50,17 @@ export default function MedicationBox({
       // 오류 처리
     }
     setChecked(e.target.checked);
+  };
+
+  const handleEatModalClose = () => {
+    setEatModal(false);
+  };
+
+  const handleEatChange = () => {
+    setEatModal(false);
+    if (handleEatSubmit) {
+      handleEatSubmit(); // 함수 호출
+    }
   };
 
   return (
@@ -111,7 +124,9 @@ export default function MedicationBox({
             <div className={styles.medication_detail_content}>
               <div className={styles.medication_detail_header}>
                 <div className={styles.medication_detail_header_text}></div>
-                <div className={styles.medication_detail_header_text}>약 명</div>
+                <div className={styles.medication_detail_header_text} style={{ flex: 6 }}>
+                  약 명
+                </div>
                 <div className={styles.medication_detail_header_text}>종류</div>
               </div>
               <div>
@@ -129,11 +144,9 @@ export default function MedicationBox({
               </div>
               <div className={styles.medication_detail_total}>총 {prescription.drugs.length}개</div>
               <div className={styles.medication_detail_button_container}>
-                <div className={styles.medication_detail_button}>
+                <div className={styles.medication_detail_button} onClick={() => setEatModal(true)}>
                   <GoDotFill size={"20px"} color={"white"} />
-                  <div className={styles.medication_detail_button_text} onClick={handleEatSubmit}>
-                    먹기
-                  </div>
+                  <div className={styles.medication_detail_button_text}>먹기</div>
                 </div>
               </div>
             </div>
@@ -161,6 +174,78 @@ export default function MedicationBox({
           </div>
         </AccordionDetails>
       </Accordion>
+      <PrecriptionYesOrNoModal
+        title="약 먹기"
+        content="약을 드시겠어요?"
+        count={prescription.remains}
+        open={eatModal}
+        handleModalClose={handleEatModalClose}
+        onClickYes={handleEatChange}
+        onClickNo={handleEatModalClose}
+      />
     </div>
+  );
+}
+
+interface PrecriptionYesOrNoModalProps {
+  title: string;
+  content: string;
+  count: number;
+  open: boolean;
+  handleModalClose: () => void;
+  onClickYes?: () => void;
+  onClickNo: () => void;
+}
+function PrecriptionYesOrNoModal({
+  title,
+  content,
+  count,
+  open,
+  handleModalClose,
+  onClickYes,
+  onClickNo,
+}: PrecriptionYesOrNoModalProps) {
+  const formatDate = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(date.getDate()).padStart(2, "0")}`;
+    return formattedDate;
+  };
+
+  const formatTime = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const period = hours >= 12 ? "오후" : "오전";
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    return `${period} ${formattedHours}:${formattedMinutes}`;
+  };
+  return (
+    <BasicModal open={open} handleModalClose={handleModalClose} width="50%" height="23vh">
+      <>
+        <div className={styles.modal_header}>
+          <div className={styles.modal_header_title}>
+            <GiPill size="25px" />
+            <div className={styles.modal_header_title_text}>{title}</div>
+          </div>
+          <div className={styles.modal_body}>
+            <div className={styles.modal_body_time_text}>현재시간 </div>
+            <div className={styles.modal_body_text}>{content}</div>
+          </div>
+          <div className={styles.modal_body_count_text}>남은개수 : {count}</div>
+        </div>
+        <div className={styles.modal_content}>
+          <div className={styles.modal_content_box_01} onClick={onClickNo}>
+            아니요
+          </div>
+          <div className={styles.modal_content_box_02} onClick={onClickYes}>
+            예
+          </div>
+        </div>
+      </>
+    </BasicModal>
   );
 }
