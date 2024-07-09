@@ -13,8 +13,17 @@ import { FaList } from "react-icons/fa6";
 import Link from "next/link";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
 
-export default function MedicationLayout({ children }: { children: ReactNode }) {
+export default function MedicationLayout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: { id: number };
+}) {
   const route = useRouter();
+  const pathname = usePathname();
+  const match = pathname.match(/\/mainpage\/medication\/taking\/(\d+)/);
+  const id = match ? parseInt(match[1], 10) : null;
   const [selectedFamily, setSelectedFamily] = useState<FamilySummaryListData>();
   const handleSelectedFamilyChange = (family: FamilySummaryListData) => {
     setSelectedFamily(family);
@@ -25,6 +34,7 @@ export default function MedicationLayout({ children }: { children: ReactNode }) 
       <ProfileHeader
         selectedFamily={selectedFamily}
         handleSelectedFamilyChange={handleSelectedFamilyChange}
+        profileId={id}
       />
       <MedicationMenu selectedFamily={selectedFamily} />
       {children}

@@ -9,6 +9,7 @@
   width: 100%;
   align-items: center;
   cursor: pointer;
+  flex-wrap: nowrap;
 }
 .drug_box_image {
   flex: 3;

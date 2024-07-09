@@ -9,7 +9,7 @@ interface SignupData {
   pwd: string;
   name: string;
   email: string;
-  birthDate: Dayjs | null;
+  birthDate: string;
   gender: string;
   phoneNumber: string;
 }

@@ -384,10 +384,10 @@ export default function Visited() {
         />
         <input
           type="file"
-          // accept="image/*"
+          accept="image/*"
           ref={fileInputRef}
           style={{ display: "none" }}
-          capture="environment"
+          // capture="environment"
           onChange={handleFileChange}
         />
         <div style={{ padding: "2vh 0" }}>

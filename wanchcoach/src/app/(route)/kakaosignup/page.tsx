@@ -40,7 +40,7 @@ export default function KakaoSignup() {
       pwd: loginPwd,
       name: name,
       email: email,
-      birthDate: birthDate,
+      birthDate: birthDate.format("YYYY-MM-DD"),
       gender: gender,
       phoneNumber: phoneNumber,
     };

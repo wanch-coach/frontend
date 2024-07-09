@@ -31,12 +31,15 @@ export default function NaverSignup() {
     if (!agreeAll) {
       return alert("약관에 동의해주세요.");
     }
+    if (!birthDate) {
+      return;
+    }
     const data = {
       loginId: loginId,
       pwd: loginPwd,
       name: name,
       email: email,
-      birthDate: birthDate,
+      birthDate: birthDate.format("YYYY-MM-DD"),
       gender: gender,
       phoneNumber: phoneNumber,
     };

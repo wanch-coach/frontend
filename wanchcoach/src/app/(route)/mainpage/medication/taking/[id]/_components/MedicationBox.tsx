@@ -5,7 +5,7 @@ import Image from "next/image";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import React, { useState, SyntheticEvent, ChangeEvent } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent, useEffect } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -180,7 +180,10 @@ export default function MedicationBox({
         count={prescription.remains}
         open={eatModal}
         handleModalClose={handleEatModalClose}
-        onClickYes={handleEatChange}
+        onClickYes={() => {
+          setEatModal(false);
+          handleEatChange();
+        }}
         onClickNo={handleEatModalClose}
       />
     </div>

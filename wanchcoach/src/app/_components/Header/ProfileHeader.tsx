@@ -20,12 +20,14 @@ interface ProfileHeaderProps {
   handleSelectedFamilyChange: (family: FamilySummaryListData) => void;
   register?: boolean;
   entire?: boolean;
+  profileId: number | null;
 }
 export default function ProfileHeader({
   entire,
   register,
   selectedFamily,
   handleSelectedFamilyChange,
+  profileId,
 }: ProfileHeaderProps) {
   const [familyProfiles, setFamilyProfiles] = useState<FamilySummaryListData[]>([]);
   // const [selectedFamily, setSelectedFamily] = useState<FamilySummaryListData | null>(null);
@@ -47,7 +49,15 @@ export default function ProfileHeader({
         const response = await FamilySummaryListController();
         setFamilyProfiles(response.data);
         if (response.data.length > 0 && !entire) {
-          handleSelectedFamilyChange(response.data[0]);
+          const findFamily = response.data.find(
+            (item: FamilySummaryListData) => item.familyId == profileId
+          );
+          // console.log(findFamily);
+          if (findFamily) {
+            handleSelectedFamilyChange(findFamily);
+          } else {
+            handleSelectedFamilyChange(response.data[0]);
+          }
         }
       } catch (error) {
         console.error("Error fetching family list:", error);

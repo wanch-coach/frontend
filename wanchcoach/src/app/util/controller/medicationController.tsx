@@ -158,7 +158,7 @@ interface MedicationEatData {
   prescriptionId: number;
   familyId: number;
   time: string;
-  takenDate: Date;
+  takenDate: string;
 }
 
 export async function MedicationEatController(data: MedicationEatData) {
