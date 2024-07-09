@@ -41,8 +41,6 @@ import { Suspense } from "react";
 export default function Visited() {
   const route = useRouter();
   const params = useSearchParams();
-  const hospitalId = params.get("hospitalId");
-  const hospitalName = params.get("hospitalName");
   const [selectedHospital, setSelectedHospital] = useState<MedicalKeywordResultData>({
     hospitalId: 0,
     name: "",
@@ -326,6 +324,8 @@ export default function Visited() {
   }, [drugValue]);
 
   useEffect(() => {
+    const hospitalId = params.get("hospitalId");
+    const hospitalName = params.get("hospitalName");
     if (hospitalId && hospitalName) {
       console.log(hospitalId);
       console.log(hospitalName);
