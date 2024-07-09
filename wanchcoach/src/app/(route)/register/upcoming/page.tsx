@@ -48,7 +48,7 @@ export default function Upcoming() {
           (selectedTime ? selectedTime.format("HH:mm") : "")
         : "",
       taken: false,
-      alarm: "ON",
+      alarm: true,
       symptom: symptoms,
       department: "",
       prescription: null,

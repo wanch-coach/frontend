@@ -12,7 +12,7 @@ const publicRoutes = ["/login", "/signup", "/naversignup", "/kakaosignup"]; // �
 export function middleware(request: NextRequest) {
   const token = getTokenFromCookies(request);
   console.log("미들웨어");
-  console.log(token);
+  // console.log(token);
   const currentPath = request.nextUrl.pathname;
 
   if (!token && isProtectedRoute(currentPath)) {
