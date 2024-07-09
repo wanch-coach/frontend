@@ -530,7 +530,7 @@ export function NumberSelectInputbox({ label, value, onChange }: NumberSelectInp
         className={`${styles.number_input_box} ${styles.select_box}`}
         value={value.toString()}
         onChange={onChange}
-        style={{ color: value === 0 ? "#8F9098" : "black" }}
+        style={{ color: value === 0 ? "#8F9098" : "black", maxWidth: "200px" }}
       >
         <option value="0" hidden>
           회
@@ -573,7 +573,7 @@ export function NumberInputbox({
       <div className={styles.input_container}>
         <input
           className={styles.input_box}
-          style={{ width: "18vw", height: "45px", textAlign: "center" }}
+          style={{ width: "18vw", maxWidth: "200px", height: "45px", textAlign: "center" }}
           type="number"
           placeholder={placeholder}
           value={value}
@@ -638,8 +638,10 @@ export function DateInputBox({
         <StyledDatePicker
           value={selectedDate}
           onChange={(date: Dayjs | null) => {
-            if (handleDateChange) {
-              handleDateChange(date); // handleDateChange가 정의된 경우 호출
+            if (date && (!selectedDate || date.date() !== selectedDate.date())) {
+              if (handleDateChange) {
+                handleDateChange(date); // handleDateChange가 정의된 경우 호출
+              }
             }
           }}
           disabled={isDisabled}

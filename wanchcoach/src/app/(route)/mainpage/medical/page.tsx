@@ -238,7 +238,7 @@ function NaverMapContainer({
               map: mapRef.current,
               title: "현재 위치",
               icon: {
-                url: "path/to/your/custom-icon.png",
+                url: "/icons/current_marker.png",
                 size: new naver.maps.Size(41, 55),
                 origin: new naver.maps.Point(0, 0), // 아이콘 이미지 시작점
                 anchor: new naver.maps.Point(20.5, 55), // 아이콘 앵커 포인트

@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 interface FamilyCreateData {
   name: string;
-  birthDate: Dayjs | null;
+  birthDate: string;
   imageFileName: string;
   gender: string;
   color: string;

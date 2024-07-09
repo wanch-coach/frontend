@@ -47,7 +47,7 @@ export default function Taking({ params }: { params: { id: number } }) {
         const data = {
           year: currentDate.getFullYear(),
           month: currentDate.getMonth() + 1,
-          day: currentDate.getDate() + 1,
+          day: currentDate.getDate(),
         };
         const response = await MedicationDayController(data);
         setTodayTaken(response.data);

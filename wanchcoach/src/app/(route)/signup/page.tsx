@@ -62,7 +62,7 @@ export default function Signup() {
       pwd: loginPwd,
       name: name,
       email: email,
-      birthDate: dayjs(birthDate).add(1, "day"),
+      birthDate: birthDate.format("YYYY-MM-DD"),
       gender: gender,
       phoneNumber: phoneNumber,
     };
@@ -103,8 +103,10 @@ export default function Signup() {
       loginId: loginId,
     };
     IdCheckController(data)
-      .then(() => {
-        setInputDisabledLoginId(true);
+      .then((response) => {
+        if (response.data) {
+          setInputDisabledLoginId(true);
+        }
       })
       .catch((e) => {
         console.log(e);

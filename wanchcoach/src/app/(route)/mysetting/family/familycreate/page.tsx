@@ -25,9 +25,12 @@ export default function FamilyCreate() {
   };
   const handleCreateSubmit = () => {
     /* 가족 추가 API 호출 */
+    if (!selectedDate) {
+      return;
+    }
     const data = {
       name: name,
-      birthDate: dayjs(selectedDate).add(1, "day"),
+      birthDate: selectedDate.format("YYYY-MM-DD"),
       imageFileName: "",
       gender: gender,
       color: selectedColor,

@@ -1,7 +1,10 @@
+"use client";
+
 import { MedicationEatController, TodayTakeData } from "@/app/util/controller/medicationController";
 import MedicationBox from "./MedicationBox";
 import styles from "./components.module.css";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface MedicationListProps {
   todayTakedata: TodayTakeData[];
@@ -36,17 +39,21 @@ export default function MedicationList({
   const familyColor = todayTakedata.length > 0 ? todayTakedata[0].familyColor : "";
   const handleEatSubmit = async (id: number) => {
     try {
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // getMonth()는 0부터 시작하므로 +1 필요
+      const day = String(currentDate.getDate()).padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
       const data = {
         prescriptionId: id,
         familyId: familyId,
         time: activeTab,
-        takenDate: currentDate,
+        takenDate: formattedDate,
       };
       const response = await MedicationEatController(data);
 
       console.log("먹기 성공:", response);
-      route.back();
-      route.replace(`/mainpage/medication/taking/${familyId}`);
+      window.location.replace(`/mainpage/medication/taking/${familyId}`);
     } catch (error) {
       console.error("먹기 실패:", error);
       // 오류 처리
