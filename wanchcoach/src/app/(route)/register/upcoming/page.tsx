@@ -19,8 +19,6 @@ import { MedicalKeywordResultData } from "@/app/util/controller/medicalControlle
 
 export default function Upcoming() {
   const params = useSearchParams();
-  const hospitalId = params.get("hospitalId");
-  const hospitalName = params.get("hospitalName");
   const route = useRouter();
   const [selectedAlarmCheck, setSelectedAlarmCheck] = useState("ON");
   const [selectedHospital, setSelectedHospital] = useState<MedicalKeywordResultData>({
@@ -80,6 +78,8 @@ export default function Upcoming() {
   };
 
   useEffect(() => {
+    const hospitalId = params.get("hospitalId");
+    const hospitalName = params.get("hospitalName");
     if (hospitalId && hospitalName) {
       console.log(hospitalId);
       console.log(hospitalName);
