@@ -11,7 +11,7 @@ import {
   TwoCheckBox,
   FrequentButton,
 } from "@/app/_components/component";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Suspense, useEffect, useState } from "react";
 import { AddTreatmentController } from "@/app/util/controller/treatmentController";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
 import { Dayjs } from "dayjs";
@@ -93,31 +93,32 @@ export default function Upcoming() {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <HospitalModalInputBox
-        label="병원명"
-        placeholder="병원 명"
-        value={selectedHospital}
-        handleHospitalChange={handleHospitalChange}
-      />
-      <SelectInputbox
-        label="방문자"
-        value={selectedVisitor}
-        handleVisitorChange={handleVisitorChange}
-      />
-      <DateInputBox
-        label="날짜"
-        selectedDate={selectedDate}
-        handleDateChange={setSelectedDate}
-        future
-      />
-      <TimeInputBox label="시간" selectedTime={selectedTime} handleTimeChange={setSelectedTime} />
-      <TextAreaInputbox
-        label="증상"
-        value={symptoms}
-        onChange={(e) => setSymptoms(e.target.value)} // 상태 업데이트 함수 전달
-      />
-      {/* <TwoCheckBox
+    <Suspense fallback={<div className={styles.loading_screen}>Loading...</div>}>
+      <div className={styles.container}>
+        <HospitalModalInputBox
+          label="병원명"
+          placeholder="병원 명"
+          value={selectedHospital}
+          handleHospitalChange={handleHospitalChange}
+        />
+        <SelectInputbox
+          label="방문자"
+          value={selectedVisitor}
+          handleVisitorChange={handleVisitorChange}
+        />
+        <DateInputBox
+          label="날짜"
+          selectedDate={selectedDate}
+          handleDateChange={setSelectedDate}
+          future
+        />
+        <TimeInputBox label="시간" selectedTime={selectedTime} handleTimeChange={setSelectedTime} />
+        <TextAreaInputbox
+          label="증상"
+          value={symptoms}
+          onChange={(e) => setSymptoms(e.target.value)} // 상태 업데이트 함수 전달
+        />
+        {/* <TwoCheckBox
         label="알람 등록 여부"
         type1="ON"
         type1Text="ON"
@@ -126,16 +127,17 @@ export default function Upcoming() {
         selectedCheck={selectedAlarmCheck}
         onChange={setSelectedAlarmCheck}
       /> */}
-      {/* <div className={styles.alarm_text}>
+        {/* <div className={styles.alarm_text}>
         ※ 알람 등록 ON 설정 시 3일전, 1일전, 당일에 알림이 울립니다.
       </div> */}
-      <div style={{ padding: "2vh 0" }}>
-        <FrequentButton
-          title="진료 등록"
-          backgroundColor="#0a6847"
-          onClick={handleTreatmentRegister}
-        />
+        <div style={{ padding: "2vh 0" }}>
+          <FrequentButton
+            title="진료 등록"
+            backgroundColor="#0a6847"
+            onClick={handleTreatmentRegister}
+          />
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
