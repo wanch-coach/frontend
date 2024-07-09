@@ -36,6 +36,7 @@ import {
   SimpleDrugData,
   SimpleSearchDrugByKeyword,
 } from "@/app/util/controller/drugController";
+import { Suspense } from "react";
 
 export default function Visited() {
   const route = useRouter();
@@ -338,64 +339,66 @@ export default function Visited() {
   }, []);
 
   return (
-    <div className={styles.container}>
-      {ocrLoading && <LoadingScreen />}
-      <HospitalModalInputBox
-        label="병원명"
-        placeholder="병원 명"
-        value={selectedHospital}
-        handleHospitalChange={handleHospitalChange}
-      />
-      <SelectInputbox
-        label="방문자"
-        value={selectedVisitor}
-        handleVisitorChange={handleVisitorChange}
-      />
-      <DateInputBox label="날짜" selectedDate={selectedDate} handleDateChange={setSelectedDate} />
-      <TimeInputBox label="시간" selectedTime={selectedTime} handleTimeChange={setSelectedTime} />
-      <TextAreaInputbox
-        label="증상"
-        value={symptoms}
-        onChange={(e) => setSymptoms(e.target.value)} // 상태 업데이트 함수 전달
-      />
-      <hr className={styles.middle_line} />
-      <PrescriptionContainer
-        pharmacy={selectedPharmacy}
-        handlePharmacyChange={handlePharmacyChange}
-        prescribedDrugs={prescribedDrugs}
-        handleAddDrug={handleAddDrug}
-        handleRemoveDrug={handleRemoveDrug}
-        drugValue={drugValue}
-        handleDrugValueInputChange={handleDrugValueInputChange}
-        drugsData={filteredData}
-        handleDrugValueSubmit={handleDrugValueSubmit}
-        drugSearching={drugSearching}
-        selectedChecks={selectedChecks}
-        handleCheckboxChange={handleCheckboxChange}
-        quantityValue={quantityValue}
-        handleQuantityValueInputChange={handleQuantityValueInputChange}
-        frequencyValue={frequencyValue}
-        handleFrequencyValueInputChange={handleFrequencyValueInputChange}
-        dayValue={dayValue}
-        handleDayValueInputChange={handleDayValueInputChange}
-        handleCameraButtonSubmit={handleCameraButtonSubmit}
-      />
-      <input
-        type="file"
-        // accept="image/*"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        capture="environment"
-        onChange={handleFileChange}
-      />
-      <div style={{ padding: "2vh 0" }}>
-        <FrequentButton
-          title="진료 등록"
-          backgroundColor="#0a6847"
-          onClick={handleTreatmentRegister}
+    <Suspense fallback={<div className={styles.loading_screen}>Loading...</div>}>
+      <div className={styles.container}>
+        {ocrLoading && <LoadingScreen />}
+        <HospitalModalInputBox
+          label="병원명"
+          placeholder="병원 명"
+          value={selectedHospital}
+          handleHospitalChange={handleHospitalChange}
         />
+        <SelectInputbox
+          label="방문자"
+          value={selectedVisitor}
+          handleVisitorChange={handleVisitorChange}
+        />
+        <DateInputBox label="날짜" selectedDate={selectedDate} handleDateChange={setSelectedDate} />
+        <TimeInputBox label="시간" selectedTime={selectedTime} handleTimeChange={setSelectedTime} />
+        <TextAreaInputbox
+          label="증상"
+          value={symptoms}
+          onChange={(e) => setSymptoms(e.target.value)} // 상태 업데이트 함수 전달
+        />
+        <hr className={styles.middle_line} />
+        <PrescriptionContainer
+          pharmacy={selectedPharmacy}
+          handlePharmacyChange={handlePharmacyChange}
+          prescribedDrugs={prescribedDrugs}
+          handleAddDrug={handleAddDrug}
+          handleRemoveDrug={handleRemoveDrug}
+          drugValue={drugValue}
+          handleDrugValueInputChange={handleDrugValueInputChange}
+          drugsData={filteredData}
+          handleDrugValueSubmit={handleDrugValueSubmit}
+          drugSearching={drugSearching}
+          selectedChecks={selectedChecks}
+          handleCheckboxChange={handleCheckboxChange}
+          quantityValue={quantityValue}
+          handleQuantityValueInputChange={handleQuantityValueInputChange}
+          frequencyValue={frequencyValue}
+          handleFrequencyValueInputChange={handleFrequencyValueInputChange}
+          dayValue={dayValue}
+          handleDayValueInputChange={handleDayValueInputChange}
+          handleCameraButtonSubmit={handleCameraButtonSubmit}
+        />
+        <input
+          type="file"
+          // accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          capture="environment"
+          onChange={handleFileChange}
+        />
+        <div style={{ padding: "2vh 0" }}>
+          <FrequentButton
+            title="진료 등록"
+            backgroundColor="#0a6847"
+            onClick={handleTreatmentRegister}
+          />
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
 
