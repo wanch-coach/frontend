@@ -20,7 +20,7 @@ interface ProfileHeaderProps {
   handleSelectedFamilyChange: (family: FamilySummaryListData) => void;
   register?: boolean;
   entire?: boolean;
-  profileId: number | null;
+  profileId?: number | null;
 }
 export default function ProfileHeader({
   entire,
