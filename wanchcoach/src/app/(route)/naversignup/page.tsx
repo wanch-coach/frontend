@@ -15,11 +15,7 @@ export default function NaverSignup() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  // const [inputDisabledPhoneNumber, setInputDisabledPhoneNumber] = useState(false);
-  // const [inputDisabledVerification, setInputDisabledVerification] = useState(false);
-  // const [inputDisabledLoginId, setInputDisabledLoginId] = useState(false);
   const [loginId, setLoginId] = useState("");
-  const [loginPwd, setLoginPwd] = useState("");
   const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("male");
@@ -36,7 +32,7 @@ export default function NaverSignup() {
     }
     const data = {
       loginId: loginId,
-      pwd: loginPwd,
+      pwd: "",
       name: name,
       email: email,
       birthDate: birthDate.format("YYYY-MM-DD"),
@@ -50,8 +46,7 @@ export default function NaverSignup() {
         return;
       })
       .catch((e) => {
-        console.log(e);
-        return alert("유효하지 않습니다.");
+        return alert(e.message);
       });
   };
 

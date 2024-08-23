@@ -7,11 +7,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import SignupStepText from "@/app/_components/Component/Signup/SignupStepText";
 import SignupAgree from "@/app/_components/Component/Signup/SignupAgree";
 import { useRouter } from "next/navigation";
-import {
-  KakaoLoginController,
-  NaverLoginController,
-  SignupController,
-} from "@/app/util/controller/userController";
+import { KakaoLoginController, SignupController } from "@/app/util/controller/userController";
 import { FindMyFamilyIdController } from "@/app/util/controller/familyController";
 import { Dayjs } from "dayjs";
 
@@ -19,11 +15,7 @@ export default function KakaoSignup() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  // const [inputDisabledPhoneNumber, setInputDisabledPhoneNumber] = useState(false);
-  // const [inputDisabledVerification, setInputDisabledVerification] = useState(false);
-  // const [inputDisabledLoginId, setInputDisabledLoginId] = useState(false);
   const [loginId, setLoginId] = useState("");
-  const [loginPwd, setLoginPwd] = useState("");
   const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("male");
@@ -37,7 +29,7 @@ export default function KakaoSignup() {
     }
     const data = {
       loginId: loginId,
-      pwd: loginPwd,
+      pwd: "",
       name: name,
       email: email,
       birthDate: birthDate.format("YYYY-MM-DD"),
@@ -51,8 +43,7 @@ export default function KakaoSignup() {
         return;
       })
       .catch((e) => {
-        console.log(e);
-        return alert("유효하지 않습니다.");
+        return alert(e.message);
       });
   };
 
@@ -96,7 +87,6 @@ export default function KakaoSignup() {
           }
         })
         .catch((e) => {
-          console.log(e);
           return alert(e.message);
         });
     }
