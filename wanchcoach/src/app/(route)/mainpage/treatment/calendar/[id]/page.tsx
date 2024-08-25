@@ -9,7 +9,7 @@ import {
   TreatmentCalendarItems,
   TreatmentItems,
 } from "@/app/util/controller/treatmentController";
-import TreatmentPaperCalendar from "@/app/_components/Component/TreatmentPaperCalendar";
+import TreatmentPaperCalendar from "@/app/_components/Mainpage/TreatmentPaperCalendar";
 
 export default function Calendar({ params }: { params: { id: number } }) {
   const familyId = params.id;

@@ -5,8 +5,8 @@ import "./signup.module.css";
 import { BasicInputBox, DateInputBox, TwoCheckBox } from "../../_components/component";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Dayjs } from "dayjs";
-import SignupStepText from "@/app/_components/Component/Signup/SignupStepText";
-import SignupAgree from "@/app/_components/Component/Signup/SignupAgree";
+import SignupStepText from "@/app/_components/Mainpage/Signup/SignupStepText";
+import SignupAgree from "@/app/_components/Mainpage/Signup/SignupAgree";
 import { useRouter } from "next/navigation";
 import {
   IdCheckController,

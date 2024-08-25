@@ -11,7 +11,7 @@ import Switch from "@mui/material/Switch";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { BsJournalMedical } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
-import DrugBox from "@/app/_components/Component/Drug/DrugBox";
+import DrugBox from "@/app/_components/Mainpage/Drug/DrugBox";
 import {
   DrugData,
   MedicationAlarmChangeController,

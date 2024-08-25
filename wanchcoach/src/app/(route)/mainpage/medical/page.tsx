@@ -4,15 +4,15 @@ import { BasicModal, FrequentButton } from "@/app/_components/component";
 import styles from "./medical.module.css";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { TbCurrentLocation } from "react-icons/tb";
-import HospitalSearchBox from "@/app/_components/Component/Medical/HospitalSearchBox";
+import HospitalSearchBox from "@/app/_components/Mainpage/Medical/HospitalSearchBox";
 import { CiPill } from "react-icons/ci";
 import { MdLocalHospital } from "react-icons/md";
-import LocationAgree from "@/app/_components/Component/Medical/LocationAgree";
-import BottomSheet from "@/app/_components/Component/BottomSheet";
+import LocationAgree from "@/app/_components/Mainpage/Medical/LocationAgree";
+import BottomSheet from "@/app/_components/Mainpage/BottomSheet";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { FaHandHoldingMedical, FaLongArrowAltRight, FaPhoneAlt } from "react-icons/fa";
-import DrugBottomSheet from "@/app/_components/Component/DrugBottomSheet";
+import DrugBottomSheet from "@/app/_components/Mainpage/DrugBottomSheet";
 import { TfiMenuAlt } from "react-icons/tfi";
 import {
   MedicalKeywordSearchController,

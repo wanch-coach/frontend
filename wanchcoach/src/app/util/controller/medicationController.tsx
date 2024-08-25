@@ -1,5 +1,5 @@
 import { Dayjs } from "dayjs";
-import fetchWithAuth from "../fetchWithAuth";
+import fetchWithAuth from "../fetch/fetchWithAuth";
 
 interface DayData {
   year: number;

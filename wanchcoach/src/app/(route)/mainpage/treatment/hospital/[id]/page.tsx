@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, ChangeEvent } from "react";
 import styles from "./hospital.module.css";
-import HospitalSearchBox from "@/app/_components/Component/Medical/HospitalSearchBox";
+import HospitalSearchBox from "@/app/_components/Mainpage/Medical/HospitalSearchBox";
 import {
   TreatmentHospital,
   TreatmentHospitalController,

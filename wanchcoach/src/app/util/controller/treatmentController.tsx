@@ -1,5 +1,5 @@
-import fetchFormData from "../fetchFormData";
-import fetchWithAuth from "../fetchWithAuth";
+import fetchFormData from "../fetch/fetchFormData";
+import fetchWithAuth from "../fetch/fetchWithAuth";
 
 export async function AddTreatmentController(formData: FormData) {
   try {
