@@ -1,5 +1,4 @@
-import styles from "./components.module.css";
-import Image from "next/image";
+import styles from "./Treatment.module.css";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -16,6 +15,7 @@ import {
 import { IoAlertCircle } from "react-icons/io5";
 import { BasicModal } from "@/app/_components/component";
 import { useRouter } from "next/navigation";
+import { calculateDDay, formatDate, formatTime } from "@/app/util/format/dateFormat";
 
 interface TreatmentBoxProps {
   treatmentItems: TreatmentItems;
@@ -37,59 +37,24 @@ export default function TreatmentBox({
     setWhetherModal(false);
     setRegisterModal(false);
   };
-  const calculateDDay = (targetDate: string) => {
-    const currentDate = new Date();
-    const targetDateTime = new Date(targetDate);
 
-    const currentTimestamp = new Date(currentDate.setHours(0, 0, 0, 0)).getTime();
-    const targetTimestamp = new Date(targetDateTime.setHours(0, 0, 0, 0)).getTime();
-
-    // D-day 계산
-    const timeDiff = targetTimestamp - currentTimestamp;
-    const millisecondsInADay = 1000 * 60 * 60 * 24;
-    const dDay = Math.ceil(timeDiff / millisecondsInADay);
-
-    if (dDay === 0) {
-      return <div className={styles.treatment_box_dday}>D - day</div>;
-    } else if (dDay > 0) {
-      return <div className={styles.treatment_box_notdday}>{`D - ${dDay}`}</div>;
-    } else {
-      return <div className={styles.treatment_box_notdday}>{`D - ${dDay}`}</div>;
-    }
-  };
-  const dDayMessage = calculateDDay(treatmentItems.date);
+  const dDayMessage = calculateDDay(treatmentItems.date); // D-day 계산
 
   const handleAlarmChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    // try {
-    //   const response = await MedicationAlarmChangeController(prescription.prescriptionId);
-    //   console.log("알림 체인지 성공:", response);
-    // } catch (error) {
-    //   console.error("알림 체인지 실패:", error);
-    //   // 오류 처리
-    // }
+    // 진료 알람 체인지 컨트롤러 !!!!
+    // TreatmentAlarmChangeController(treatmentItems.id)
+    //   .then(() => {
+    //     return;
+    //   })
+    //   .catch((e) => {
+    //     console.log(e.message);
+    //     return;
+    //   });
     setChecked(e.target.checked);
   };
 
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(date.getDate()).padStart(2, "0")}`;
-    return formattedDate;
-  };
-
-  const formatTime = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const period = hours >= 12 ? "오후" : "오전";
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    return `${period} ${formattedHours}:${formattedMinutes}`;
-  };
-
   const handleCheckWhetherSubmit = async () => {
+    // 진료 여부 변경
     try {
       const response = await TreatmentCheckWhetherChangeController(treatmentItems.id);
       console.log("진료 여부 변경 성공:", response);

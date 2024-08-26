@@ -1,8 +1,7 @@
 import styles from "./Header.module.css";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
-import Image from "next/image";
 import { FaPlus } from "react-icons/fa6";
 import { FaHandHoldingMedical } from "react-icons/fa";
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -30,7 +29,6 @@ export default function ProfileHeader({
   profileId,
 }: ProfileHeaderProps) {
   const [familyProfiles, setFamilyProfiles] = useState<FamilySummaryListData[]>([]);
-  // const [selectedFamily, setSelectedFamily] = useState<FamilySummaryListData | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);

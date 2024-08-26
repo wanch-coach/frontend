@@ -8,7 +8,7 @@ import {
   TreatmentHospitalController,
   TreatmentHospitalItems,
 } from "@/app/util/controller/treatmentController";
-import TreatmentBox from "../../_components/TreatmentBox";
+import TreatmentBox from "../../../../../_components/Mainpage/Treatment/TreatmentBox";
 import { FamilyDetailController } from "@/app/util/controller/familyController";
 
 export default function Hospital({ params }: { params: { id: number } }) {

@@ -2,7 +2,7 @@
 import { GoChevronRight } from "react-icons/go";
 import styles from "./home.module.css";
 import Image from "next/image";
-import TreatmentBox from "../treatment/_components/TreatmentBox";
+import TreatmentBox from "../../../_components/Mainpage/Treatment/TreatmentBox";
 import {
   TreatmentCalendarItems,
   TreatmentItems,

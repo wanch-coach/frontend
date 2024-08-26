@@ -2,8 +2,8 @@
 
 import { ReactNode, useState } from "react";
 import styles from "./treatment.module.css";
-import ProfileHeader from "@/app/_components/Header/ProfileHeader";
-import MenuHeader from "@/app/_components/Header/MenuHeader";
+import ProfileHeader from "@/app/_components/Component/Header/ProfileHeader";
+import MenuHeader from "@/app/_components/Component/Header/MenuHeader";
 import { TbStethoscope } from "react-icons/tb";
 import { FaRegHospital } from "react-icons/fa6";
 import { MdCalendarMonth } from "react-icons/md";

@@ -1,6 +1,6 @@
 "use client";
 import styles from "./diagnosis.module.css";
-import TreatmentBox from "../../_components/TreatmentBox";
+import TreatmentBox from "../../../../../_components/Mainpage/Treatment/TreatmentBox";
 import { useEffect, useState } from "react";
 import {
   TreatmentItems,
