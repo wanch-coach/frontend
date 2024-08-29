@@ -1,5 +1,13 @@
-/* TreatmentBox() */
+/* TreatmentMenu.tsx */
+.header_menu_container {
+  display: flex;
+  margin: 0 8%;
+  height: 12vh;
+  align-items: center;
+  border-bottom: 1px solid #dbdbdb;
+}
 
+/* TreatmentBox() */
 .treatment_container {
   position: relative;
   padding: 1vh 0;
@@ -39,7 +47,6 @@
   font-weight: 700;
   color: #ff8888;
 }
-
 .treatment_main_container {
   width: 100%;
   position: relative;
@@ -133,8 +140,33 @@
   padding-left: 4px;
   height: max-content;
 }
+/* TreatmentPaperCalendar.tsx */
+.bottomsheet_content {
+  margin: 0 8%;
+}
+.bottomsheet_content_text {
+  text-align: left;
+  margin-top: 2vh;
+  font-size: 20px;
+  font-weight: 500;
+}
+.bottomsheet_content_line {
+  border: none;
+  background-color: black;
+  height: 1px;
+}
+.empty_container {
+  margin: 0 2%;
+  height: 77.5px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #dddddd;
+  text-align: center;
+  align-content: center;
+}
 
-/* modal */
+/* #################### children #####################*/
+/* TreatmentYesOrNoModal.tsx */
 .modal_header {
   padding: 0 6%;
   height: calc(100% - 5vh);

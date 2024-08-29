@@ -1,36 +1,19 @@
 "use client";
 import styles from "./diagnosis.module.css";
-import TreatmentBox from "../../../../../_components/Mainpage/Treatment/TreatmentBox";
 import { useEffect, useState } from "react";
+import TreatmentBox from "@/app/_components/Mainpage/Treatment/TreatmentBox";
 import {
   TreatmentItems,
   TreatmentTotalController,
-  TreatmentTotalItems,
 } from "@/app/util/controller/treatmentController";
 
 export default function Diagnosis({ params }: { params: { id: number } }) {
   const familyId = params.id;
   const [treatmentPastData, setTreatmentPastData] = useState<TreatmentItems[]>([]);
   const [treatmentUpcomingData, setTreatUpcomingData] = useState<TreatmentItems[]>([]);
-  const handleTreatmentDelete = () => {
-    /* 진료 삭제 */
-  };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await TreatmentTotalController();
-        setTreatmentPastData(response.data.past);
-        setTreatUpcomingData(response.data.upcoming);
-
-        console.log("진료 데이터 가져오기 성공:", response);
-      } catch (error) {
-        console.error("데이터 가져오기 실패:", error);
-        // 오류 처리
-      }
-    };
-    fetchData();
-  }, []);
-
+  // // 진료 삭제 컨트롤러 !!!
+  // const handleTreatmentDelete = () => {
+  // };
   const filteredPastData =
     treatmentPastData.length > 0 &&
     (familyId == 0
@@ -41,6 +24,21 @@ export default function Diagnosis({ params }: { params: { id: number } }) {
     (familyId == 0
       ? treatmentUpcomingData
       : treatmentUpcomingData.filter((item) => item.familyId == familyId));
+
+  useEffect(() => {
+    const fetchData = async () => {
+      TreatmentTotalController()
+        .then((response) => {
+          setTreatmentPastData(response.data.past);
+          setTreatUpcomingData(response.data.upcoming);
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className={styles.body_container}>

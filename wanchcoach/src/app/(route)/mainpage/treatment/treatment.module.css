@@ -3,11 +3,3 @@
   height: calc(100vh - 60px - 70px);
   width: 100%;
 }
-
-.header_menu_container {
-  display: flex;
-  margin: 0 8%;
-  height: 12vh;
-  align-items: center;
-  border-bottom: 1px solid #dbdbdb;
-}
