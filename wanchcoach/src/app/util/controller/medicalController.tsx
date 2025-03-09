@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import Cookies from "js-cookie";
-import fetchWithAuth from "../fetchWithAuth";
+import fetchWithAuth from "../fetch/fetchWithAuth";
 
 export interface MedicalKeywordResultData {
   hospitalId: number;

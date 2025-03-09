@@ -2,36 +2,19 @@
 
 import React, { useState, useEffect, ChangeEvent } from "react";
 import styles from "./hospital.module.css";
-import HospitalSearchBox from "@/app/_components/Component/Medical/HospitalSearchBox";
+import HospitalSearchBox from "@/app/_components/Mainpage/Medical/HospitalSearchBox";
 import {
-  TreatmentHospital,
   TreatmentHospitalController,
   TreatmentHospitalItems,
 } from "@/app/util/controller/treatmentController";
-import TreatmentBox from "../../_components/TreatmentBox";
-import { FamilyDetailController } from "@/app/util/controller/familyController";
+import { formatDate, getCurrentDate } from "@/app/util/format/dateFormat";
+import TreatmentBox from "@/app/_components/Mainpage/Treatment/TreatmentBox";
 
 export default function Hospital({ params }: { params: { id: number } }) {
   const familyId = params.id;
   const [hospitals, setHospitals] = useState<TreatmentHospitalItems[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [filteredHospitals, setFilteredHospitals] = useState(hospitals);
-
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = `${today.getMonth() + 1}`.padStart(2, "0"); // month is zero-indexed
-    const day = `${today.getDate()}`.padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(date.getDate()).padStart(2, "0")}`;
-    return formattedDate;
-  };
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
@@ -44,22 +27,23 @@ export default function Hospital({ params }: { params: { id: number } }) {
     );
     setFilteredHospitals(filtered);
   };
+
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await TreatmentHospitalController();
-        setHospitals(response.data.treatmentHospitalItems);
-        const filtered = response.data.treatmentHospitalItems.filter(
-          (hospital: TreatmentHospitalItems) =>
-            familyId == 0 ? true : hospital.treatmentItems.some((item) => item.familyId == familyId)
-        );
-        setFilteredHospitals(filtered);
-
-        console.log("병원 데이터 가져오기 성공:", response);
-      } catch (error) {
-        console.error("데이터 가져오기 실패:", error);
-        // 오류 처리
-      }
+      TreatmentHospitalController()
+        .then((response) => {
+          setHospitals(response.data.treatmentHospitalItems);
+          const filtered = response.data.treatmentHospitalItems.filter(
+            (hospital: TreatmentHospitalItems) =>
+              familyId == 0
+                ? true
+                : hospital.treatmentItems.some((item) => item.familyId == familyId)
+          );
+          setFilteredHospitals(filtered);
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
     };
     fetchData();
   }, []);

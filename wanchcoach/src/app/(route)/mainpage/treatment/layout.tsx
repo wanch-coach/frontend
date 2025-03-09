@@ -2,13 +2,10 @@
 
 import { ReactNode, useState } from "react";
 import styles from "./treatment.module.css";
-import ProfileHeader from "@/app/_components/Header/ProfileHeader";
-import MenuHeader from "@/app/_components/Header/MenuHeader";
-import { TbStethoscope } from "react-icons/tb";
-import { FaRegHospital } from "react-icons/fa6";
-import { MdCalendarMonth } from "react-icons/md";
-import { usePathname, useRouter } from "next/navigation";
+import ProfileHeader from "@/app/_components/Component/Header/ProfileHeader";
+import { useRouter } from "next/navigation";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
+import TreatmentMenu from "@/app/_components/Mainpage/Treatment/TreatmentMenu";
 
 export default function TreatmentLayout({ children }: { children: ReactNode }) {
   const route = useRouter();
@@ -31,35 +28,6 @@ export default function TreatmentLayout({ children }: { children: ReactNode }) {
       />
       <TreatmentMenu selectedFamily={selectedFamily} />
       {children}
-    </div>
-  );
-}
-
-interface TreatmentMenuProps {
-  selectedFamily: FamilySummaryListData;
-}
-function TreatmentMenu({ selectedFamily }: TreatmentMenuProps) {
-  const pathname = usePathname();
-  return (
-    <div className={styles.header_menu_container}>
-      <MenuHeader
-        title="진료"
-        icon={<TbStethoscope size={"40px"} />}
-        href={`/mainpage/treatment/diagnosis/${selectedFamily.familyId}`}
-        press={pathname.startsWith("/mainpage/treatment/diagnosis") ? true : false}
-      />
-      <MenuHeader
-        title="병원"
-        icon={<FaRegHospital size={"40px"} />}
-        href={`/mainpage/treatment/hospital/${selectedFamily.familyId}`}
-        press={pathname.startsWith("/mainpage/treatment/hospital") ? true : false}
-      />
-      <MenuHeader
-        title="달력"
-        icon={<MdCalendarMonth size={"40px"} />}
-        href={`/mainpage/treatment/calendar/${selectedFamily.familyId}`}
-        press={pathname.startsWith("/mainpage/treatment/calendar") ? true : false}
-      />
     </div>
   );
 }

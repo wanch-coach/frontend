@@ -1,0 +1,37 @@
+/* Header.tsx */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  height: 60px;
+  background-color: #f9f9f9;
+}
+.header_box {
+  display: flex;
+  height: 60px;
+  align-items: center;
+  justify-content: space-around;
+  width: 10%;
+}
+
+/* BottomBar.tsx */
+.bottombar_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 70px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: white;
+  z-index: 1000;
+}
+.bottombar_box {
+  text-align: -webkit-center;
+  padding: 0 2%;
+}
+.bottombar_text {
+  margin-top: 3px;
+  font-size: 12px;
+  font-weight: 700;
+}

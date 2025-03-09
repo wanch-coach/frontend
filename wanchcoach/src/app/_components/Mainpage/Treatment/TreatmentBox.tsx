@@ -1,5 +1,4 @@
-import styles from "./components.module.css";
-import Image from "next/image";
+import styles from "./Treatment.module.css";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -14,8 +13,9 @@ import {
   TreatmentItems,
 } from "@/app/util/controller/treatmentController";
 import { IoAlertCircle } from "react-icons/io5";
-import { BasicModal } from "@/app/_components/component";
 import { useRouter } from "next/navigation";
+import { calculateDDay, formatDate, formatTime } from "@/app/util/format/dateFormat";
+import TreatmentYesOrNoModal from "./children/TreatmentYesOrNoModal";
 
 interface TreatmentBoxProps {
   treatmentItems: TreatmentItems;
@@ -37,70 +37,36 @@ export default function TreatmentBox({
     setWhetherModal(false);
     setRegisterModal(false);
   };
-  const calculateDDay = (targetDate: string) => {
-    const currentDate = new Date();
-    const targetDateTime = new Date(targetDate);
 
-    const currentTimestamp = new Date(currentDate.setHours(0, 0, 0, 0)).getTime();
-    const targetTimestamp = new Date(targetDateTime.setHours(0, 0, 0, 0)).getTime();
-
-    // D-day 계산
-    const timeDiff = targetTimestamp - currentTimestamp;
-    const millisecondsInADay = 1000 * 60 * 60 * 24;
-    const dDay = Math.ceil(timeDiff / millisecondsInADay);
-
-    if (dDay === 0) {
-      return <div className={styles.treatment_box_dday}>D - day</div>;
-    } else if (dDay > 0) {
-      return <div className={styles.treatment_box_notdday}>{`D - ${dDay}`}</div>;
-    } else {
-      return <div className={styles.treatment_box_notdday}>{`D - ${dDay}`}</div>;
-    }
-  };
-  const dDayMessage = calculateDDay(treatmentItems.date);
+  const dDayMessage = calculateDDay(treatmentItems.date); // D-day 계산
 
   const handleAlarmChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    // try {
-    //   const response = await MedicationAlarmChangeController(prescription.prescriptionId);
-    //   console.log("알림 체인지 성공:", response);
-    // } catch (error) {
-    //   console.error("알림 체인지 실패:", error);
-    //   // 오류 처리
-    // }
+    // 진료 알람 체인지 컨트롤러 !!!!
+    // TreatmentAlarmChangeController(treatmentItems.id)
+    //   .then(() => {
+    //     return;
+    //   })
+    //   .catch((e) => {
+    //     console.log(e.message);
+    //     return;
+    //   });
     setChecked(e.target.checked);
   };
 
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(date.getDate()).padStart(2, "0")}`;
-    return formattedDate;
-  };
-
-  const formatTime = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const period = hours >= 12 ? "오후" : "오전";
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    return `${period} ${formattedHours}:${formattedMinutes}`;
-  };
-
   const handleCheckWhetherSubmit = async () => {
-    try {
-      const response = await TreatmentCheckWhetherChangeController(treatmentItems.id);
-      console.log("진료 여부 변경 성공:", response);
-    } catch (error) {
-      console.error("진료 여부 변경 실패:", error);
-      // 오류 처리
-    }
+    // 진료 여부 변경
+    TreatmentCheckWhetherChangeController(treatmentItems.id)
+      .then(() => {
+        return;
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return;
+      });
     setWhetherModal(false);
   };
   const handleRegisterSubmit = async () => {
-    setWhetherModal(false);
+    setRegisterModal(false);
     route.push(`/prescriptionregister/${treatmentItems.id}`);
   };
   return (
@@ -254,85 +220,5 @@ export default function TreatmentBox({
         </AccordionDetails>
       </Accordion>
     </div>
-  );
-}
-
-interface TreatmentYesOrNoModalProps {
-  title: string;
-  color: string;
-  content: string;
-  treatmentItems: TreatmentItems;
-  open: boolean;
-  handleModalClose: () => void;
-  onClickYes: () => void;
-  onClickNo: () => void;
-}
-function TreatmentYesOrNoModal({
-  title,
-  color,
-  content,
-  treatmentItems,
-  open,
-  handleModalClose,
-  onClickYes,
-  onClickNo,
-}: TreatmentYesOrNoModalProps) {
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${String(date.getDate()).padStart(2, "0")}`;
-    return formattedDate;
-  };
-
-  const formatTime = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const period = hours >= 12 ? "오후" : "오전";
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    return `${period} ${formattedHours}:${formattedMinutes}`;
-  };
-  return (
-    <BasicModal open={open} handleModalClose={handleModalClose} width="50%" height="23vh">
-      <>
-        <div className={styles.modal_header}>
-          <div className={styles.modal_header_title}>
-            <IoAlertCircle size="25px" color={color} />
-            <div className={styles.modal_header_title_text} style={{ color: color }}>
-              {title}
-            </div>
-          </div>
-
-          <div className={styles.treatment_box_left}>
-            <div className={styles.treatment_box_left_title}>
-              <div className={styles.treatment_text_left_title}>{treatmentItems?.hospitalName}</div>
-              <div className={styles.treatment_text_left_category}>
-                {treatmentItems?.department}
-              </div>
-            </div>
-            <div className={styles.treatment_box_left_content}>
-              <div className={styles.treatment_text_left_date_01}>
-                {formatDate(treatmentItems.date)}
-              </div>
-              <div className={styles.treatment_text_left_date_02}>
-                {formatTime(treatmentItems.date)}
-              </div>
-            </div>
-          </div>
-          <div className={styles.modal_body_text}>{content}</div>
-        </div>
-        <div className={styles.modal_content}>
-          <div className={styles.modal_content_box_01} onClick={onClickNo}>
-            아니요
-          </div>
-          <div className={styles.modal_content_box_02} onClick={onClickYes}>
-            예
-          </div>
-        </div>
-      </>
-    </BasicModal>
   );
 }

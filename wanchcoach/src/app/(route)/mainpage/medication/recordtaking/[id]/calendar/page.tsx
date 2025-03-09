@@ -1,6 +1,6 @@
 "use client";
 
-import PaperCalendar from "@/app/_components/Component/PaperCalendar";
+import PaperCalendar from "@/app/_components/Mainpage/PaperCalendar";
 import style from "./calendar.module.css";
 import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";

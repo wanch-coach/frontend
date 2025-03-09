@@ -4,9 +4,9 @@ import styles from "./signup.module.css";
 import "./signup.module.css";
 import { BasicInputBox, DateInputBox, TwoCheckBox } from "../../_components/component";
 import { ChangeEvent, useEffect, useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import SignupStepText from "@/app/_components/Component/Signup/SignupStepText";
-import SignupAgree from "@/app/_components/Component/Signup/SignupAgree";
+import { Dayjs } from "dayjs";
+import SignupStepText from "@/app/_components/Mainpage/Signup/SignupStepText";
+import SignupAgree from "@/app/_components/Mainpage/Signup/SignupAgree";
 import { useRouter } from "next/navigation";
 import {
   IdCheckController,
@@ -37,15 +37,15 @@ export default function Signup() {
   const [agreeAll, setAgreeAll] = useState(false);
 
   const handleSignupSubmit = () => {
-    /* 확인해야할것 
-        1. 이름 입력했는지 (loginId !== "")
-        2. 인증번호완료했는지(inputDisabledVerification === true)
-        3. 아이디 일치 여부(inputDisabledLoginId === true)
-        4. 비밀번호 일치하는지(isSamePassword === "true") 
-        5. 생년월일 입력했는지(birthDate !== "")
-        6. 이메일 입력했는지(email !== "")
-        7. 약관 동의 했는지(agreeAll === true) 
-         */
+    /*
+      1. 이름 입력했는지 (loginId !== "")
+      2. 인증번호완료했는지(inputDisabledVerification === true)
+      3. 아이디 일치 여부(inputDisabledLoginId === true)
+      4. 비밀번호 일치하는지(isSamePassword === "true") 
+      5. 생년월일 입력했는지(birthDate !== "")
+      6. 이메일 입력했는지(email !== "")
+      7. 약관 동의 했는지(agreeAll === true) 
+    */
     if (
       loginId === "" ||
       !inputDisabledVerification ||
@@ -74,8 +74,7 @@ export default function Signup() {
         return;
       })
       .catch((e) => {
-        console.log(e);
-        return alert("유효하지 않습니다.");
+        return alert(e.message);
       });
   };
 
@@ -91,8 +90,7 @@ export default function Signup() {
         return alert("문자전송을 완료하였습니다.");
       })
       .catch((e) => {
-        console.log(e);
-        return;
+        return alert(e.message);
       });
   };
   const handleIdCheckSubmit = () => {
@@ -109,8 +107,7 @@ export default function Signup() {
         }
       })
       .catch((e) => {
-        console.log(e);
-        return;
+        return alert(e.message);
       });
   };
   const handleVerificationCodeSubmit = () => {

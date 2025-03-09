@@ -15,18 +15,17 @@ export default function Login() {
   const handleLoginSubmit = () => {
     LoginController({ id: loginId, pwd: loginPwd })
       .then(() => {
-        // 여기에 api 호출해서 내 가족 아이디 쿠키에 저장해놓을꺼임!!
         FindMyFamilyIdController()
           .then(() => {
             router.push("/mainpage/home");
           })
           .catch((e) => {
-            return alert("error");
+            return alert(e.message);
           });
         return;
       })
-      .catch((error) => {
-        console.log(error.message);
+      .catch((e) => {
+        console.log(e.message);
         return alert("아이디 또는 비밀번호를 확인하세요.");
       });
   };

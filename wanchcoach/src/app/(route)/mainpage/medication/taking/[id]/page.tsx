@@ -8,7 +8,7 @@ import MedicationList from "./_components/MedicationList";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import { MedicationDayController, TodayTakeData } from "@/app/util/controller/medicationController";
 import { FamilySummaryListData } from "@/app/util/controller/familyController";
-import DayMenu from "@/app/_components/Component/Medication/DayMenu";
+import DayMenu from "@/app/_components/Mainpage/Medication/DayMenu";
 
 export default function Taking({ params }: { params: { id: number } }) {
   const familyId = params.id;

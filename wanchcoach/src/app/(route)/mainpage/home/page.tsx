@@ -2,7 +2,7 @@
 import { GoChevronRight } from "react-icons/go";
 import styles from "./home.module.css";
 import Image from "next/image";
-import TreatmentBox from "../treatment/_components/TreatmentBox";
+import TreatmentBox from "../../../_components/Mainpage/Treatment/TreatmentBox";
 import {
   TreatmentCalendarItems,
   TreatmentItems,
@@ -14,7 +14,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import DayMenu from "@/app/_components/Component/Medication/DayMenu";
+import DayMenu from "@/app/_components/Mainpage/Medication/DayMenu";
 import {
   TodayMedicationController,
   TodayMedicationData,

@@ -3,8 +3,8 @@
 import styles from "./medication.module.css";
 import { ReactNode, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import MenuHeader from "@/app/_components/Header/MenuHeader";
-import ProfileHeader from "@/app/_components/Header/ProfileHeader";
+import MenuHeader from "@/app/_components/Component/Header/MenuHeader";
+import ProfileHeader from "@/app/_components/Component/Header/ProfileHeader";
 import { MdMedicationLiquid } from "react-icons/md";
 import { GiNotebook } from "react-icons/gi";
 import { PiPillDuotone } from "react-icons/pi";

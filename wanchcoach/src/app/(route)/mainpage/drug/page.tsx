@@ -1,6 +1,6 @@
 "use client";
 
-import DrugBox from "@/app/_components/Component/Drug/DrugBox";
+import DrugBox from "@/app/_components/Mainpage/Drug/DrugBox";
 import styles from "./drug.module.css";
 import { useState, ChangeEvent, useEffect, KeyboardEvent } from "react";
 import { IoMdSearch } from "react-icons/io";

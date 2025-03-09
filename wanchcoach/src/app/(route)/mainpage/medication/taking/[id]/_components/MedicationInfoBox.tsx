@@ -11,7 +11,7 @@ import Link from "next/link";
 import { TbPencilMinus } from "react-icons/tb";
 import { TiDeleteOutline } from "react-icons/ti";
 import { FaRegTrashAlt } from "react-icons/fa";
-import DrugBox from "@/app/_components/Component/Drug/DrugBox";
+import DrugBox from "@/app/_components/Mainpage/Drug/DrugBox";
 import { PrescriptionRecordData } from "@/app/util/controller/medicationController";
 import { useRouter } from "next/navigation";
 

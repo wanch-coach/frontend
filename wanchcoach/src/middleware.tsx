@@ -6,7 +6,13 @@ export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|fonts|images).*)"],
 };
 
-const protectedRoutes = ["/druginfo", "/mainpage", "/mysetting", "/register"]; // 로그인이 필요한 페이지 목록
+const protectedRoutes = [
+  "/druginfo",
+  "/mainpage",
+  "/mysetting",
+  "/register",
+  "/prescriptionregister",
+]; // 로그인이 필요한 페이지 목록
 const publicRoutes = ["/login", "/signup", "/naversignup", "/kakaosignup"]; // 로그인이 되면 접근할 수 없는 페이지 목록
 
 export function middleware(request: NextRequest) {

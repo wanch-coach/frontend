@@ -1,4 +1,21 @@
-/* ProfileHeader() 컴포넌트 */
+/* MenuHeader.tsx */
+.header_menu_box {
+  border-radius: 10px;
+  background-color: "white";
+  width: 75px;
+  height: max-content;
+  text-align: -webkit-center;
+  margin: 10px 3px;
+  padding: 1vh 0;
+}
+
+.header_menu_text {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ProfileHeader.tsx */
 .header_profile_container {
   text-align: -webkit-right;
   margin: 0 8%;
@@ -65,21 +82,4 @@
   font-size: 14px;
   padding-top: 10px;
   font-weight: 600;
-}
-
-/* MenuHeader() 컴포넌트 */
-.header_menu_box {
-  border-radius: 10px;
-  background-color: "white";
-  width: 75px;
-  height: max-content;
-  text-align: -webkit-center;
-  margin: 10px 3px;
-  padding: 1vh 0;
-}
-
-.header_menu_text {
-  font-size: 15px;
-  font-weight: 600;
-  margin-top: 2px;
 }

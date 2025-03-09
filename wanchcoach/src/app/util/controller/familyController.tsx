@@ -1,5 +1,5 @@
 import { Dayjs } from "dayjs";
-import fetchWithAuth from "../fetchWithAuth";
+import fetchWithAuth from "../fetch/fetchWithAuth";
 import { SetStateAction } from "react";
 import Cookies from "js-cookie";
 
@@ -82,17 +82,17 @@ export async function FamilyDetailController(familyId: number) {
   }
 }
 
+// FindMyFamilyIdController() : 초기 사용자의 가족 id 저장 컨트롤러
 export async function FindMyFamilyIdController() {
   try {
     const url = "/family/findmyfamilyid";
     const response = await fetchWithAuth(url, {
       method: "GET",
     });
-    console.log("Family Id successful:", response.data);
     Cookies.set("myFamilyId", response.data);
     return response;
   } catch (error) {
     console.error("Error :", error);
-    throw error; // 오류 처리
+    throw error;
   }
 }

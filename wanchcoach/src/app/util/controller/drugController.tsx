@@ -1,5 +1,5 @@
 import { Dayjs } from "dayjs";
-import fetchWithAuth from "../fetchWithAuth";
+import fetchWithAuth from "../fetch/fetchWithAuth";
 import { SetStateAction } from "react";
 import Cookies from "js-cookie";
 

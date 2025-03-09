@@ -1,0 +1,11 @@
+/* dateFormat.tsx */
+
+.treatment_box_dday {
+  font-size: 17px;
+  font-weight: 900;
+  color: #0a6847;
+}
+.treatment_box_notdday {
+  font-size: 17px;
+  font-weight: 900;
+}

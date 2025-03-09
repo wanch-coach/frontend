@@ -1,7 +1,7 @@
 import { Dayjs } from "dayjs";
-import fetchWithoutAuth from "../fetchWithoutAuth";
+import fetchWithoutAuth from "../fetch/fetchWithoutAuth";
 import Cookies from "js-cookie";
-import fetchWithAuth from "../fetchWithAuth";
+import fetchWithAuth from "../fetch/fetchWithAuth";
 import { stringify } from "querystring";
 
 interface SignupData {
@@ -162,20 +162,7 @@ export async function IdCheckController(data: IdCheck) {
   }
 }
 
-export async function updateAlarmPermission() {
-  try {
-    const url = `/member/alarm-permission`;
-    const response = await fetchWithAuth(url, {
-      method: "POST",
-    });
-    console.log("update alarm-permission successful:", response);
-  } catch (error) {
-    console.error("Error logout:", error);
-    throw error; // 오류 처리
-  }
-}
-
-export async function updateAlarm(deviceToken: string) {
+export async function updateAlarmController(deviceToken: string) {
   try {
     const url = `/member/update-device`;
     const response = await fetchWithAuth(url, {
@@ -183,6 +170,19 @@ export async function updateAlarm(deviceToken: string) {
       body: JSON.stringify(deviceToken),
     });
     console.log("update device Token successful:", response);
+  } catch (error) {
+    console.error("Error logout:", error);
+    throw error; // 오류 처리
+  }
+}
+
+export async function updateAlarmPermissionController() {
+  try {
+    const url = `/member/alarm-permission`;
+    const response = await fetchWithAuth(url, {
+      method: "POST",
+    });
+    console.log("update alarm-permission successful:", response);
   } catch (error) {
     console.error("Error logout:", error);
     throw error; // 오류 처리

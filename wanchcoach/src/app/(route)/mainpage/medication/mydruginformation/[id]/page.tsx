@@ -1,6 +1,6 @@
 "use client";
 
-import DrugBoxDetail from "@/app/_components/Component/Drug/DrugBoxDetail";
+import DrugBoxDetail from "@/app/_components/Mainpage/Drug/DrugBoxDetail";
 import styles from "./mydruginformation.module.css";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
