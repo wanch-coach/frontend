@@ -1,4 +1,4 @@
-# <img src="/wanchcoach/public/logo.png" height="25px"> 완치코치 — 진료 및 처방전 관리 서비스 <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/>
+# <img src="/wanchcoach/public/logo.png" height="25px"> 완치코치 — 진료 및 처방전 관리 &nbsp; <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/>
 
 #### 진료 예약 및 관리부터 처방받은 약 정보, 실제 복약 기록에 대한 관리까지 한번에 관리할 수 있는 프로젝트 입니다.
 
