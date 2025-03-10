@@ -118,7 +118,7 @@
 
 - Spring Boot | JPA | QueryDSL | JWT | Redis | MySQL
 
-#### ** Infra **
+#### **Infra**
 
 - AWS | Nginx | Docker-compose | Jenkins
 
